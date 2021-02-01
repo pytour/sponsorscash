@@ -1,0 +1,117 @@
+.project {
+  box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.2);
+  border-radius: 20px;
+  margin-bottom: 1.5rem;
+}
+.projectImg {
+  width: 80px;
+  height: 80px;
+  overflow: hidden;
+  border-radius: 20px;
+  margin-right: 1.5rem;
+}
+
+.projectImgInner {
+  width: 100%;
+  height: 100%;
+}
+
+.projectTitle {
+  color: #707070;
+  font-size: 1.2rem;
+}
+
+.projectCategory {
+  color: #ffffff;
+  font-size: 0.7rem;
+  padding: 0.2rem;
+  width: 5rem;
+  background-color: #ffca79;
+  border-radius: 20px;
+  text-align: center;
+}
+@media (min-width: 992px) {
+  .project {
+    padding-left: 3rem !important;
+  }
+}
+.funded {
+  width: 45%;
+  color: #707070;
+  font-size: 1.125rem;
+}
+
+.goal {
+  width: 45%;
+  color: #9f9e9e;
+  font-size: 1.125rem;
+}
+
+.cardFooter {
+  margin-top: 1.5rem;
+  padding: 0;
+  border: none;
+  background-color: transparent;
+}
+
+.countDownTimer {
+  background-color: #f7f7f7;
+  border-radius: 15px;
+  padding: 0.5rem;
+}
+
+.countDownTimerli {
+  display: inline-block;
+  font-size: 1.1rem;
+  list-style-type: none;
+}
+.days {
+  margin: 0 0.5rem;
+  font-weight: bold;
+  color: #9f9e9e;
+}
+.hours {
+  margin: 0 0.5rem;
+  font-weight: bold;
+  color: #9f9e9e;
+}
+.mins {
+  margin: 0 0.5rem;
+  font-weight: bold;
+  color: #9f9e9e;
+}
+.seconds {
+  margin: 0 0.5rem;
+  font-weight: bold;
+  color: #9f9e9e;
+}
+
+.timerText {
+  color: #707070;
+  font-size: 1rem;
+}
+
+.btnClose {
+  box-shadow: none !important;
+}
+.btnClose:hover {
+  box-shadow: none !important;
+}
+
+.customColor {
+  background-color: #7d73c3 !important;
+}
+
+.cancelBtn {
+  color: rgb(125, 115, 195) !important;
+  font-size: 1em;
+  font-weight: 400;
+  border: 1px solid #ffca79;
+  border-radius: 20px;
+  padding: 5px 20px 5px 20px;
+}
+
+.cancelBtn:hover{
+    transform: scale(1.02);
+    color: rgb(85, 77, 134) !important;
+}

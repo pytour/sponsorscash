@@ -1,0 +1,18 @@
+.tab {
+  color: #7d73c3;
+  margin-right: 4rem;
+  font-weight: 400;
+  border-top: 2px solid transparent;
+  cursor: pointer;
+}
+
+@media (max-width: 600px) {
+  .tab {
+    margin-right: 0.55rem;
+  }
+}
+
+.tab1 {
+  font-weight: bold;
+  border-top: 2px solid #7d73c3;
+}

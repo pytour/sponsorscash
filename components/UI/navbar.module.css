@@ -1,0 +1,92 @@
+
+.hpText {
+    color: #FFCA79 !important;
+    font-size: 1em;
+    font-weight: 400;
+}
+.hpBrandName {
+    margin-top: 1rem;
+    color: #FFCA79;
+    font-size: 1.2rem;
+    font-weight:700;
+}
+.hpLogo{
+    max-width:3rem;
+}
+.hpTransformOnHover:hover{
+    transform: scale(1.2);
+}
+.linkTransformOnHover:hover{
+    transform: scale(1.02);
+    color: #ffc979b4 !important;
+}
+.hpNavItemWrapper{
+    display: flex !important;
+    align-items: center;
+}
+
+.hpNavSearch{
+    background-color: transparent;
+    border: 1px solid #FFCA79;
+    border-radius: 25px;
+    width: 100%;
+}
+.hpNavSearchInput{
+    background-color: transparent;
+    border: none;
+    width: 80%;
+    color: #FFCA79;
+    outline:none;
+    padding: .375rem .75rem;
+}
+.hpNavSearchInput::placeholder {
+    color: #FFCA79;
+    opacity: 1; /* Firefox */
+}
+.hpNavSearchIcon {
+    display:flex !important;
+    align-items: center;
+    color: #FFCA79;
+}
+.hpNavStartC{
+    border: 1px solid #FFCA79;
+    border-radius: 25px;
+    color: #FFCA79;
+}
+
+.hpNavToggler{
+    width: 50px !important;
+    height: 50px !important;
+    border-radius: 50% !important;
+    border: none !important;
+    background-color: #FFCA79 !important;
+    padding: 0 !important;
+}
+.hpMainWrapper{
+    width: 100%;
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+@media (min-width: 992px) {
+    .hpMainWrapper{
+        width: 100%;
+        display: flex;
+        align-items: baseline;
+        justify-content: center;
+        margin-right: 5em;
+        margin-left: 5em;
+        padding: 0px 5em;
+    }
+}
+
+
+@media (max-width:600px) {
+    .hpBrandName {
+        margin-top: 1rem;
+        color: #FFCA79;
+        font-size: 0.8rem;
+        font-weight:500;
+    }
+}

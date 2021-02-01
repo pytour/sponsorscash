@@ -1,0 +1,113 @@
+.hpProjectCategory{
+    color: #ffffff;
+    font-size: 0.9rem;
+    padding: 0.2rem;
+    width: 7rem;
+    background-color: #FFCA79;
+    border-radius: 20px;
+    text-align: center;
+}
+
+.projectTitle {
+    color: #707070;
+    font-size: 1.5rem;
+}
+
+.projectText {
+    color: #9F9E9E;
+}
+
+.countDownTimer{
+    background-color: #F7F7F7;
+    border-radius: 15px;
+    padding: 0.5rem;
+    max-width: 15rem;
+}
+.countDownTimerLi {
+    display: inline-block;
+    font-size: 1.1rem;
+    list-style-type: none;
+}
+
+.countDownTimerSpan {
+    margin: 0 0.5rem;
+    font-weight: bold;
+}
+
+.countDownDaysHours {
+    color: #707070;
+}
+
+.countDownMinsSec {
+    color: #9F9E9E;
+}
+
+.fundEnds {
+    color: #707070;
+    font-size: 1rem;
+}
+
+.funded{
+    color: #707070;
+    font-size: 1.1rem;
+}
+
+.goal {
+    color: #9F9E9E;
+    font-size: 1.1rem;
+}
+
+.btnDonate {
+    min-width: 11rem !important;
+    text-align: center !important;
+    border: 1px solid #7d73c3 !important;
+    border-radius: 20px !important;
+    color: #7d73c3 !important;
+    font-size: 1.25rem !important;
+    padding: 0.3rem 1rem !important;
+}
+
+.btnDonate:hover {
+    background: #7d73c3;
+    color: white !important;
+}
+
+.btnShare {
+    min-width: 11rem !important;
+    text-align: center !important;
+    border: 1px solid #FFCA79 !important;
+    border-radius: 20px !important;
+    color: #FFCA79 !important;
+    font-size: 1.25rem !important;
+    padding: 0.3rem 1rem !important;
+}
+
+.btnShare:hover {
+    background: #FFCA79;
+    color: white !important;
+}
+.btnShareSmall {
+    padding: 0.3rem 1rem !important;
+}
+
+.btnShareSmall:hover {
+    background: #FFCA79;
+    background-color: #FFCA79;
+    color: white !important;
+}
+
+.hpInput {
+    border-color: #7d73c3 !important;
+    border-radius: 15px !important;
+    color: #7d73c3 !important;
+    height: 2.5rem !important;
+    margin-bottom: 1.5rem;
+}
+
+.hpInput::placeholder {
+    color: #7d73c3 !important;
+    opacity: 1 !important; /* Firefox */
+}
+.hpInput:focus{
+    outline: none;
+}

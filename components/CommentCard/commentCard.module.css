@@ -1,0 +1,30 @@
+.messageCard {
+    border-radius: 20px;
+    border: 1px solid #D8D4D4;
+    background-color: #fff;
+}
+
+.userAvatar {
+    width: 2.7rem;
+    height: 2.7rem;
+    border-radius: 50%;
+    overflow: hidden;
+    vertical-align: middle;
+}
+
+.userName {
+    margin-left: 25px;
+    font-size: 0.8rem;
+    color: #7d73c3;
+}
+
+.smallTime {
+    margin-left: 25px;
+    font-size: 0.7rem;
+    color: #9F9E9E;
+}
+.commentMessage {
+    color: #9F9E9E;
+    font-size: 0.9rem;
+    padding: 0 15px;
+}

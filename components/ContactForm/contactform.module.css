@@ -1,0 +1,46 @@
+.hpContactBody {
+    margin: 1.5rem auto;
+    padding: 1rem;
+    background-color: #ffffff;
+    box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.2);
+    border-radius: 20px;
+}
+.hpContactHead {
+    color: #FFCA79 !important;
+    font-size: 1.5rem !important;
+    margin-bottom: 1.2rem !important;
+}
+
+.hpContactFormControl {
+    border-color: #7d73c3 !important;
+    border-radius: 15px !important;
+    color: #7d73c3 !important;
+    height: 2.5rem !important;
+}
+
+.hpContactFormControl::placeholder {
+    color: #7d73c3 !important;
+    opacity: 1 !important; /* Firefox */
+}
+.hpContactFormControlQ {
+    border-color: #7d73c3 !important;
+    border-radius: 15px !important;
+    color: #7d73c3 !important;
+    height: 10rem !important;
+}
+.hpContactFormControlQ::placeholder {
+    color: #7d73c3;
+    opacity: 1; /* Firefox */
+}
+
+.hpContactSubmitBtn {
+    width: 100%;
+    color: #ffffff !important;
+    border-radius: 15px;
+    background-color: #FFCA79 !important;
+    font-size: 1.1rem !important;
+}
+
+.hpContactSubmitBtn:hover{
+    color:white;
+}

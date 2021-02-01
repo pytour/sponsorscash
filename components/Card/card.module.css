@@ -1,0 +1,109 @@
+.hpCardHead{
+    position: absolute;
+    top: 5%;
+    left: 5%;
+    width: 90%;
+    height: 220px;
+    text-align: right;
+}
+
+.hpLike{
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 50%;
+    background-color: rgba(163, 213, 233, 0.5);
+    text-align: center;
+    padding-top: 0.5rem;
+}
+
+.hpCountdown {
+    position: relative;
+    height: 40px;
+    width: 40px;
+    text-align: center;
+}
+
+.hpCountdownNumber {
+    color: white;
+    display: inline-block;
+    line-height: 50px;
+    background-color: rgb(255, 255, 255);
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+}
+.hpSvg {
+    position: absolute;
+    top: -10px;
+    right: -5px;
+    width: 50px;
+    height: 50px;
+    transform: rotateY(-180deg) rotateZ(-90deg);
+}
+
+.hpProjectCategory{
+    color: #ffffff;
+    font-size: 0.9rem;
+    padding: 0.2rem;
+    width: 7rem;
+    background-color: #FFCA79;
+    border-radius: 20px;
+    text-align: center;
+}
+.hpCircle{
+    stroke-dasharray: 113px;
+    stroke-dashoffset: 0;
+    stroke-width: 10px;
+    fill: none;
+}
+@keyframes hpCountdown {
+    from {
+        stroke-dashoffset: 0;
+        stroke: #37D625;
+    }
+    25% {
+        stroke: #d6d400;
+    }
+    50% {
+        stroke: #d68800;
+    }
+    75% {
+        stroke: #d65400;
+    }
+    to {
+        stroke-dashoffset: 113px;
+        stroke: red;
+    }
+}
+.hpProgressValue {
+    color: #9F9E9E;
+    text-align: center;
+    font-size: 1rem;
+    margin-bottom: 0;
+    font-weight: 700;
+}
+
+.hpProgressBar {
+    border-radius: 10px;
+    background-color: #F7F7F7;
+}
+.hpFunded{
+    width: 45%;
+    color: #707070;
+    font-size: 1.125rem;
+}
+.hpGoal{
+    width: 45%;
+    color: #9F9E9E;
+    font-size: 1.125rem;
+}
+
+.hpImageBorder{
+    border-top-left-radius: 40px;
+    border-top-right-radius: 40px;
+    width: 100%;
+    height: 250px;
+}
+.hpCardTopBorder{
+    border-radius: 40px !important;
+}

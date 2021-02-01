@@ -1,0 +1,15 @@
+.projectMainImg {
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.2);
+    max-height: 20rem;
+}
+
+.projectMinorImg {
+    border-radius: 10px;
+    margin: 0.3rem;
+    overflow: hidden;
+    max-width: 10rem;
+    max-height: 5rem;
+    box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.2);
+}

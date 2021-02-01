@@ -1,0 +1,18 @@
+.sponsorAvatar {
+    border-radius: 25px;
+    overflow: hidden;
+    box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.2);
+}
+
+.sponsorName {
+    color: #707070;
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+}
+
+.sponsorDonation {
+    color: #707070;
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-bottom: 0;
+}

@@ -1,0 +1,111 @@
+.projectMainImg {
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.2);
+}
+
+.projectMinorImg {
+    border-radius: 10px;
+    margin: 0.3rem;
+    overflow: hidden;
+    max-width: 10rem;
+    max-height: 5rem;
+    box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.2);
+}
+.hpAvatarPicker {
+    display: flex;
+    height: 100%;
+    background-color: rgba(0,0,0,0.2);
+    cursor: pointer;
+    z-index: 1000000;
+    position: relative;
+    /* top: -100%; */
+    bottom: 74%;
+}
+
+.hpAvatarPickerLabel {
+    width: 100%;
+    text-align: center;
+    position: relative;
+    top: 40%;
+    color:white;
+}
+
+.hpInputStyle {
+    border-color: #7d73c3 !important;
+    border-radius: 15px !important;
+    color: #7d73c3 !important;
+    height: 2.5rem !important;
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+.hpInputStyle:focus{
+    outline: none;
+}
+
+.hpInputStyle::placeholder{
+    color: #9CB4F7 !important;
+    opacity: 1 !important; /* Firefox */
+    text-align: center;
+}
+
+.hpTextAreaStyle {
+    border-color: #7d73c3 !important;
+    border-radius: 10px !important;
+    color: #7d73c3 !important;
+    margin-bottom: 1.5rem;
+    width: 100%;
+}
+
+.hpTextAreaStyleDetail {
+    border-color: #7d73c3 !important;
+    border-radius: 10px !important;
+    color: #7d73c3 !important;
+    margin-bottom: 1.5rem;
+    width: 100%;
+}
+
+.hpTextAreaStyleDetail:focus{
+    outline: none;
+}
+
+.hpTextAreaStyleDetail::placeholder{
+    color: #9CB4F7 !important;
+    opacity: 1 !important; /* Firefox */
+    text-align: center;
+}
+
+
+.hpTextAreaStyle:focus{
+    outline: none;
+}
+
+.hpTextAreaStyle::placeholder{
+    color: #9CB4F7 !important;
+    opacity: 1 !important; /* Firefox */
+    text-align: center;
+}
+
+.hpDatePicker {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    color: #7d73c3;
+}
+
+.hpCreateProjectBtnWrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.hpCreateProjectBtn {
+    width: 50% !important;
+    background-color: #7D73C3 !important;
+}
+
+
+
+
+

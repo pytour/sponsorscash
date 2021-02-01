@@ -1,0 +1,44 @@
+.hpWrapper{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.hpLogo{
+    display: block;
+    margin: auto;
+    max-width:3.75rem;
+}
+.flipLogo{
+    display: block;
+    max-width:2.4rem;
+    margin: 10px;
+}
+.hpBrandName {
+    margin-top: 1rem;
+    color: #FFCA79;
+    font-size: 1.5rem;
+    font-weight:700;
+}
+.hpFooterLinks {
+    color: #FFCA79 !important;
+    font-size: 1.2rem;
+
+}
+
+.hpBtnContact {
+    color: #FFCA79;
+    font-size: 1.2rem;
+    border: 1px solid #FFCA79;
+    border-radius: 30px;
+    padding: 0.3rem 2.5rem;
+    margin-bottom: 1.5rem;
+    background:transparent;
+    transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+}
+
+.hpBtnContact:hover{
+    background-color: #FFCA79;
+    color: #ffffff;
+}
+
+

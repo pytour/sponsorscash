@@ -1,0 +1,26 @@
+.feedback {
+    background-color: #F7F7F7;
+    border: 1px solid #D8D4D4;
+    margin-bottom: 0.5rem;
+    border-radius: 5px;
+}
+
+.textArea {
+    height: 4rem;
+    border-radius: 20px;
+}
+
+.btnSend {
+    background-color: #FFCA79 !important;
+    border-radius: 20px !important;
+    min-width: 10rem !important;
+    color: #ffffff !important;
+    padding: 0.2rem 0 !important;
+    font-size: 1rem;
+}
+
+.btnSend:hover {
+    color:white !important;
+}
+
+
