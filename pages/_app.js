@@ -4,6 +4,8 @@ import "mdbreact/dist/css/mdb.css";
 import "react-datepicker/dist/react-datepicker.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "react-awesome-lightbox/build/style.css";
+import "tailwindcss/tailwind.css";
+import '../styles/globals.css'
 
 import Head from "next/head";
 import React from "react";
