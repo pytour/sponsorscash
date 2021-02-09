@@ -13,6 +13,27 @@ import {
 import styles from "./carousel.module.css";
 const Carousel = () => {
   return (
+      <div className="">
+          {/*<div className="w-full  h-full  bg-hero-md">*/}
+              {/*<div className="container relative mx-auto relateive left-0  py-20  space-y-15  mb-16 px-0">*/}
+                  {/*<h1 className="font-sans font-extrabold text-5xl leading-tight">*/}
+                      {/*We Help to <b className="text-indigo-600">Build</b> <br />*/}
+                      {/*Your Dream*/}
+                  {/*</h1>*/}
+                  {/*<p className="w-1/2">*/}
+                      {/*We are always availed to consult on taking your higher education to*/}
+                      {/*the next level so you can stay competitive in the global world. We*/}
+                      {/*welcome the opportunity to work with you "today" for "tomorrow's"*/}
+                      {/*better career solutions.*/}
+                  {/*</p>*/}
+
+                  {/*<button className="bg-indigo-500 rounded-lg py-2   px-8 text-white">*/}
+                      {/*Apply Online*/}
+                  {/*</button>*/}
+
+              {/*</div>*/}
+          {/*</div>*/}
+
     <MDBContainer className={styles.hpCarouselWrapper}>
       <MDBCarousel
         activeItem={1}
@@ -26,7 +47,7 @@ const Carousel = () => {
             <MDBView>
               <img
                 className={`${styles.carouselImage} d-block`}
-                src="static/images/slide/girl.png"
+                src="/slide/girl.png"
                 alt="First slide"
               />
               <MDBMask overlay="black-strong" />
@@ -48,75 +69,26 @@ const Carousel = () => {
               >
                 explore
               </button>
-              {/*
-              <h3 className={styles.hpHeadingWeight}>
-                Fundraising to build a better/profitable experience
-              </h3>
-              <p className={styles.hpText}>
-                A better experience for users and a profitable venture for investors. 
-              </p><a href="https://flipstarter.fundme.cash/">
-              <button
-                type="button"
-                className={`${styles.hpBtnContact} text-uppercase`}
-              >
-                donate
-              </button></a>
-              */}
             </MDBCarouselCaption>
           </MDBCarouselItem>
           <MDBCarouselItem itemId="2">
             <MDBView>
               <img
                 className="d-block w-100"
-                src="static/images/slide/man.png"
+                src="/slide/man.png"
                 alt="Second slide"
               />
               <MDBMask overlay="black-strong" />
             </MDBView>
             <MDBCarouselCaption className={styles.hpCarouselCaption}>
               <h3 className={styles.hpHeadingWeight}>Create your campaign</h3>
-              {/* <p className={styles.hpText}>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                Rhoncus urna neque viverra justo. Ac auctor augue mauris augue.
-              </p>
-              <button
-                type="button"
-                className={`${styles.hpBtnContact} text-uppercase`}
-              >
-                explore
-              </button> */}
+
             </MDBCarouselCaption>
           </MDBCarouselItem>
-          {/* <MDBCarouselItem itemId="3">
-            <MDBView>
-              <img
-                className="d-block w-100"
-                src="static/images/slide/zebra.png"
-                alt="Third slide"
-              />
-              <MDBMask overlay="black-strong" />
-            </MDBView>
-            <MDBCarouselCaption className={styles.hpCarouselCaption}>
-              <h3 className={styles.hpHeadingWeight}>
-                In Aliquam Sem Fringilla
-              </h3>
-              <p className={styles.hpText}>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                Rhoncus urna neque viverra justo. Ac auctor augue mauris augue.
-              </p>
-              <button
-                type="button"
-                className={`${styles.hpBtnContact} text-uppercase`}
-              >
-                explore
-              </button>
-            </MDBCarouselCaption>
-          </MDBCarouselItem> */}
         </MDBCarouselInner>
       </MDBCarousel>
     </MDBContainer>
+      </div>
   );
 };
 

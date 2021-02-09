@@ -1,15 +1,13 @@
-import React, { useState, useEffect } from "react";
-import Link from "next/link";
+import React, {useEffect, useState} from "react";
 import Layout from "../components/Layout";
-import { MDBContainer, MDBRow, MDBCol } from "mdbreact";
+import {MDBCol, MDBContainer, MDBRow} from "mdbreact";
 import DotLoader from "react-spinners/DotLoader";
-import { withRedux } from "../lib/redux";
-import Carousel from "../components/Carousel/Carousel";
+import {withRedux} from "../lib/redux";
 import Card from "../components/Card/Card";
-import Showmore from "../components/UI/Showmore";
 import axios from "axios";
-import Router from "next/router";
 import getConfig from "next/config";
+import HeroContainer from "../components/BackgroundContainer/heroContainer";
+
 const { publicRuntimeConfig } = getConfig();
 
 const Home = () => {
@@ -39,7 +37,7 @@ const Home = () => {
   return (
     <div>
       <Layout>
-        <Carousel />
+        <HeroContainer/>
         <MDBContainer>
           <MDBRow>
             <MDBCol size="12">
@@ -52,20 +50,6 @@ const Home = () => {
                   <></>
                 )}
                 <div>
-                  {/* <MDBDropdown dropup>
-                    <MDBDropdownToggle
-                      className="hptoggle"
-                      caret
-                      color="secondary"
-                    >
-                      ALL
-                    </MDBDropdownToggle>
-                    <MDBDropdownMenu>
-                      <MDBDropdownItem>Architecture</MDBDropdownItem>
-                      <MDBDropdownItem>Art</MDBDropdownItem>
-                      <MDBDropdownItem>Science</MDBDropdownItem>
-                    </MDBDropdownMenu>
-                  </MDBDropdown> */}
                 </div>
               </div>
             </MDBCol>
@@ -106,8 +90,6 @@ const Home = () => {
               <></>
             )}
           </MDBRow>
-
-          {/* <Showmore /> */}
           <MDBRow>
             <MDBCol size="12">
               <div className="d-flex justify-content-between align-items-baseline hp-wrapper">
@@ -115,20 +97,6 @@ const Home = () => {
                   Completed Campaigns
                 </h2>
                 <div>
-                  {/* <MDBDropdown dropup>
-                    <MDBDropdownToggle
-                      className="hptoggle"
-                      caret
-                      color="secondary"
-                    >
-                      ALL
-                    </MDBDropdownToggle>
-                    <MDBDropdownMenu>
-                      <MDBDropdownItem>Architecture</MDBDropdownItem>
-                      <MDBDropdownItem>Art</MDBDropdownItem>
-                      <MDBDropdownItem>Science</MDBDropdownItem>
-                    </MDBDropdownMenu>
-                  </MDBDropdown> */}
                 </div>
               </div>
             </MDBCol>

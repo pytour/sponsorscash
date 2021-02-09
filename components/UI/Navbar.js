@@ -84,7 +84,7 @@ const NavbarPage = (props) => {
     return (
         <>
             <nav
-                className="relative  flex flex-wrap items-center justify-between px-2 md:py-3 py-2 navbar-expand-lg bg-branding-color mb-3">
+                className="relative  flex flex-wrap items-center justify-between px-2 md:py-3 py-2 navbar-expand-lg bg-branding-color mb-0 shadow-md">
                 <div
                     className="container max-w-screen-xl md:px-4 px-3 mx-auto flex flex-wrap items-center justify-between ">
                     <div className="w-full relative flex justify-between lg:w-auto lg:static lg:block lg:justify-start">
