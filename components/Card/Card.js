@@ -24,7 +24,7 @@ const Card = (props) => {
 
 
     return (
-            <div className="rounded-custom overflow-hidden shadow-lg ">
+            <div className="group rounded-custom overflow-hidden shadow-lg ">
                 <div className="rounded-tl-custom rounded-tr-custom  relative w-full h-64 ">
                     <Image
                         layout="fill"
@@ -41,7 +41,7 @@ const Card = (props) => {
                             </p>
                         </div>
                     </div>
-                    <p className="text-white text-md p-1.5 mb-2 max-w-64 w-32 bg-branding-text-color rounded-2xl text-center block">
+                    <p className="group-hover:bg-opacity-100 text-white text-md p-1.5 mb-2 max-w-64 w-32 bg-branding-text-color bg-opacity-50 rounded-2xl text-center block">
                         {props.tag}
                     </p>
                 </div>

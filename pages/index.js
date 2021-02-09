@@ -34,10 +34,10 @@ const Home = () => {
 
 
   return (
-    <div>
-      <Layout>
+    <div >
+      <Layout >
         <HeroContainer/>
-            <div className="container max-w-screen-xl px-4 md:px-.5 lg:px-.5 xl:px.5">
+            <div className="container max-w-screen-xl px-4 md:px-.5 lg:px-.5 xl:px.5 mb-8 ">
                 <h2 className="block md:text-3xl text-2xl text-branding-color p-2 mt-8 mb-4">
                     Completed Campaigns
                 </h2>

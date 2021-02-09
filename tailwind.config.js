@@ -12,7 +12,8 @@ module.exports = {
                 'shadow-card':'#A3D5E9',
                 'progress-filled':'#F7F7F7',
                 'progress-bar':'#1AA2B8',
-
+                'container':'#F0F2F5',
+                'outline-color': '#7d73c3',
 
 
             },
@@ -21,6 +22,8 @@ module.exports = {
                 'percentage':'#9F9E9E',
                 'funded':'#707070',
                 'goal':'#9F9E9E',
+                'title':'#FFCA79',
+                'outline-color': '#7d73c3',
 
             },
             borderWidth: {
@@ -46,7 +49,7 @@ module.exports = {
             },
             width:{
                 '1/7': '14.2857143%',
-                '2/7': '28.5714286%',
+                '2/7': '33%',
                 '3/7': '42.8571429%',
                 '4/7': '57.1428571%',
                 '5/7': '71.4285714%',

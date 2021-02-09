@@ -1,13 +1,12 @@
 import React, {useEffect, useState} from 'react'
-import {MDBAlert, MDBContainer, MDBRow} from "mdbreact";
-import styles from './loginform.module.css'
 import Link from "next/link";
 import getConfig from 'next/config'
 import {useDispatch, useSelector} from "react-redux";
 import axios from 'axios';
 import Router, {useRouter} from 'next/router';
-import  Swal from 'sweetalert2';
+import Swal from 'sweetalert2';
 import {useFormik} from "formik";
+import Warning from "../../utils/warning";
 
 const {publicRuntimeConfig} = getConfig();
 
@@ -30,6 +29,8 @@ const validate = values => {
 
     return errors;
 };
+
+
 
 
 const loginform = () => {
@@ -107,128 +108,69 @@ const loginform = () => {
         }
     });
     return (
-        <div className=" ">
-            {/*<div className="bg-login-bg lg:w-2/7 sm:w-full md:w-2/4 items-center justify-center mx-auto  ">*/}
-                {/*<div className={styles.hpLoginBody}>*/}
-                    {/*<h2 className={`${styles.hpLoginHead} text-uppercase text-center`}>log in</h2>*/}
-                    {/*<form onSubmit={formik.handleSubmit}>*/}
-                        {/*/!* <CashId*/}
-                                {/*domain="sponsor-cash.herokuapp.com"*/}
-                                {/*path="/api/users/cashid/parse"*/}
-                                {/*callback={loginCashId}*/}
-                            {/*/>*/}
-                            {/*<p className={styles.hpSeparator}>or</p> *!/*/}
-                        {/*<div className="form-group">*/}
-                            {/*<input type="email" name="email" id="email"*/}
-                                   {/*onChange={formik.handleChange}*/}
-                                   {/*onBlur={formik.handleBlur}*/}
-                                   {/*value={formik.values.email}*/}
-                                   {/*className={`${styles.hpLoginFormControl} form-control`} placeholder="Email"/>*/}
-                            {/*{formik.touched.email && formik.errors.email ? (*/}
-                                {/*<MDBAlert color="danger" >*/}
-                                    {/*{formik.errors.email}*/}
-                                {/*</MDBAlert>*/}
-                            {/*) : null}*/}
-                        {/*</div>*/}
-                        {/*<div className="form-group mb-0">*/}
-                            {/*<input type="password" name="password" id="password"*/}
-                                   {/*onChange={formik.handleChange}*/}
-                                   {/*onBlur={formik.handleBlur}*/}
-                                   {/*value={formik.values.password}*/}
-                                   {/*className={`${styles.hpLoginFormControl} form-control`} placeholder="Password"/>*/}
-                            {/*{formik.touched.password && formik.errors.password ? (*/}
-                                {/*<MDBAlert color="danger" >*/}
-                                    {/*{formik.errors.password}*/}
-                                {/*</MDBAlert>*/}
-                            {/*) : null}*/}
-                        {/*</div>*/}
-                        {/*<div className="form-group form-check d-flex justify-content-between">*/}
-                            {/*<input type="checkbox" className="form-check-input" id="rememberMe"/>*/}
-                            {/*<label style={{color: '#7d73c3'}} className="form-check-label" htmlFor="rememberMe">Remember*/}
-                                {/*me</label>*/}
-                            {/*<Link href="/forgotPassword">*/}
-                                {/*<a  className="form-check-link">*/}
-                                    {/*<ins>Forgot password</ins>*/}
-                                {/*</a>*/}
-                            {/*</Link>*/}
-                        {/*</div>*/}
-                        {/*<button type="submit" className={`${styles.hpBtnLogin} btn`}>Log in</button>*/}
-                    {/*</form>*/}
-                    {/*<div className={styles.hpFormFooter}>*/}
-                        {/*<p className="mb-0">New to <span className={styles.hpOrange}>fundme</span><span*/}
-                            {/*className={styles.hpBlack}>.cash  </span>*/}
-                            {/*<Link href="/signin">*/}
-                                {/*<a href="#">*/}
-                                    {/*<ins style={{color: '#7d73c3'}}>SIGN UP</ins>*/}
-                                {/*</a>*/}
-                            {/*</Link>*/}
-                        {/*</p>*/}
-                    {/*</div>*/}
-                {/*</div>*/}
-            {/*</div>*/}
+        <div className="bg-login-bg bg-opacity-40">
+            <div className="py-6 px-3 md:px-0 lg:px-0 xl:px-0 lg:w-2/7 sm:w-full md:w-3/7 xl:w-2/7 items-center justify-center md:mx-auto  ">
+                <div className="mx-auto p-4 bg-white shadow-md rounded-2xl">
+                    <h2 className="pt-0 pb-4  text-branding-text-color text-2xl uppercase text-center">log in</h2>
+                    <form onSubmit={formik.handleSubmit}>
+                        <div className="mb-4 text-outline-color">
+                            <input type="email" name="email" id="email"
+                                   onChange={formik.handleChange}
+                                   onBlur={formik.handleBlur}
+                                   value={formik.values.email}
+                                   className="w-full h-10 p-3 text-outline-color placeholder-outline-color
+                                   rounded-2xl border-outline-color outline-outline-color ring-border-color focus:ring-2 focus:ring-purple-300
+                                   focus:border-purple-300  focus:outline-none
+                                    border-1 focus:border-0  bg-transparent ..." placeholder="Email"/>
+                            {formik.touched.email && formik.errors.email ? (
 
-        <MDBContainer style={{maxWidth: '100%', backgroundColor: 'rgba(156, 180, 247, 0.4)'}}>
-            <MDBRow>
-                <div className="col-12 col-md-6 col-xl-4 mx-auto">
-                    <div className={styles.hpLoginBody}>
-                        <h2 className={`${styles.hpLoginHead} text-uppercase text-center`}>log in</h2>
-                        <form onSubmit={formik.handleSubmit}>
-                            {/* <CashId
-                                domain="sponsor-cash.herokuapp.com"
-                                path="/api/users/cashid/parse"
-                                callback={loginCashId}
-                            />
-                            <p className={styles.hpSeparator}>or</p> */}
-                            <div className="form-group">
-                                <input type="email" name="email" id="email"
-                                       onChange={formik.handleChange}
-                                       onBlur={formik.handleBlur}
-                                       value={formik.values.email}
-                                       className={`${styles.hpLoginFormControl} form-control`} placeholder="Email"/>
-                                {formik.touched.email && formik.errors.email ? (
-                                    <MDBAlert color="danger" >
-                                        {formik.errors.email}
-                                    </MDBAlert>
-                                ) : null}
-                            </div>
-                            <div className="form-group mb-0">
-                                <input type="password" name="password" id="password"
-                                       onChange={formik.handleChange}
-                                       onBlur={formik.handleBlur}
-                                       value={formik.values.password}
-                                       className={`${styles.hpLoginFormControl} form-control`} placeholder="Password"/>
-                                {formik.touched.password && formik.errors.password ? (
-                                    <MDBAlert color="danger" >
-                                        {formik.errors.password}
-                                    </MDBAlert>
-                                ) : null}
-                            </div>
-                            <div className="form-group form-check d-flex justify-content-between">
-                                <input type="checkbox" className="form-check-input" id="rememberMe"/>
-                                <label style={{color: '#7d73c3'}} className="form-check-label" htmlFor="rememberMe">Remember
-                                    me</label>
-                                <Link href="/forgotPassword">
-                                <a  className="form-check-link">
+                                <Warning
+                                   message={formik.errors.email}/>
+                            ) : null}
+                        </div>
+                        <div className="mb-4  mb-0">
+                            <input type="password" name="password" id="password"
+                                   onChange={formik.handleChange}
+                                   onBlur={formik.handleBlur}
+                                   value={formik.values.password}
+                                   className="w-full h-10 p-3 text-outline-color placeholder-outline-color
+                                   rounded-2xl border-outline-color outline-outline-color ring-border-color focus:ring-2 focus:ring-purple-300
+                                   focus:border-purple-300  focus:outline-none
+                                    border-1 focus:border-0  bg-transparent..."
+                                   placeholder="Password"/>
+                            {formik.touched.password && formik.errors.password ? (
+
+                                <Warning  message={formik.errors.password}/>
+
+                            ) : null}
+                        </div>
+                        <div className="mt-4 flex justify-between">
+
+                           <div className="inline ">
+                               <input type="checkbox" className="" id="rememberMe"/>
+                            <label className="text-outline-color cursor-pointer  ml-2" htmlFor="rememberMe">Remember me</label>
+                           </div>
+
+                            <Link href="/forgotPassword">
+                                <a >
                                     <ins>Forgot password</ins>
                                 </a>
-                                </Link>
-                            </div>
-                            <button type="submit" className={`${styles.hpBtnLogin} btn`}>Log in</button>
-                        </form>
-                        <div className={styles.hpFormFooter}>
-                            <p className="mb-0">New to <span className={styles.hpOrange}>fundme</span><span
-                                className={styles.hpBlack}>.cash  </span>
-                                <Link href="/signin">
-                                    <a href="#">
-                                        <ins style={{color: '#7d73c3'}}>SIGN UP</ins>
-                                    </a>
-                                </Link>
-                            </p>
+                            </Link>
                         </div>
+                        <button type="submit" className="w-full text-white rounded-2xl h-10 uppercase bg-outline-color text-lg hover:shadow-xl shadow-md  mb-6 mt-6">Log in</button>
+                    </form>
+                    <div className="border-t-1 border-outline-color text-gray-500 text-center pt-4 ">
+                        <p className="mb-0 ">New to <span className="uppercase font-bold text-branding-text-color">fundme</span><span
+                            className="text-black uppercase font-bold ">.cash  </span>
+                            <Link href="/signin">
+                                <a >
+                                    <ins className="text-outline-color">SIGN UP</ins>
+                                </a>
+                            </Link>
+                        </p>
                     </div>
                 </div>
-            </MDBRow>
-        </MDBContainer>
+            </div>
         </div>
     );
 };
