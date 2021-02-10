@@ -1,6 +1,7 @@
 import React, {useState} from "react";
 import Router from "next/router";
 import Image from "next/image";
+import Link from "next/dist/client/link";
 
 const myLoader = ({src, width, quality}) => {
     return `https://example.com/${src}?w=${width}&q=${quality || 75}`
@@ -32,20 +33,35 @@ const Card = (props) => {
                         src={props.imageSrc}
                     />
                 </div>
-                <div className=" absolute top-1/20 left-1/20 w-90 h-card text-right flex flex-col  justify-between">
+                <div className="pt-2 px-3 flex justify-between">
+
+                    <div className=" text-sm p-1.5 bg-light  rounded-xl text-progress-bar text-center block">
+                        {props.tag}
+                    </div>
                     <div className="flex justify-between">
                         <div onClick={toggleLike}>
-                            <p className="w-10 h-10 bg-opacity-50 rounded-half bg-shadow-card text-center items-center mx-auto py-1.5">
-                                <i className={"text-2xl cursor-pointer fa fa-heart fill-current " + (liked ? 'text-orange' : 'text-white')}
+                            <p className="w-8 h-8 bg-opacity-50 rounded-half bg-shadow-card text-center items-center mx-auto py-1">
+                                <i className={"text-xl cursor-pointer fa fa-heart fill-current " + (liked ? 'text-orange' : 'text-white')}
                                 />
                             </p>
                         </div>
                     </div>
-                    <p className="group-hover:bg-opacity-100 text-white text-md p-1.5 mb-2 max-w-64 w-32 bg-branding-text-color bg-opacity-50 rounded-2xl text-center block">
-                        {props.tag}
-                    </p>
+
                 </div>
-                <div className="cursor-pointer p-3"
+                {/*<div className=" absolute top-1/20 left-1/20 w-90 h-card text-right flex flex-col  justify-between">*/}
+                    {/*<div className="flex justify-between">*/}
+                        {/*<div onClick={toggleLike}>*/}
+                            {/*<p className="w-10 h-10 bg-opacity-50 rounded-half bg-shadow-card text-center items-center mx-auto py-1.5">*/}
+                                {/*<i className={"text-2xl cursor-pointer fa fa-heart fill-current " + (liked ? 'text-orange' : 'text-white')}*/}
+                                {/*/>*/}
+                            {/*</p>*/}
+                        {/*</div>*/}
+                    {/*</div>*/}
+                    {/*<p className="group-hover:bg-opacity-100 text-white text-md p-1.5 mb-2 max-w-64 w-32 bg-branding-text-color bg-opacity-50 rounded-2xl text-center block">*/}
+                        {/*{props.tag}*/}
+                    {/*</p>*/}
+                {/*</div>*/}
+                <div className="cursor-pointer px-3 pt-1 pb-3"
                      onClick={handleProjectDetailsRoute}
                 >
                     <div className="text-2xl text-grey-600">

@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import Layout from "../components/Layout";
 import { withRedux } from "../lib/redux";
 import { MDBContainer } from "mdbreact";
@@ -7,10 +7,78 @@ import getConfig from "next/config";
 const { publicRuntimeConfig } = getConfig();
 
 const faq = () => {
+    const[open,setOpen]=useState(1);
+
   const fee = publicRuntimeConfig.FEE_AMOUNT;
+
+  // function handleCollapse(value) {
+  //     if(value===1){
+  //         if(open===1 && value===1){
+  //             setOpen(null)
+  //         }
+  //         else(open)
+  //     }
+  // }
+
   return (
     <div>
       <Layout>
+          {/*<div className="mt-5  max-w-screen-xl w-full text-center mx-auto">*/}
+              {/*<h2 className="font-md text-6xl text-center">FAQ</h2>*/}
+              {/*<div className="p-8">*/}
+                  {/*<div className="w-full text-center mx-auto bg-card h-auto shadow-md ">*/}
+                      {/*<div className="rounded-lg p-3">*/}
+                          {/*<button  key={"1"} onClick={()=>handleCollapse(1)}*/}
+                              {/*className="uppercase focus:underline hover:underline focus:rounded-lg  focus:ring-2  focus:shadow text-md p-2.5 text-branding-color focus:text-gray-700 ">*/}
+                              {/*Is this platform non-custodial?*/}
+                          {/*</button>*/}
+                      {/*</div>*/}
+                      {/*<div>*/}
+                          {/*<div className="border py-4 px-6 bg-white ">*/}
+                              {/*No. We do hold campaign funds. If you don’t feel comfortable*/}
+                              {/*with this we recommend trying out flipstarter.cash. They offer*/}
+                              {/*a non-custodial option. The folks at{" "}*/}
+                              {/*<a href="https://t.me/flipstarter">flipstarter</a> have spent*/}
+                              {/*a lot of time on this project and are very helpful.*/}
+                          {/*</div>*/}
+                      {/*</div>*/}
+                  {/*</div>*/}
+                  {/*<div className="w-full text-center mx-auto bg-card h-auto shadow-md " key={"2"}>*/}
+                      {/*<div className="rounded-lg p-3">*/}
+                          {/*<button className="uppercase focus:underline hover:underline focus:rounded-lg  focus:ring-2  focus:shadow text-md p-2.5 text-branding-color focus:text-gray-700 ">*/}
+                              {/*Is this platform non-custodial?*/}
+                          {/*</button>*/}
+                      {/*</div>*/}
+                      {/*<div>*/}
+                          {/*<div className="border py-4 px-6 bg-white">*/}
+                              {/*No. We do hold campaign funds. If you don’t feel comfortable*/}
+                              {/*with this we recommend trying out flipstarter.cash. They offer*/}
+                              {/*a non-custodial option. The folks at{" "}*/}
+                              {/*<a href="https://t.me/flipstarter">flipstarter</a> have spent*/}
+                              {/*a lot of time on this project and are very helpful.*/}
+                          {/*</div>*/}
+                      {/*</div>*/}
+                  {/*</div>*/}
+                  {/*<div className="w-full text-center mx-auto bg-card h-auto shadow-md " key={"3"}>*/}
+                      {/*<div className="rounded-lg p-3">*/}
+                          {/*<button className="uppercase focus:underline hover:underline focus:rounded-lg  focus:ring-2  focus:shadow text-md p-2.5 text-branding-color focus:text-gray-700 ">*/}
+                              {/*Is this platform non-custodial?*/}
+                          {/*</button>*/}
+                      {/*</div>*/}
+                      {/*<div>*/}
+                          {/*<div className="border py-4 px-6 bg-white">*/}
+                              {/*No. We do hold campaign funds. If you don’t feel comfortable*/}
+                              {/*with this we recommend trying out flipstarter.cash. They offer*/}
+                              {/*a non-custodial option. The folks at{" "}*/}
+                              {/*<a href="https://t.me/flipstarter">flipstarter</a> have spent*/}
+                              {/*a lot of time on this project and are very helpful.*/}
+                          {/*</div>*/}
+                      {/*</div>*/}
+                  {/*</div>*/}
+
+              {/*</div>*/}
+          {/*</div>*/}
+
         <MDBContainer className="mt-5 text-center">
           <h2 className="h1 display-3">FAQ</h2>
           <Accordion style={{ padding: "2rem" }} defaultActiveKey="0">
@@ -113,17 +181,7 @@ const faq = () => {
           </Accordion>
         </MDBContainer>
       </Layout>
-      {/* <style jsx>
-        {`
-        .block-example {
-        width: 45%;
-        margin: 0.5rem;
-        background-color: #eee;
-        display: inline-block;
-        padding: 50px;
-        
-      `}
-      </style> */}
+
     </div>
   );
 };

@@ -130,8 +130,9 @@ const project = (props) => {
 
   // Set initial data: project && donations
   useEffect(() => {
+      console.log("last donors tab projectId", props);
     let projectId = props.project._id;
-    //console.log("last donors tab projectId", projectId);
+
     if (projectId) {
       setProject(props.project);
       axios

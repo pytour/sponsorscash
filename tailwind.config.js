@@ -14,6 +14,9 @@ module.exports = {
                 'progress-bar':'#1AA2B8',
                 'container':'#F0F2F5',
                 'outline-color': '#7d73c3',
+                'light':'#83D8D6',
+                'card':'#F7F7F7',
+                'dark':'#000000'
 
 
             },
@@ -24,6 +27,7 @@ module.exports = {
                 'goal':'#9F9E9E',
                 'title':'#FFCA79',
                 'outline-color': '#7d73c3',
+                'placeholder':'#9CB4F7',
 
             },
             borderWidth: {
@@ -55,6 +59,7 @@ module.exports = {
                 '5/7': '71.4285714%',
                 '6/7': '85.7142857%',
                 '90':'90%',
+                'half':'50%',
             },
 
             margin: {
@@ -66,7 +71,18 @@ module.exports = {
             },
             inset: {
                 '1/20': '5%',
-            }
+                '74':'74%',
+                '40':'40%',
+                '76':'76px',
+                '46':'46px',
+            },
+            maxWidth:{
+                '10': '10rem',
+
+            },
+            maxHeight:{
+                '8': '8rem',
+            },
 
         },
     },

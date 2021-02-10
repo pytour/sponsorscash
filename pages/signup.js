@@ -2,7 +2,7 @@ import React from "react";
 import { withRedux } from "../lib/redux";
 import Layout from "../components/Layout/Layout";
 import SigninForm from '../components/SigninForm/SigninForm'
-const signin = () => {
+const signup = () => {
     return (
         <Layout>
             <SigninForm/>
@@ -10,4 +10,4 @@ const signin = () => {
     );
 };
 
-export default withRedux(signin);
+export default withRedux(signup);

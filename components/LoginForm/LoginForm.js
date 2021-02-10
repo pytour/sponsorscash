@@ -128,7 +128,7 @@ const loginform = () => {
                                    message={formik.errors.email}/>
                             ) : null}
                         </div>
-                        <div className="mb-4  mb-0">
+                        <div className="mb-4 ">
                             <input type="password" name="password" id="password"
                                    onChange={formik.handleChange}
                                    onBlur={formik.handleBlur}
@@ -162,7 +162,7 @@ const loginform = () => {
                     <div className="border-t-1 border-outline-color text-gray-500 text-center pt-4 ">
                         <p className="mb-0 ">New to <span className="uppercase font-bold text-branding-text-color">fundme</span><span
                             className="text-black uppercase font-bold ">.cash  </span>
-                            <Link href="/signin">
+                            <Link href="/signup">
                                 <a >
                                     <ins className="text-outline-color">SIGN UP</ins>
                                 </a>

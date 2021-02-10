@@ -41,7 +41,7 @@ const Home = () => {
                 <h2 className="block md:text-3xl text-2xl text-branding-color p-2 mt-8 mb-4">
                     Completed Campaigns
                 </h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 md:gap-x-20 md:gap-y-8 gap-x-16 gap-y-2 relative">
+          <div className="grid grid-cols-1 md:grid-cols-3 md:gap-x-20 md:gap-y-8 gap-x-16 gap-y-3 relative">
               {completedProjects[0] ? (
                   completedProjects.map((project) => {
                       let cardImage = project.images[0]
