@@ -1,14 +1,13 @@
-import React, {useState} from 'react'
+import React from 'react'
 import {MDBAlert, MDBContainer, MDBRow} from "mdbreact";
 import styles from './resetPasswordForm.module.css'
-import Link from "next/link";
 import getConfig from 'next/config'
-const {publicRuntimeConfig} = getConfig();
 import axios from 'axios';
-import Router from 'next/router';
+import Router, {useRouter} from 'next/router';
 import * as Swal from 'sweetalert2';
 import {useFormik} from "formik";
-import {useRouter} from "next/router";
+
+const {publicRuntimeConfig} = getConfig();
 
 const validate = values => {
     const errors = {};

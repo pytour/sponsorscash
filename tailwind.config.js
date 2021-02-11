@@ -28,6 +28,8 @@ module.exports = {
                 'title':'#FFCA79',
                 'outline-color': '#7d73c3',
                 'placeholder':'#9CB4F7',
+                'timer':'#707070',
+                'custom':'#9f9e9e',
 
             },
             borderWidth: {
@@ -60,6 +62,7 @@ module.exports = {
                 '6/7': '85.7142857%',
                 '90':'90%',
                 'half':'50%',
+                '70':'70%',
             },
 
             margin: {
@@ -78,10 +81,14 @@ module.exports = {
             },
             maxWidth:{
                 '10': '10rem',
+                '20': '20rem',
+                '15': '15rem',
 
             },
             maxHeight:{
                 '8': '8rem',
+                '36rem':'36rem',
+                '12rem': '12rem',
             },
 
         },

@@ -1,24 +1,13 @@
-import React, { useEffect, useState } from "react";
-import { withRedux } from "../../lib/redux";
+import React, {useEffect, useState} from "react";
+import {withRedux} from "../../lib/redux";
 import Layout from "../../components/Layout/Layout";
 import ProjectBio from "../../components/ProjectBio/projectBio";
 import TabNavigation from "../../components/TabNavigation/tabNavigation";
-import {
-  MDBBtn,
-  MDBCol,
-  MDBContainer,
-  MDBRow,
-  MDBCard,
-  MDBCardBody,
-} from "mdbreact";
-import { useRouter } from "next/router";
+import {MDBCard, MDBCardBody, MDBContainer, MDBRow,} from "mdbreact";
 import axios from "axios";
-import Swal from "sweetalert2";
-import Router from "next/router";
-import { useSelector } from "react-redux";
+import {useSelector} from "react-redux";
 import DotLoader from "react-spinners/DotLoader";
 import getConfig from "next/config";
-import projectBio from "../../components/ProjectBio/projectBio";
 
 const { publicRuntimeConfig } = getConfig();
 
@@ -155,42 +144,38 @@ const project = (props) => {
   return (
     <Layout props={props}>
       {props.project && props.project._id ? (
-        <>
-          <ProjectBio project={project} projCashID={props.cashAddress} />
-          <MDBContainer
-            style={{
-              borderTop: "1px solid #D8D4D4",
-              boxShadow: "inset 0 13px 6px -10px rgba(125, 115, 195, 0.2)",
-            }}
-            fluid
-          >
-            <TabNavigation
-              projectCreator={props.projectCreator}
-              project={props.project}
-              donations={donations}
-            />
-          </MDBContainer>
-        </>
+          <>
+              <ProjectBio project={project} projCashID={props.cashAddress} />
+              <div className="border-t-2 my-4">
+                  <div className=" max-w-screen-xl px-4 lg:px-0 mx-auto "          >
+                      <TabNavigation
+                          projectCreator={props.projectCreator}
+                          project={props.project}
+                          donations={donations}
+                      />
+                  </div>
+              </div>
+          </>
       ) : props.error ? (
-        <MDBContainer style={{ padding: "40px" }}>
-          <MDBRow center>
-            <MDBCard>
-              <MDBCardBody className="p-4 m-4 align-middle">
-                Error 404: Page not found.
-              </MDBCardBody>
-            </MDBCard>
-          </MDBRow>
-        </MDBContainer>
+          <div className=" max-w-screen-xl p-12 lg:p-46 mx-auto "  >
+              <div className="object-center ">
+                  <div className="group rounded-sm h-32 lg:h-96 overflow-hidden shadow-sm ">
+                      <div className="p-4 m-4 items-middle text-center ">
+                          Error 404: Page not found.
+                      </div>
+                  </div>
+              </div>
+          </div>
       ) : (
-        <MDBContainer style={{ padding: "40px" }}>
-          <MDBRow center>
-            <MDBCard>
-              <MDBCardBody className="p-4 m-4 align-middle">
-                <DotLoader size={70} color={"#7d73c3"} />
-              </MDBCardBody>
-            </MDBCard>
-          </MDBRow>
-        </MDBContainer>
+          <div className="max-w-screen-xl mx-auto items-center text-center p-40"  >
+          <div className="flex flex-wrap content-center h-48 ">
+            <div>
+                <div className="p-5 object-center">
+                    <DotLoader size={50} color={"#7d73c3"} />
+                </div>
+            </div>
+          </div>
+        </div>
       )}
     </Layout>
   );
