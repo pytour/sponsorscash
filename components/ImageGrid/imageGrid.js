@@ -22,12 +22,12 @@ const imageGrid = (props) => {
 
   return (
     <>
-        <div className="grid grid-cols-1  lg:grid-cols-2 gap-2">
-        <div className="rounded-2xl overflow-hidden shadow-sm w-full max-h-36rem cursor-pointer">
+        <div className="grid grid-cols-7 gap-2">
+        <div className="col-span-4 rounded-2xl overflow-hidden shadow-sm w-full h-full cursor-pointer">
             <Image
                 layout={'responsive'}
                 width={100}
-                height={100}
+                height={114}
 
                 src={
                     allImages[0]
@@ -43,18 +43,18 @@ const imageGrid = (props) => {
             />
         </div>
         {allImages.length > 1 ? (
-            <div>
-            <div className="grid grid-cols-2 gap-2 overflow-hidden  w-full max-h-36rem cursor-pointer">
+            <div className="col-span-3">
+            <div className="grid grid-cols-2 gap-x-2 gap-y-6 overflow-hidden  w-full h-full cursor-pointer">
                 {allImages.map((link, index) => {
                     if (index > 0)
                         return (
                             <div
-                                className="cols-span-1 rounded-2xl overflow-hidden shadow-sm cursor-pointer w-full max-h-36 "
+                                className="cols-span-1 rounded-2xl overflow-hidden shadow-sm cursor-pointer w-full h-full "
                             >
                                 <Image
                                     layout={'responsive'}
                                     width={100}
-                                    height={100}
+                                    height={148}
                                     src={
                                         props.images && props.images[index]
                                             ? link

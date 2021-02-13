@@ -2,8 +2,7 @@ import React, {useEffect, useState} from "react";
 import {withRedux} from "../../lib/redux";
 import Layout from "../../components/Layout/Layout";
 import ProjectBio from "../../components/ProjectBio/projectBio";
-import TabNavigation from "../../components/TabNavigation/tabNavigation";
-import {MDBCard, MDBCardBody, MDBContainer, MDBRow,} from "mdbreact";
+import TabNavigation from "../../components/TabNavigation/Tabs";
 import axios from "axios";
 import {useSelector} from "react-redux";
 import DotLoader from "react-spinners/DotLoader";
@@ -12,10 +11,8 @@ import getConfig from "next/config";
 const { publicRuntimeConfig } = getConfig();
 
 const project = (props) => {
-  // const router = useRouter();
+
   const [project, setProject] = useState({});
-  // const [projectCreator, setProjectCreator] = useState({});
-  // const [userWallet,setUserWallet] = useState({});
   const [donations, setDonations] = useState();
   // const [funded, setFunded] = useState(0);
 

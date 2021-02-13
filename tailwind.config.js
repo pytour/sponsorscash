@@ -16,7 +16,8 @@ module.exports = {
                 'outline-color': '#7d73c3',
                 'light':'#83D8D6',
                 'card':'#F7F7F7',
-                'dark':'#000000'
+                'dark':'#000000',
+                'block':'#9F9E9E'
 
 
             },
@@ -71,6 +72,9 @@ module.exports = {
             borderRadius: {
                 'custom': '40px',
                 'half':'50%',
+            },
+            borderColor: {
+               'outline-color':'#7d73c3',
             },
             inset: {
                 '1/20': '5%',
