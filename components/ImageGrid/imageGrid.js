@@ -49,7 +49,7 @@ const imageGrid = (props) => {
                     if (index > 0)
                         return (
                             <div
-                                className="cols-span-1 rounded-2xl overflow-hidden shadow-sm cursor-pointer w-full h-full "
+                                className="cols-span-1 rounded-2xl overflow-hidden shadow-sm cursor-pointer w-full h-full max-h-44 "
                             >
                                 <Image
                                     layout={'responsive'}
