@@ -1,23 +1,13 @@
-import React, { useState, useEffect } from "react";
-import { withRedux } from "../lib/redux";
+import React, {useEffect, useState} from "react";
+import {withRedux} from "../lib/redux";
 import Layout from "../components/Layout/Layout";
 import ProfileCard from "../components/PA-ProfileCard/profileCard";
 import WideCard from "../components/PA-WideCard/wideCard";
-import Showmore from "../components/UI/Showmore";
 import MyDonations from "../components/MyDonations/myDonations";
 
-import {
-  MDBBtn,
-  MDBCol,
-  MDBContainer,
-  MDBDropdown,
-  MDBDropdownItem,
-  MDBDropdownMenu,
-  MDBDropdownToggle,
-  MDBRow,
-} from "mdbreact";
+import {MDBCol, MDBContainer, MDBRow,} from "mdbreact";
 import Swal from "sweetalert2";
-import { useSelector, useDispatch } from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import Router from "next/router";
 import axios from "axios";
 import getConfig from "next/config";

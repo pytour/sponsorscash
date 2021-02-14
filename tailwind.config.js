@@ -72,16 +72,24 @@ module.exports = {
             borderRadius: {
                 'custom': '40px',
                 'half':'50%',
+                '10p':'10%',
+                '12p':'12%',
+                '15p':'15%',
+                '50px': '50px',
             },
             borderColor: {
                'outline-color':'#7d73c3',
             },
             inset: {
                 '1/20': '5%',
+                '4p':'4%',
+                '9p':'9%',
+                '10p':'10%',
                 '74':'74%',
                 '40':'40%',
                 '76':'76px',
                 '46':'46px',
+                'customCalc': 'calc(50% - 6rem)'
             },
             maxWidth:{
                 '10': '10rem',
