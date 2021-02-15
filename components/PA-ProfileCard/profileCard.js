@@ -99,16 +99,16 @@ const profileCard = (props) => {
   return (
       <>
           <div className="my-7 max-w-screen-xl mx-auto">
-                          <div className="container grid grid-cols-12 px-1 md:px-4 lg:px-4 ">
+                          <div className={"container grid grid-cols-12   "+(editMode? "px-4 md:px-4 lg:px-4": "px-4 md:px-4 lg:px-4")}>
                               <div className={"col-span-12 lg:col-span-2"}>
-                                  <div className={"relative top-8  xl:w-48 xl:h-48 h-40 w-40 overflow-hidden m-auto rounded-full border-8 border-outline-color shadow-md z-20 md:z-20  left-0  md:top-customCalc md:shadow-lg  "+(editMode ? 'lg:left-0':'lg:left-8') }>
+                                  <div className={"relative w-48 h-48  overflow-hidden m-auto rounded-full border-8 border-outline-color shadow-md z-20 md:z-20  left-0  md:top-customCalc md:shadow-lg justify-items-center "+(editMode ? 'lg:left-0':'   xl:mt-1 lg:left-0') }>
                                       {isImageSet && (
                                           <AvatarEditor
                                               ref={setEditor}
                                               image={userData.imageInput}
                                               onImageReady={setImageToState}
                                               onImageChange={setImageToState}
-                                              className={styles.avatarEditor}
+                                              className="cursor-grab relative w-44 h-44 overflow-hidden m-auto rounded-full shadow-sm z-20"
                                               borderRadius={50}
                                               scale={1}
                                               rotate={0}
@@ -144,7 +144,7 @@ const profileCard = (props) => {
                                       )}
                                   </div>
                               </div>
-                              <div className={" lg:mx-0 mx-0 -my-6 lg:my-0 col-span-12 lg:col-span-10 text-center py-2 shadow-md border relative rounded-50px  w-full"+(editMode ? "xl:mx-0": "xl:-mx-4")}>
+                              <div className={" -my-6 lg:my-2 col-span-12 lg:col-span-10 text-center py-4 shadow-md border relative rounded-50px  w-full"+(editMode ? 'lg:-ml-12 xl:-ml-12 ml-0': '-ml-12  lg:-ml-12 xl:-ml-12 ')}>
                                  <div className="flex flex-row  pt-12  lg:py-2">
                                      {props.showEditButton && (
                                       <button
@@ -171,7 +171,9 @@ const profileCard = (props) => {
                                       </button>
                                   )}
                                  </div>
-                                  <div className="grid grid-cols-12 pt-2">
+                                  <div className={"grid grid-cols-12 pt-2 "+(editMode? "px-0": "px-4")}>
+                                      <div className="lg:col-span-1  ">
+                                      </div>
                                       <div className="col-span-12 lg:col-span-4  ">
                                           {editMode ? (
                                               <input
@@ -182,10 +184,10 @@ const profileCard = (props) => {
                                                   className="mt-12 text-placeholder mb-0 placeholder:text-placeholder placeholder:text-opacity-100 text-center rounded-xs border-1 border-outline-color focus:outline-none  "
                                               />
                                           ) : (
-                                              <h3 className="text-outline-color pt-6 lg:pt-0 text-3xl ">{userData.name}</h3>
+                                              <h3 className="text-outline-color pt-6 lg:pt-0 text-3xl overflow-hidden ">{userData.name}</h3>
                                           )}
-                                          <p className="text-placeholder pt-2 pb-1">{userData.username}</p>
-                                          <p className="text-percentage text-sm ">
+                                          <p className="text-placeholder pt-2 pb-1 overflow-hidden ">{userData.username}</p>
+                                          <p className="text-percentage text-sm overflow-hidden ">
                                               member since:{" "}
                                               {userData.memberSince
                                                   ? userData.memberSince.split("T")[0]
@@ -200,9 +202,9 @@ const profileCard = (props) => {
                                                   placeholder={userData.websiteURL}
                                               />
                                           ) : (
-                                              <p className="">
+                                              <p className="overflow-hidden mx-2">
                                                   <a
-                                                      className= "text-branding-text-color mb-1 text-5 underline hover:text-branding-text-color hover:underline"
+                                                      className= "  text-branding-text-color mb-1 text-5 underline hover:text-branding-text-color hover:underline"
                                                       href={userData.websiteURL}
                                                   >
                                                       {userData.websiteURL}
@@ -210,20 +212,20 @@ const profileCard = (props) => {
                                               </p>
                                           )}
                                       </div>
-                                      <div className="col-span-12  lg:col-span-8 text-center mx-4 lg:mx-0 lg:mr-8 mr-0">
+                                      <div className={"col-span-12  lg:col-span-7 text-center mx-4 lg:mx-0 lg:mr-8 mr-0"+(editMode? "px-0": "px-4")}>
                                           {editMode ? (
                                               <textarea
                                                   onChange={updateValue}
                                                   name="bio"
                                                   placeholder="Write your bio"
-                                                  className="px-4 mr-8  mt-8 py-4 text-branding-color font-normal w-full h-48 border-1 border-outline-color rounded-10p mx-auto outline-none "
+                                                  className="overflow-hidden   mr-8  mt-8 py-4 text-branding-color font-normal w-full h-48 border-1 border-outline-color rounded-10p mx-auto outline-none "
                                               ></textarea>
                                           ) : (
-                                              <p className="text-branding-color font-normal text-center pt-2">
+                                              <p className="px-2 text-branding-color font-normal text-center pt-2">
                                                   {userData.bio}
                                               </p>
                                           )}
-                                          <div  className={"flex lg:justify-center  py-4 "+(editMode ? 'flex-col': 'flex-row')}>
+                                          <div  className={"flex justify-center  py-4 "+(editMode ? 'flex-col': 'flex-row')}>
                                               {editMode ? (
                                                   <input
                                                       type="text"
