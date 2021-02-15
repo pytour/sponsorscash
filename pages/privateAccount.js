@@ -4,8 +4,6 @@ import Layout from "../components/Layout/Layout";
 import ProfileCard from "../components/PA-ProfileCard/profileCard";
 import WideCard from "../components/PA-WideCard/wideCard";
 import MyDonations from "../components/MyDonations/myDonations";
-
-import {MDBCol, MDBContainer, MDBRow,} from "mdbreact";
 import Swal from "sweetalert2";
 import {useDispatch, useSelector} from "react-redux";
 import Router from "next/router";
@@ -77,63 +75,30 @@ const privateAccount = () => {
   return (
     <Layout isPrivatePage={true}>
       <ProfileCard userData={userData} showEditButton={true} />
-      <MDBContainer>
-        <MDBRow>
-          <MDBCol size="12">
-            <div className="d-flex justify-content-between align-items-baseline hp-wrapper">
-              <h2 className="d-inline-blo-ck hp-headText">My Projects</h2>
+      <div className="my-4 max-w-screen-xl mx-auto">
+          <div className="flex  container justify-between items-baseline px-4 lg:px-0">
+              <p className="inline-block lg:text-3xl text-branding-color py-4 text-xl ">My Projects</p>
               <a
-                className="newProjectButton"
-                type="button"
-                onClick={() => {
-                  Router.push("/newProject");
-                }}
+                  className="bg-white border-branding-text-color border-1 px-4 py-1 rounded-full pr-2 transform hover:scale-110"
+                  type="button"
+                  onClick={() => {
+                      Router.push("/newProject");
+                  }}
               >
-                New Campaign
+                  New Campaign
               </a>
-            </div>
-          </MDBCol>
-        </MDBRow>
-        <MDBRow>
-          <MDBCol size="12">
+          </div>
+
+
+          <div className="container px-4 lg:px-0 ">
             {projects ? renderProjects() : <p>Loading projects...</p>}
-          </MDBCol>
-        </MDBRow>
-      </MDBContainer>
+          </div>
+
+      </div>
+        <div className="container ">
       <MyDonations userData={userData} />
-      {/* <Showmore /> */}
-      <style jsx>{`
-        .hp-wrapper {
-          padding: 1rem;
-        }
-        .hp-headText {
-          color: #737dc3;
-          font-weight: 400;
-          font-size: 2.3rem;
-        }
+        </div>
 
-        .hptoggle {
-          border: 1px solid #7d73c3;
-          border-radius: 30px;
-          color: #7d73c3;
-          font-size: 1.3rem;
-          width: 12rem;
-        }
-
-        .newProjectButton {
-          color: rgb(125, 115, 195) !important;
-          font-size: 1em;
-          font-weight: 400;
-          border: 1px solid #ffca79;
-          border-radius: 20px;
-          padding: 5px 20px 5px 20px;
-        }
-
-        .newProjectButton:hover {
-          transform: scale(1.02);
-          color: rgb(85, 77, 134) !important;
-        }
-      `}</style>
     </Layout>
   );
 };

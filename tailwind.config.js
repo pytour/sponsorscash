@@ -76,6 +76,7 @@ module.exports = {
                 '12p':'12%',
                 '15p':'15%',
                 '50px': '50px',
+                '20px':'20px',
             },
             borderColor: {
                'outline-color':'#7d73c3',

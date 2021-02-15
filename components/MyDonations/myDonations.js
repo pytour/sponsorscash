@@ -32,12 +32,12 @@ const myDonations = (props) => {
   return (
       <>
 
-          <div className="max-w-screen-xl mx-auto  px-8  lg:px-8 xl:px-0 mb-16">
+          <div className="max-w-screen-xl mx-auto  px-2  lg:px-8 xl:px-0 mb-16">
                       <div className="flex justify-between">
-                          <p className="block text-3xl text-branding-color py-4 ">My Donations</p>
+                          <p className="block lg:text-3xl text-branding-color py-4 text-xl">My Donations</p>
                       </div>
 
-              <div className="lg:container  grid gird-cols md:grid-cols-2  lg:grid-cols-3 xl:grid-cols-3 gap-x-8 gap-y-4  ">
+              <div className="lg:container  grid gird-cols md:grid-cols-2  lg:grid-cols-3 xl:grid-cols-3 gap-x-2 lg:gap-x-8 gap-y-4  ">
                   {donations[0] ? (
                       donations.map((donation, index) => {
                           const handleProjectDetailsRoute = () => {
@@ -72,22 +72,6 @@ const myDonations = (props) => {
                       <p>No data</p>
                   )}
               </div>
-              <style jsx>{`
-              .hp-wrapper{
-              padding:1rem;
-              }
-
-              .hp-headText{
-                color:#737dc3;
-                font-weight:400;
-                font-size:2.3rem;
-              }
-
-              .hpTransformOnHover:hover{
-                transform: scale(1.05);
-              }
-            }
-            `}</style>
           </div>
 
     {/*<MDBContainer>*/}
