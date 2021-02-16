@@ -204,6 +204,55 @@ exports.getSingleProject = async (req, res, next) => {
   }
 };
 
+/**
+ * Update project data: short and full description ; ending date ; ...
+ * 
+ * Body: { id , values, images, endTime }
+ */
+exports.editProject = async (req, res, next) => {
+  let data = req.body;
+  let userImages = data.images;
+  let projectId = data.id;
+  let userId = req.decodedTokenData.userId;
+  let staticPath = "";
+  let dbImages = [];
+
+  if (userImages) {
+    for (let [key, value] of Object.entries(userImages)) {
+      value = value.replace(/^data:image\/(jpeg|png);base64,/, "");
+      staticPath = `projImg_${userId}_${projectId}_${key}.png`;
+      let imagePath = path.normalize(
+        __dirname + `/../../public/ProjectImages/${staticPath}`
+      );
+      dbImages.push(staticPath);
+      console.log("image path:", imagePath);
+      console.log("image value:", value);
+      fs.writeFileSync(imagePath, value, "base64");
+    }
+  }
+
+  try {
+    await Project.updateOne(
+      { _id: projectId },
+      {
+        description: data.values.description,
+        details: data.values.detail,
+        images: dbImages,
+        endTime: data.endTime,
+      }
+    );
+    res.send({
+      status: 200,
+      msg: "Successfully updated, projectId:" + projectId,
+    });
+  } catch (error) {
+    return res.send({
+      status: 404,
+      msg: error.message,
+    });
+  }
+};
+
 exports.getProjectCashAddress = (req, res, next) => {
   let { id } = req.params;
   // get cash address in wallet

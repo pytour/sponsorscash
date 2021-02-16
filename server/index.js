@@ -15,7 +15,7 @@ const projectRoutes = require("./Routes/project");
 const mediaRoute = require("./Routes/media");
 require("dotenv").config();
 
-const connectionString = `mongodb+srv://fundmecash:${process.env.MONGO_ATLAS_PW}@cluster0.jobe7.mongodb.net/fundme?retryWrites=true&w=majority`;
+const connectionString = process.env.MONGO_CONNECTION_STRING;
 
 // const connectionString = `mongodb+srv://dev:${process.env.MONGO_ATLAS_PW}@cluster0-xxhpq.mongodb.net/sponsorcash?retryWrites=true&w=majority`;
 // const connectionString= mongodb+srv://fundmecash:<password>@cluster0.jobe7.mongodb.net/<dbname>?retryWrites=true&w=majority
