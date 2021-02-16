@@ -206,7 +206,7 @@ exports.getSingleProject = async (req, res, next) => {
 
 /**
  * Update project data: short and full description ; ending date ; ...
- * 
+ *
  * Body: { id , values, images, endTime }
  */
 exports.editProject = async (req, res, next) => {
@@ -231,6 +231,31 @@ exports.editProject = async (req, res, next) => {
     }
   }
 
+  // Check if user owner of this project
+  let isOwner;
+  try {
+    const user = await User.findOne({
+      _id: req.decodedTokenData.userId,
+    }).exec();
+    for (const id of user.projects) {
+      if (id === projectId) {
+        isOwner = true
+      }
+    }
+  } catch (error) {
+    return res.send({
+      status: 404,
+      msg: error.message,
+    });
+  }
+
+  if (!isOwner) {
+    return res.send({
+      status: 404,
+      msg: "User is not owner of project: " + projectId,
+    });
+  }
+  
   try {
     await Project.updateOne(
       { _id: projectId },
@@ -241,7 +266,7 @@ exports.editProject = async (req, res, next) => {
         endTime: data.endTime,
       }
     );
-    res.send({
+    return res.send({
       status: 200,
       msg: "Successfully updated, projectId:" + projectId,
     });
