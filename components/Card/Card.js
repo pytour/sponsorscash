@@ -1,7 +1,6 @@
 import React, {useState} from "react";
 import Router from "next/router";
 import Image from "next/image";
-import Link from "next/dist/client/link";
 
 const myLoader = ({src, width, quality}) => {
     return `https://example.com/${src}?w=${width}&q=${quality || 75}`

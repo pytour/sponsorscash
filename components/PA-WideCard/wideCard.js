@@ -6,7 +6,6 @@ import getConfig from "next/config";
 import {useSelector} from "react-redux";
 import * as Swal from "sweetalert2";
 import Image from "next/image";
-import Link from "next/link";
 
 const { publicRuntimeConfig } = getConfig();
 
@@ -62,6 +61,7 @@ const wideCard = (props) => {
     }
   };
   let endTime = props.fundingEnds ? props.fundingEnds.split(".")[0] : "";
+
   const handleProjectDetailsRoute = () => {
     const project_id = props.projectID;
     Router.push(`/project/[id]`, `/project/${project_id}`, {
@@ -146,10 +146,15 @@ const wideCard = (props) => {
       })
       .catch((err) => console.log(err));
   };
-  function editProject() {
+  const  editProject=()=>{
 
-      return Route.push(    publicRuntimeConfig.APP_URL + "/project/cancelProject",)
+      const project_id = props.projectID;
+      Router.push(`/editcampaign/[id]`, `/editcampaign/${project_id}`, {
+          shallow: true,
+      });
+
   }
+
   return (
       <>
           <div className="shadow-md rounded-20px pt-4 pb-4 lg:px-6 gird grid-cols mb-4 border-1">
@@ -234,9 +239,10 @@ const wideCard = (props) => {
                                       className="ml-1 lg:ml-0 mr-1 lg:mr-0 lg:mx-8 w-32 sm:w-auto  justify-center
                                          border-1 border-branding-text-color hover:text-white text-branding-color rounded-full py-.5 px-4 hover:bg-branding-text-color uppercase"
                                       title="Close this project"
+                                      onClick={cancelProject}
                                   >
                                       {/* <img style={{width:'2rem'}} src={props.lastBtn} alt="cancel"/> */}
-                                      <a  onClick={cancelProject}>
+                                      <a  >
                                           CANCEL
                                       </a>
                                   </button>
@@ -246,13 +252,12 @@ const wideCard = (props) => {
                                       className="mr-1 mt-2 lg:mt-0 lg:mr-0 ml-1 lg:ml-0 lg:mt-3 lg:mx-8 w-32 sm:w-auto  justify-center
                                          border-1 border-branding-text-color hover:text-white text-branding-color rounded-full py-.5 px-4 hover:bg-branding-text-color uppercase"
                                       title="Close this project"
+                                      onClick={editProject}
                                   >
                                       {/* <img style={{width:'2rem'}} src={props.lastBtn} alt="cancel"/> */}
-                                    <Link href={"#"}>
-                                        <a  onClick={editProject}>
+                                        <a  >
                                           EDIT
                                       </a>
-                                    </Link>
                                   </button>
                                   </div>
                               </div>
