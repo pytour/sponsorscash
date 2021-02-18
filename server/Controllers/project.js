@@ -208,13 +208,15 @@ exports.getSingleProject = async (req, res, next) => {
  * **Update project data:** short and full description ; ending date ; ...
  *
  * Body: `{ id , values, images, endTime }`
- * 
+ *
  * where images: `{ changed: { key:value , ...}, allImagesNames: [imageName1, ...] }`
  *
  * imageName (String) exmaple: projImg_5e6a3e651673aa0017740711_5f842ef68f0968378077904e_image1.png
  */
 exports.editProject = async (req, res, next) => {
+
   let data = req.body;
+    console.log(data,"..",req);
   let images = data.images;
   let projectId = data.id;
   let userId = req.decodedTokenData.userId;
@@ -223,14 +225,15 @@ exports.editProject = async (req, res, next) => {
 
   if (images && images.changed) {
     // Check images that changed
+
     for (let [key, value] of Object.entries(images.changed)) {
       value = value.replace(/^data:image\/(jpeg|png);base64,/, "");
       staticPath = `projImg_${userId}_${projectId}_${key}.png`;
       let imagePath = path.normalize(
         __dirname + `/../../public/ProjectImages/${staticPath}`
       );
-      console.log("image path:", imagePath);
-      console.log("image value:", value);
+      // console.log("image path:", imagePath);
+      // console.log("image value:", value);
       fs.writeFileSync(imagePath, value, "base64");
     }
   }
@@ -244,6 +247,8 @@ exports.editProject = async (req, res, next) => {
     for (const id of user.projects) {
       if (id === mongoose.Types.ObjectId(projectId)) {
         isOwner = true;
+
+
       }
     }
   } catch (error) {
