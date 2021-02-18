@@ -260,7 +260,6 @@ exports.editProject = async (req, res, next) => {
   }
 
   try {
-    console.log(dbImages);
     await Project.updateOne(
       { _id: projectId },
       {

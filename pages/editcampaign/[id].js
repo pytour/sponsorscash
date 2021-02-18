@@ -235,34 +235,7 @@ const project = (props) => {
 
         }
     }
-
-    // Set initial data: project && donations
-    // useEffect(() => {
-    //
-    //     let projectId = props.project._id;
-    //
-    //     if (projectId) {
-    //         setProject(props.project);
-    //         axios
-    //             .post(publicRuntimeConfig.APP_URL + "/donations/getProjectDonations", {
-    //                 projectId: projectId,
-    //             })
-    //             .then((res) => {
-    //                 if (res.data.status === 200) {
-    //                     // console.log("sponsorPanel/last donors:: donations: ", res.data);
-    //                     let sortedDonations = res.data.donations.sort(
-    //                         (a, b) => b.donatedBCH - a.donatedBCH
-    //                     );
-    //                     setDonations(sortedDonations);
-    //                 }
-    //             })
-    //             .catch((err) => console.log(err));
-    //     }
-    // }, [props.project]);
-
-    // console.log( "new props of image",propsImage)
-
-
+    
     return (
         <Layout>
             <div className="container max-w-screen-xl my-4 ">
