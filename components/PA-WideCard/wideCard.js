@@ -127,24 +127,61 @@ const wideCard = (props) => {
     });
   };
   const cancelProject = () => {
-    axios
-      .post(
-        publicRuntimeConfig.APP_URL + "/project/cancelProject",
-        {
-          projectId: props.projectID,
-        },
-        { headers: { Authorization: "Bearer " + token } }
-      )
-      .then((res) => {
-        if (res.data.status === 200) {
-          setTransactionCleared(true);
-          dispatch({ type: "CANCEL_PROJECT", payload: props.projectID });
-          Swal.fire("Done", res.data.message, "success");
-        } else {
-          Swal.fire("Whoops", res.data.message, "error");
-        }
+      const swalWithBootstrapButtons = Swal.mixin({
+          customClass: {
+              confirmButton: 'btn btn-success',
+              cancelButton: 'btn btn-danger'
+          },
+          buttonsStyling: false
       })
-      .catch((err) => console.log(err));
+
+      swalWithBootstrapButtons.fire({
+          title: 'Are you sure?',
+          text: "You won't be able to revert this!",
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonText: 'Yes, delete it!',
+          cancelButtonText: 'No, cancel!',
+          reverseButtons: true
+      }).then((result) => {
+          if (result.isConfirmed) {
+              axios
+                  .post(
+                      publicRuntimeConfig.APP_URL + "/project/cancelProject",
+                      {
+                          projectId: props.projectID,
+                      },
+                      { headers: { Authorization: "Bearer " + token } }
+                  )
+                  .then((res) => {
+                      if (res.data.status === 200) {
+                          setTransactionCleared(true);
+                          dispatch({ type: "CANCEL_PROJECT", payload: props.projectID });
+                          swalWithBootstrapButtons.fire(
+                              'Deleted!',
+                              'Your project has been deleted.',
+                              'success'
+                          )
+                      } else {
+                          Swal.fire("Whoops", res.data.message, "error");
+                      }
+                  })
+                  .catch((err) => console.log(err));
+
+
+          } else if (
+              /* Read more about handling dismissals below */
+              result.dismiss === Swal.DismissReason.cancel
+          ) {
+              swalWithBootstrapButtons.fire(
+                  'Cancelled',
+                  'Your project is safe :)',
+                  'error'
+              )
+          }
+      })
+
+
   };
   const  editProject=()=>{
 

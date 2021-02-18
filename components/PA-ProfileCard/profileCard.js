@@ -219,7 +219,7 @@ const profileCard = (props) => {
                                                   name="bio"
                                                   placeholder="Write your bio"
                                                   className="overflow-hidden   mr-8  mt-8 py-4 text-branding-color font-normal w-full h-48 border-1 border-outline-color rounded-10p mx-auto outline-none "
-                                              ></textarea>
+                                              />
                                           ) : (
                                               <p className="px-2 text-branding-color font-normal text-center pt-2">
                                                   {userData.bio}

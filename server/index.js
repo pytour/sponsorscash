@@ -16,7 +16,8 @@ const mediaRoute = require("./Routes/media");
 require("dotenv").config();
 
 const connectionString = process.env.MONGO_CONNECTION_STRING;
-// const connectionString = `mongodb+srv://fundmecash:${process.env.MONGO_ATLAS_PW}@cluster0.jobe7.mongodb.net/fundme?retryWrites=true&w=majority`;
+//  const connectionString = `mongodb+srv://fundmecash:fundme123@cluster0.jobe7.mongodb.net/fundme?retryWrites=true&w=majority`
+// env.MONGO_ATLAS_PW}@cluster0.jobe7.mongodb.net/fundme?retryWrites=true&w=majority`;
 mongoose.connect(connectionString, { useNewUrlParser: true, useUnifiedTopology: true }, function (error) {
   console.log(
     "open done" + mongoose.connection.host + "\t" + mongoose.connection.port
