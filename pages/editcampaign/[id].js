@@ -151,7 +151,8 @@ const project = (props) => {
         let imagePropUpdate= propsImage.length && propsImage.find(element => element === imageName);
 
         if(!imagePropUpdate || imagePropUpdate===0 ) {
-                  oldProps.push(imageName);
+            // Do not add new images only edit existed
+            //      oldProps.push(imageName);
             setPropsImage(oldProps);
         }
 
@@ -396,6 +397,7 @@ const project = (props) => {
                                     <div className="mb-3 w-full">
                                         <p className="mb-3">Campaign Title:</p>
                                         <input
+                                            disabled
                                             type="text"
                                             name="title"
                                             id="title"
@@ -439,6 +441,7 @@ const project = (props) => {
 
 
                                 <select
+                                    disabled
                                     className="mb-3 w-full  h-10 pl-3 py-1 text-outline-color placeholder-placeholder
                                    rounded-2xl border-outline-color outline-outline-color ring-border-color focus:ring-2 focus:ring-purple-300
                                    focus:border-purple-300  focus:outline-none

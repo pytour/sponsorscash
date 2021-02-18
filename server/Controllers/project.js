@@ -214,29 +214,12 @@ exports.getSingleProject = async (req, res, next) => {
  * imageName (String) exmaple: projImg_5e6a3e651673aa0017740711_5f842ef68f0968378077904e_image1.png
  */
 exports.editProject = async (req, res, next) => {
-
   let data = req.body;
-    console.log(data,"..",req);
   let images = data.images;
   let projectId = data.id;
   let userId = req.decodedTokenData.userId;
   let staticPath = "";
-  let dbImages = images.allImagesNames
-
-  if (images && images.changed) {
-    // Check images that changed
-
-    for (let [key, value] of Object.entries(images.changed)) {
-      value = value.replace(/^data:image\/(jpeg|png);base64,/, "");
-      staticPath = `projImg_${userId}_${projectId}_${key}.png`;
-      let imagePath = path.normalize(
-        __dirname + `/../../public/ProjectImages/${staticPath}`
-      );
-      // console.log("image path:", imagePath);
-      // console.log("image value:", value);
-      fs.writeFileSync(imagePath, value, "base64");
-    }
-  }
+  let dbImages = images.allImagesNames;
 
   // Check if user owner of this project
   let isOwner;
@@ -244,11 +227,10 @@ exports.editProject = async (req, res, next) => {
     const user = await User.findOne({
       _id: req.decodedTokenData.userId,
     }).exec();
+    console.log(`[x] editProject ${projectId} for user ${user.username}`);
     for (const id of user.projects) {
-      if (id === mongoose.Types.ObjectId(projectId)) {
+      if (id.toString() === projectId) {
         isOwner = true;
-
-
       }
     }
   } catch (error) {
@@ -265,7 +247,20 @@ exports.editProject = async (req, res, next) => {
     });
   }
 
+  if (images && images.changed) {
+    // Update images that changed
+    for (let [key, value] of Object.entries(images.changed)) {
+      value = value.replace(/^data:image\/(jpeg|png);base64,/, "");
+      staticPath = `projImg_${userId}_${projectId}_${key}.png`;
+      let imagePath = path.normalize(
+        __dirname + `/../../public/ProjectImages/${staticPath}`
+      );
+      fs.writeFileSync(imagePath, value, "base64");
+    }
+  }
+
   try {
+    console.log(dbImages);
     await Project.updateOne(
       { _id: projectId },
       {
