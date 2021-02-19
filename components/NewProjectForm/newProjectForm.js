@@ -148,7 +148,7 @@ const newProjectForm = () => {
     };
 
     return (
-            <div className="container max-w-screen-xl my-4 ">
+            <div className="container max-w-screen-xl my-4 mx-auto">
                 <div className="grid grid-cols-12 gap-8">
                     <div className=" col-span-12 lg:col-span-5 ">
                         <h6 className="mb-2 font-bold">Choose Project Images (Optional)</h6>

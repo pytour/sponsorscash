@@ -37,7 +37,7 @@ const Home = () => {
     <div >
       <Layout >
         <HeroContainer/>
-            <div className="container max-w-screen-xl px-4 md:px-.5 lg:px-.5 xl:px.5 mb-8 ">
+            <div className="container max-w-screen-xl px-4 md:px-.5 lg:px-.5 xl:px.5 mb-8 mx-auto ">
                 <h2 className="block md:text-3xl text-2xl text-branding-color p-2 mt-8 mb-4">
                     Completed Campaigns
                 </h2>
@@ -79,106 +79,6 @@ const Home = () => {
               )}
           </div>
             </div>
-        {/*<MDBContainer>*/}
-          {/*<MDBRow>*/}
-            {/*<MDBCol size="12">*/}
-              {/*<div className="d-flex justify-content-between align-items-baseline hp-wrapper">*/}
-                {/*{popularProjects[0] ? (*/}
-                  {/*<h2 className="d-inline-block hp-headText">*/}
-                    {/*Popular Campaigns*/}
-                  {/*</h2>*/}
-                {/*) : (*/}
-                  {/*<></>*/}
-                {/*)}*/}
-                {/*<div>*/}
-                {/*</div>*/}
-              {/*</div>*/}
-            {/*</MDBCol>*/}
-          {/*</MDBRow>*/}
-          {/*<MDBRow>*/}
-            {/*{popularProjects[0] ? (*/}
-              {/*popularProjects.map((project) => {*/}
-                {/*let cardImage = project.images[0]*/}
-                  {/*? publicRuntimeConfig.APP_URL +*/}
-                    {/*"/media/project/" +*/}
-                    {/*project.images[0]*/}
-                  {/*: publicRuntimeConfig.APP_URL + "/media/project/default.jpg";*/}
-                {/*let linkSlug = `/project/${project._id}`;*/}
-
-                {/*return (*/}
-                  {/*<MDBCol*/}
-                    {/*key={project._id}*/}
-                    {/*className="col-12 col-md-6 col-lg-4 mb-4"*/}
-                  {/*>*/}
-                    {/*<div className="hpTransformOnHover">*/}
-                      {/*<Card*/}
-                          {/*key={project._id}*/}
-                        {/*tag={project.category}*/}
-                        {/*description={project.description}*/}
-                        {/*title={project.title}*/}
-                        {/*funded={project.funded}*/}
-                        {/*goal={project.goal}*/}
-                        {/*imageSrc={cardImage}*/}
-                        {/*linkSlug={linkSlug}*/}
-                        {/*approved={project.approved}*/}
-                      {/*/>*/}
-                    {/*</div>*/}
-                  {/*</MDBCol>*/}
-                {/*);*/}
-              {/*})*/}
-            {/*) : (*/}
-              {/*<></>*/}
-            {/*)}*/}
-          {/*</MDBRow>*/}
-          {/*<MDBRow>*/}
-            {/*<MDBCol size="12">*/}
-              {/*<div className="d-flex justify-content-between align-items-baseline hp-wrapper">*/}
-                {/*<h2 className="d-inline-block hp-headText">*/}
-                  {/*Completed Campaigns*/}
-                {/*</h2>*/}
-                {/*<div>*/}
-                {/*</div>*/}
-              {/*</div>*/}
-            {/*</MDBCol>*/}
-          {/*</MDBRow>*/}
-          {/*<MDBRow>*/}
-            {/*{completedProjects[0] ? (*/}
-              {/*completedProjects.map((project) => {*/}
-                {/*let cardImage = project.images[0]*/}
-                  {/*? publicRuntimeConfig.APP_URL +*/}
-                    {/*"/media/project/" +*/}
-                    {/*project.images[0]*/}
-                  {/*: publicRuntimeConfig.APP_URL + "/media/project/default.jpg";*/}
-                {/*let linkSlug = `/project/${project._id}`;*/}
-
-                {/*if (project.funded >= 0.01)*/}
-                  {/*return (*/}
-                    {/*<MDBCol*/}
-                      {/*key={project._id}*/}
-                      {/*className="col-12 col-md-6 col-lg-4 mb-4"*/}
-                    {/*>*/}
-                      {/*<div className="hpTransformOnHover">*/}
-                        {/*<Card*/}
-                          {/*key={project._id}*/}
-                          {/*tag={project.category}*/}
-                          {/*description={project.description}*/}
-                          {/*title={project.title}*/}
-                          {/*funded={project.funded}*/}
-                          {/*goal={project.goal}*/}
-                          {/*imageSrc={cardImage}*/}
-                          {/*linkSlug={linkSlug}*/}
-                        {/*/>*/}
-                      {/*</div>*/}
-                    {/*</MDBCol>*/}
-                  {/*);*/}
-              {/*})*/}
-            {/*) : (*/}
-              {/*<MDBCol style={{ padding: "20px", align: "center" }}>*/}
-                {/*<DotLoader size={50} color={"#7d73c3"} />*/}
-              {/*</MDBCol>*/}
-            {/*)}*/}
-          {/*</MDBRow>*/}
-        {/*</MDBContainer>*/}
       </Layout>
     </div>
   );

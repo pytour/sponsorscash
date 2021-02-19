@@ -235,10 +235,10 @@ const project = (props) => {
 
         }
     }
-    
+
     return (
         <Layout>
-            <div className="container max-w-screen-xl my-4 ">
+            <div className="container max-w-screen-xl my-4 mx-auto ">
                 <div className="grid grid-cols-12 gap-8">
                     <div className=" col-span-12 lg:col-span-5 ">
                         <h6 className="mb-2 font-bold">Choose Project Images (Optional)</h6>
@@ -287,7 +287,7 @@ const project = (props) => {
                                 { getImageSrc('image2') ?
                                     <img
                                         src={getImageSrc('image2')}
-                                         className="w-full h-full -mt-20"/>
+                                         className="w-full h-full -mt-16"/>
                                  : (
                                     ""
                                 )}

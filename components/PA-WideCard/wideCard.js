@@ -129,8 +129,8 @@ const wideCard = (props) => {
   const cancelProject = () => {
       const swalWithBootstrapButtons = Swal.mixin({
           customClass: {
-              confirmButton: 'btn btn-success',
-              cancelButton: 'btn btn-danger'
+              confirmButton: 'w-40 mx-2 h-auto bg-green-400 p-4 ',
+              cancelButton: 'w-40  mx-2 h-auto bg-red-400 p-4 '
           },
           buttonsStyling: false
       })
@@ -218,7 +218,7 @@ const wideCard = (props) => {
                                           {props.title}
                                       </p>
                                       <p
-                                          className="pt-.5 w-70 max-w-40 truncate mx-auto lg:my-0 lg:mx-0 text-white text-sm p-1  bg-branding-text-color rounded-20px text-center lg:text-left "
+                                          className="px-1  block w-40 truncate  lg:my-0 lg:mx-0 text-white text-sm p-1  bg-branding-text-color rounded-20px text-center  "
                                       >
                                           {props.category}
                                       </p>

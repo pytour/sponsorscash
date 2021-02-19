@@ -94,7 +94,7 @@ const feedbackPanel = (props) => {
                                      outline-outline-color ring-border-color focus:ring-2 focus:ring-purple-200
                                    focus:border-purple-200  focus:outline-none
                                     border-1 focus:border-0  bg-white mb-2 "
-            ></textarea>
+            />
           </div>
             <button type="submit" className="md:w-auto w-half float-right   inline-flex justify-center text-base  text-white border-1 border-branding-text-color text-xl rounded-full py-1 px-16 bg-branding-text-color shadow-md hover:shadow-lg uppercase">
                 Send

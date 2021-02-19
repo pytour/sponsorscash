@@ -95,7 +95,7 @@ const privateAccount = () => {
           </div>
 
       </div>
-        <div className="container ">
+        <div className="my-4 max-w-screen-xl mx-auto ">
       <MyDonations userData={userData} />
         </div>
 

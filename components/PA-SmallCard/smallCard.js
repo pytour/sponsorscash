@@ -6,7 +6,7 @@ const { publicRuntimeConfig } = getConfig();
 
 const smallCard = (props) => {
   return (
-          <div className="shadow rounded-3xl py-4 container">
+          <div className="shadow rounded-3xl py-4 px-4">
               <div className="grid grid-cols-11 items-center gap-2">
                   <div className="col-span-3">
                       <div className="h-16 w-16 relative overflow-hidden rounded-xl mr-6 ">
@@ -32,7 +32,7 @@ const smallCard = (props) => {
                                       education
                                   </div>
                               ) : (
-                                 <p></p>
+                                 <p/>
                               )}
                               <p className="font-bold  py-.5 ">{props.value + ' BCH'}</p>
                           </div>

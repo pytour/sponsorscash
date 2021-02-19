@@ -1,15 +1,11 @@
-import React, {useState} from 'react'
-import {MDBAlert, MDBContainer, MDBRow} from "mdbreact";
-import styles from './forgotPasswordForm.module.css'
-import Link from "next/link";
+import React from 'react'
 import getConfig from 'next/config'
-
-const {publicRuntimeConfig} = getConfig();
 import axios from 'axios';
-import Router from 'next/router';
 import * as Swal from 'sweetalert2';
 import {useFormik} from "formik";
 import Warning from "../../utils/warning";
+
+const {publicRuntimeConfig} = getConfig();
 
 /**
  *  Validation Funciton

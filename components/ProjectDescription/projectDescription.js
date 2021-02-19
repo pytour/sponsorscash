@@ -1,5 +1,4 @@
 import React, {useEffect, useRef, useState} from "react";
-import styles from "./projectDescription.module.css";
 import axios from "axios";
 import * as Swal from "sweetalert2";
 import {useSelector} from "react-redux";
@@ -250,7 +249,7 @@ const projectDescription = (props) => {
             </div>
             <div className="py-2 flex justify-between">
 
-                <div className=" text-md py-1.5 px-2 bg-light  rounded-xl text-progress-bar text-center block">
+                <div className=" text-md py-1.5 px-2 bg-shadow-card bg-opacity-25 rounded-xl text-progress-bar text-center block">
                     {props.category}
                 </div>
             </div>
@@ -258,7 +257,7 @@ const projectDescription = (props) => {
 
 
             <div className="grid lg:grid-cols-5 gap-y-4 gap-x-8 mb-3 pt-3 pb-1">
-                <div className="lg:col-span-2  text-center bg-light px-4 py-2 rounded-2xl">
+                <div className="lg:col-span-2  text-center bg-card bg-opacity-50 px-4 py-2 rounded-2xl">
                     {props.endTime && isNotCompleted ? (
                         <Countdown date={endTime} renderer={countdownTimer}/>
                     ) : (
@@ -383,7 +382,7 @@ const projectDescription = (props) => {
                             </div>
                         </div>
                     </div>
-                    <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
+                    <div className="opacity-25 fixed inset-0 z-40 bg-black"/>
                 </>
             ) : null}
 
@@ -476,167 +475,9 @@ const projectDescription = (props) => {
                             </div>
                         </div>
                     </div>
-                    <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
+                    <div className="opacity-25 fixed inset-0 z-40 bg-black"/>
                 </>
             ) : null}
-
-
-            {/*<div className="d-flex flex-column flex-lg-row justify-content-between align-items-lg-center mt-3 mt-lg-0">*/}
-            {/*<p className={`${styles.projectTitle} text-uppercase font-weight-bold`}>*/}
-            {/*{props.title}*/}
-            {/*</p>*/}
-            {/*<p className={styles.hpProjectCategory}>{props.category}</p>*/}
-            {/*</div>*/}
-
-            {/*<p className={styles.projectText}>{props.description}</p>*/}
-
-            {/*<div className="text-center text-lg-left mb-3">*/}
-            {/*<div*/}
-            {/*className={`${styles.countDownTimer} d-lg-inline-block text-center mx-auto mr-lg-5 mb-3`}*/}
-            {/*>*/}
-            {/*{props.endTime && isNotCompleted ? (*/}
-            {/*<Countdown date={endTime} renderer={countdownTimer} />*/}
-            {/*) : (*/}
-            {/*<h5>This campaign has ended</h5>*/}
-            {/*)}*/}
-
-            {/*<p className={`${styles.fundEnds} text-uppercase text-center mb-0`}>*/}
-            {/*funding ends*/}
-            {/*</p>*/}
-            {/*</div>*/}
-            {/*<div className="donations d-lg-inline-block text-center">*/}
-            {/*<div className={`${styles.funded} d-inline-block pr-3 border-right`}>*/}
-            {/*<p style={{ fontSize: "1.3rem" }} className="font-weight-bold mb-0">*/}
-            {/*{funded ? +parseFloat(funded).toFixed(8) : 0} BCH*/}
-            {/*</p>*/}
-            {/*<p className="text-uppercase mb-0">funded</p>*/}
-            {/*</div>*/}
-            {/*<div className={`${styles.goal} d-inline-block pl-3`}>*/}
-            {/*<p style={{ fontSize: "1.3rem" }} className="font-weight-bold mb-0">*/}
-            {/*{props.goal} BCH*/}
-            {/*</p>*/}
-            {/*<p className="text-uppercase mb-0">goal</p>*/}
-            {/*</div>*/}
-            {/*</div>*/}
-            {/*</div>*/}
-
-            {/*<div className="text-center text-lg-left">*/}
-            {/*{props.status === "CANCELED" && (*/}
-            {/*<p className="text-uppercase d-block">Campaign cancelled</p>*/}
-            {/*)}*/}
-            {/*{props.status !== "CANCELED" && isNotCompleted && (*/}
-            {/*<button*/}
-            {/*type="button"*/}
-            {/*onClick={() => {*/}
-            {/*setModal(!modal);*/}
-            {/*}}*/}
-            {/*className={`${styles.btnDonate} btn text-uppercase d-block d-lg-inline-block mx-auto mr-lg-4 mb-3 mb-lg-0`}*/}
-            {/*>*/}
-            {/*donate now*/}
-            {/*</button>*/}
-            {/*)}*/}
-            {/*<button*/}
-            {/*type="button"*/}
-            {/*onClick={() => {*/}
-            {/*setModalShare(!modalShare);*/}
-            {/*}}*/}
-            {/*className={`${styles.btnDonate} btn text-uppercase d-block d-lg-inline-block mx-auto mr-lg-4 mb-3 mb-lg-0`}*/}
-            {/*>*/}
-            {/*share*/}
-            {/*</button>*/}
-            {/*</div>*/}
-            {/*<MDBModal isOpen={modal} toggle={setModal} centered>*/}
-            {/*<MDBModalHeader>Donate</MDBModalHeader>*/}
-            {/*<MDBModalBody>*/}
-            {/*<div>*/}
-            {/*<strong>Enter Amount:</strong>*/}
-            {/*<input className={styles.hpInput} onChange={calcFees} type="text" />*/}
-            {/*</div>*/}
-            {/*<div>*/}
-            {/*<strong>Platform Fee: {publicRuntimeConfig.FEE_AMOUNT}%</strong>*/}
-            {/*</div>*/}
-            {/*<div>*/}
-            {/*<strong>Sponsoree receive: {amount}</strong>*/}
-            {/*</div>*/}
-            {/*</MDBModalBody>*/}
-            {/*<MDBModalFooter>*/}
-            {/*<MDBBtn*/}
-            {/*color="secondary"*/}
-            {/*onClick={() => {*/}
-            {/*setModal(false);*/}
-            {/*}}*/}
-            {/*>*/}
-            {/*Close*/}
-            {/*</MDBBtn>*/}
-            {/*<MDBBtn color="primary" onClick={sendBch}>*/}
-            {/*Pay with Badger*/}
-            {/*</MDBBtn>*/}
-            {/*<MDBBtn color="primary" onClick={pay}>*/}
-            {/*Pay*/}
-            {/*</MDBBtn>*/}
-            {/*</MDBModalFooter>*/}
-            {/*</MDBModal>*/}
-            {/*<MDBModal isOpen={modalShare} toggle={setModalShare} centered>*/}
-            {/*<MDBModalHeader>SHARE</MDBModalHeader>*/}
-            {/*<MDBModalBody>*/}
-            {/*<div className="text-center">*/}
-            {/*<TelegramShareButton*/}
-            {/*url={`https://fundme.cash/project/${props.id}`}*/}
-            {/*quote={props.title}*/}
-            {/*className={styles.btnShareSmall}*/}
-            {/*>*/}
-            {/*<TelegramIcon size={32} round />*/}
-            {/*</TelegramShareButton>*/}
-            {/*<FacebookShareButton*/}
-            {/*url={`https://fundme.cash/project/${props.id}`}*/}
-            {/*quote={props.title}*/}
-            {/*className={styles.btnShareSmall}*/}
-            {/*>*/}
-            {/*<FacebookIcon size={32} round />*/}
-            {/*</FacebookShareButton>*/}
-            {/*<TwitterShareButton*/}
-            {/*url={`https://fundme.cash/project/${props.id}`}*/}
-            {/*quote={props.title}*/}
-            {/*className={styles.btnShareSmall}*/}
-            {/*>*/}
-            {/*<TwitterIcon size={32} round />*/}
-            {/*</TwitterShareButton>*/}
-            {/*<div>*/}
-            {/*{*/}
-            {/*/* Logical shortcut for only displaying the */}
-
-            {/*document.queryCommandSupported("copy") && (*/}
-            {/*<div className="p-2">*/}
-            {/*<MDBBtn color="primary" onClick={copyToClipboard}>*/}
-            {/*Copy URL*/}
-            {/*</MDBBtn>*/}
-            {/*{copySuccess}*/}
-            {/*</div>*/}
-            {/*)*/}
-            {/*}*/}
-            {/*<form>*/}
-            {/*<textarea*/}
-            {/*ref={textAreaRef}*/}
-            {/*value={`https://fundme.cash/project/${props.id}`}*/}
-            {/*/>*/}
-            {/*</form>*/}
-            {/*</div>*/}
-            {/*</div>*/}
-            {/*</MDBModalBody>*/}
-            {/*<MDBModalFooter>*/}
-            {/*<MDBBtn*/}
-            {/*color="secondary"*/}
-            {/*onClick={() => {*/}
-            {/*setModalShare(false);*/}
-            {/*}}*/}
-            {/*>*/}
-            {/*Close*/}
-            {/*</MDBBtn>*/}
-            {/*/!* <MDBBtn color="primary" onClick={pay}>*/}
-            {/*Pay*/}
-            {/*</MDBBtn> *!/*/}
-            {/*</MDBModalFooter>*/}
-            {/*</MDBModal>*/}
         </div>
     );
 };

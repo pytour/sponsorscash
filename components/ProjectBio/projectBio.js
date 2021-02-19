@@ -1,7 +1,6 @@
 import React from "react";
 import ImageGrid from "../ImageGrid/imageGrid";
 // import ProjectDescription from "../ProjectDescription/projectDescription";
-import { MDBCol, MDBContainer, MDBRow } from "mdbreact";
 
 import dynamic from 'next/dynamic'
 

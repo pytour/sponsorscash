@@ -34,8 +34,6 @@ const validate = values => {
 
 
 const loginform = () => {
-    const [serverResponse,setServerResponse] = useState({isAssociated:true});
-    const [cashID,setCashID] = useState('');
     const dispatch = useDispatch();
     const router = useRouter();
     const token = useSelector((state) => state.token);

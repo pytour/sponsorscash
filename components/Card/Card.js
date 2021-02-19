@@ -41,7 +41,7 @@ const Card = (props) => {
                 </div>
                 <div className="pt-2 px-3 flex justify-between">
 
-                    <div className=" text-sm p-1.5 bg-light  rounded-xl text-progress-bar text-center block">
+                    <div className=" text-sm p-1.5 bg-shadow-card bg-opacity-25 rounded-xl text-progress-bar text-center block">
                         {props.tag}
                     </div>
                     <div className="flex justify-between">
