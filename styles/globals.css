@@ -1,6 +1,8 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@fortawesome/fontawesome-free/js/fontawesome
+
 header {
     background-image:linear-gradient(rgba(135, 80, 156, 0.9), rgba(135, 80, 156, 0.9)), url(/images/cover.jpg)
 }

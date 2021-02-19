@@ -79,7 +79,7 @@ const privateAccount = () => {
           <div className="flex  container justify-between items-baseline px-4 lg:px-0">
               <p className="inline-block lg:text-3xl text-branding-color py-4 text-xl ">My Projects</p>
               <a
-                  className="bg-white border-branding-text-color border-1 px-4 py-1 rounded-full pr-2 transform hover:scale-110"
+                  className="cursor-pointer bg-white border-branding-text-color border-1 px-4 py-1 rounded-full pr-2 transform hover:scale-110"
                   type="button"
                   onClick={() => {
                       Router.push("/newProject");

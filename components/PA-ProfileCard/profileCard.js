@@ -250,7 +250,7 @@ const profileCard = (props) => {
                                                       type="text"
                                                       name="telegram"
                                                       placeholder="Telegram"
-                                                      className={styles.hpSocialLinksTextInput}
+                                                      className="m-1.5 text-center rounded-sm border-1 border-branding-color focus:outline-none placeholder:text-placeholder placeholder:text-center"
                                                       onChange={updateValue}
                                                   />
                                               ) : (
@@ -273,7 +273,7 @@ const profileCard = (props) => {
                                                       type="text"
                                                       name="twitter"
                                                       placeholder="Twitter"
-                                                      className={styles.hpSocialLinksTextInput}
+                                                      className="m-1.5 text-center rounded-sm border-1 border-branding-color focus:outline-none placeholder:text-placeholder placeholder:text-center"
                                                       onChange={updateValue}
                                                   />
                                               ) : (
@@ -296,7 +296,8 @@ const profileCard = (props) => {
                                                       type="text"
                                                       name="email"
                                                       placeholder="Email"
-                                                      className={styles.hpSocialLinksTextInput}
+                                                      className="m-1.5 text-center rounded-sm border-1 border-branding-color focus:outline-none placeholder:text-placeholder placeholder:text-center"
+
                                                       onChange={updateValue}
                                                   />
                                               ) : (
