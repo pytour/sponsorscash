@@ -2,7 +2,6 @@ import React, {useState} from "react";
 import Layout from "../components/Layout";
 import getConfig from "next/config";
 
-import {Button} from "mdbreact";
 
 const fee =5;
 
