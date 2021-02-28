@@ -340,7 +340,7 @@ const profileCard = (props) => {
                                 )}
                                 {editMode ? (
                                     <div className="py-2">
-                                        <p className="text-left text-outline-color  text-md  overflow-hidden  mb-2">Twitter Profile Link</p>
+                                        <p className="text-left text-outline-color  text-md  overflow-hidden  mb-2">Read Cash Profile Link</p>
 
 
                                         <input
@@ -360,12 +360,12 @@ const profileCard = (props) => {
                                                 ? `mailto:${userData.socialLinks.email}`
                                                 : "#"
                                         }
-                                        className="hover:text-white hover:bg-branding-text-color block w-10 h-10 border-1 border-outline-color  rounded-full pt-2 text-center mr-3 md:mr-2 group"
+                                        className="hover:text-white hover:bg-branding-text-color block w-10 h-10 border-1 border-outline-color  rounded-full pt-0 text-center mr-3 md:mr-2 group"
 
                                     >
-                                        <i
-                                            className="group-hover:text-white text-branding-color  far fa-envelope"
-                                        />
+                                        <p
+                                            className="group-hover:text-white text-branding-color text-black text-2xl">r</p>
+
                                     </a>
                                 )}
                             </div>
