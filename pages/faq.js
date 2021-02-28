@@ -1,11 +1,8 @@
 import React, {useState} from "react";
 import Layout from "../components/Layout";
-import getConfig from "next/config";
 
 
-const fee =5;
-
-const {publicRuntimeConfig} = getConfig();
+const fee = 0;
 
 const faq = () => {
     const [open1, setOpen1] = useState(false);
@@ -101,7 +98,7 @@ const faq = () => {
                                     What do you charge for your services?
                                 </button>
                             </div>
-                            <div className={open2 ? "h-auto visible " : "h-0 invisible h-2"}>
+                            <div className={open2 ? "h-auto visible " : "h-0 invisible"}>
                                 {open2 && <div className={"border py-4 px-6 bg-white shadow-xl"}>
                                     We charge {fee}% of funds raised. We had a 5% fee and it has
                                     been removed temporarily at the request of the community. We
