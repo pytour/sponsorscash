@@ -49,7 +49,12 @@ module.exports = {
             },
             zIndex: {
                 'minus': '-1',
+                "-1": "-1",
             },
+            transformOrigin: {
+                "0": "0%",
+            },
+
             height: {
                 'ex-large': '31rem',
                 'card':'220px',

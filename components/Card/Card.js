@@ -46,7 +46,7 @@ const Card = (props) => {
                     </div>
                     <div className="flex justify-between">
                         <div onClick={toggleLike}>
-                            <p className={"w-8 h-8  rounded-half   text-center items-center mx-auto py-1 "+ (liked ? 'bg-red-400 text-red-400 ' : 'bg-opacity-50 text-black bg-shadow-card ')}>
+                            <p className={"w-8 h-8  rounded-half  cursor-pointer  text-center items-center mx-auto py-1 "+ (liked ? 'bg-red-400 text-red-400 ' : 'bg-opacity-50 text-black bg-shadow-card ')}>
                                  <i className="mt-1 text-xl cursor-pointer fa fa-heart fill-current text-white "/>
                             </p>
                         </div>

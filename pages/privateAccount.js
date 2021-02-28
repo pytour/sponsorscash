@@ -9,12 +9,12 @@ import {useDispatch, useSelector} from "react-redux";
 import Router from "next/router";
 import axios from "axios";
 import getConfig from "next/config";
+import DotLoader from "react-spinners/DotLoader";
 
 const { publicRuntimeConfig } = getConfig();
 const privateAccount = () => {
   const dispatch = useDispatch();
   const projects = useSelector((state) => {
-    console.log("state", state);
     return state.projects;
   });
 
@@ -72,10 +72,12 @@ const privateAccount = () => {
         );
     });
   };
+
+
   return (
     <Layout isPrivatePage={true}>
       <ProfileCard userData={userData} showEditButton={true} />
-      <div className="my-4 max-w-screen-xl mx-auto">
+      <div className="my-4 max-w-screen-xl mx-auto  px-4 md:px-8  lg:px-8 xl:px-2">
           <div className="flex  container justify-between items-baseline px-4 lg:px-0">
               <p className="inline-block lg:text-3xl text-branding-color py-4 text-xl ">My Projects</p>
               <a
@@ -91,11 +93,16 @@ const privateAccount = () => {
 
 
           <div className="container px-4 lg:px-0 ">
-            {projects ? renderProjects() : <p>Loading projects...</p>}
+            {projects ? renderProjects() : <div className="flex h-screen">
+                <div className="m-auto">
+                    <DotLoader size={50} color={"#7d73c3"} />
+                </div>
+            </div>
+            }
           </div>
 
       </div>
-        <div className="my-4 max-w-screen-xl mx-auto ">
+        <div className="my-4 max-w-screen-xl mx-auto px-2">
       <MyDonations userData={userData} />
         </div>
 
