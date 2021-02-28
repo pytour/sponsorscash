@@ -39,8 +39,6 @@ const loginform = () => {
     const token = useSelector((state) => state.token);
     const username = useSelector((state) => state.username);
     useEffect(() => {
-        console.log('Token:', token);
-        console.log('Router:', router.pathname);
       if (token && '/login' === router.pathname) {
         Router.push("/privateAccount", "/" + username);
       }
