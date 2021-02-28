@@ -254,12 +254,10 @@ const project = (props) => {
 
     }
 
-
-        if( (props.error===404 ||  !userData)) {
+        if( typeof window !== 'undefined' && (props.error===404 ||  !userData)) {
             Router.push("/login");
-            return (
-                <div>Redirecting...</div>
-            )
+            return null;
+
         }
 
     if(token && userData && Object.keys(userData).length !== 0 && userData.constructor === Object  && props && props.error !==404 && props.projectCreator ) {
