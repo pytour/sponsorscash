@@ -173,7 +173,7 @@ const profileCard = (props) => {
                         )}
                     </div>
                     <div className={"grid grid-cols-12 pt-2 " + (editMode ? "px-2 lg:px-0  gap-x-8 mt-4 " : "px-4")}>
-                       <div className={editMode ?  "lg:col-span-1 col-span-12 " : "col-span-12"}>
+                       <div className={editMode ?  "lg:col-span-1 col-span-12 " : "lg:col-span-1 col-span-12"}>
 
                         </div>
                         <div className={editMode ? 'col-span-12 lg:col-span-5 ' : 'col-span-12 lg:col-span-4'}>
