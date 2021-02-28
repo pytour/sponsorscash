@@ -201,39 +201,21 @@ const projectDescription = (props) => {
                     <h4>project ended</h4>
                 </div>
             );
-        } else {
+        } 
+        else {
             return (
                 <ul className="p-0 mb-0">
-                    <li className={styles.countDownTimerLi}>
-            <span
-                className={`${styles.countDownTimerSpan} ${styles.countDownDaysHours}`}
-            >
-              {days}
-            </span>
-                        :
+                    <li className="inline-block  text-md list-none ">
+                        <span className="mx-2 font-bold text-block">{days}</span>:
                     </li>
-                    <li className={styles.countDownTimerLi}>
-            <span
-                className={`${styles.countDownTimerSpan} ${styles.countDownDaysHours}`}
-            >
-              {hours}
-            </span>
-                        :
+                    <li className="inline-block  text-md list-none ">
+                        <span className="mx-2 font-bold text-block">{hours}</span>:
                     </li>
-                    <li className={styles.countDownTimerLi}>
-            <span
-                className={`${styles.countDownTimerSpan} ${styles.countDownMinsSec}`}
-            >
-              {minutes}
-            </span>
-                        :
+                    <li className="inline-block  text-md list-none ">
+                        <span className="mx-2 font-bold text-block">{minutes}</span>:
                     </li>
-                    <li className={styles.countDownTimerLi}>
-            <span
-                className={`${styles.countDownTimerSpan} ${styles.countDownMinsSec}`}
-            >
-              {seconds}
-            </span>
+                    <li className="inline-block  text-md list-none ">
+                        <span className="mx-2 font-bold text-block">{seconds}</span>
                     </li>
                 </ul>
             );
