@@ -97,8 +97,8 @@ const profileCard = (props) => {
         setImageEditor(editor);
     };
     return (
-        <div className="my-7 max-w-screen-xl mx-auto">
-            <div className={"container grid grid-cols-12   " + (editMode ? "px-4 md:px-4 lg:px-4" : "px-4 md:px-4 lg:px-4")}>
+        <div className="my-7 max-w-screen-xl mx-auto container">
+            <div className={" grid grid-cols-12   " + (editMode ? "px-4 md:px-4 lg:px-4" : "px-4 md:px-8 lg:px-4")}>
                 <div className={"col-span-12 lg:col-span-2"}>
                     <div
                         className={"relative w-48 h-48  overflow-hidden m-auto rounded-full border-8 border-outline-color shadow-md z-20 md:z-20  left-0  md:top-customCalc md:shadow-lg justify-items-center " + (editMode ? 'lg:left-0' : '   xl:mt-1 lg:left-0')}>
@@ -144,9 +144,8 @@ const profileCard = (props) => {
                         )}
                     </div>
                 </div>
-                <div
-                    className={" -my-6 lg:my-2 col-span-12 lg:col-span-10 text-center py-4 shadow-md border relative rounded-50px  w-full" + (editMode ? 'lg:-ml-12 xl:-ml-12 ml-0' : '-ml-12  lg:-ml-12 xl:-ml-12 ')}>
-                    <div className="flex flex-row  pt-12  lg:py-2">
+                <div  className={" -my-6 lg:my-2 col-span-12 lg:col-span-10 text-center py-4 shadow-md border  rounded-50px  w-full" + (editMode ? 'lg:-ml-12 xl:-ml-12 ml-0' : '-ml-12  lg:-ml-12 xl:-ml-12 ')}>
+                    <div className="flex flex-row  pt-12  lg:py-2 relative">
                         {props.showEditButton && (
                             <button
                                 onClick={() => {
@@ -173,7 +172,7 @@ const profileCard = (props) => {
                         )}
                     </div>
                     <div className={"grid grid-cols-12 pt-2 " + (editMode ? "px-2 lg:px-0  gap-x-8 mt-4 " : "px-4")}>
-                       <div className={editMode ?  "lg:col-span-1 col-span-12 " : "lg:col-span-1 col-span-12"}>
+                       <div className={editMode ?  "lg:col-span-1  " : "lg:col-span-1 "}>
 
                         </div>
                         <div className={editMode ? 'col-span-12 lg:col-span-5 ' : 'col-span-12 lg:col-span-4'}>
@@ -261,7 +260,7 @@ const profileCard = (props) => {
                             }
                                 </div>
                         <div
-                            className={"text-center lg:mr-8 mr-0" + (editMode ? "sm:col-span-12  lg:col-span-6  px-0" : " col-span-12  lg:col-span-7 px-4")}>
+                            className={"text-center lg:mr-8 mr-0" + (editMode ? " col-span-12  lg:col-span-6  px-0" : " col-span-12  lg:col-span-7 px-4")}>
                             {editMode ? (
                                 <div className="py-0">
                                     <p className=" text-left text-outline-color  text-md  overflow-hidden  mb-2">Write about yourself</p>

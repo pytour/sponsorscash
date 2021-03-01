@@ -194,9 +194,9 @@ const wideCard = (props) => {
 
   return (
       <>
-          <div className="shadow-md rounded-20px pt-4 pb-4 lg:px-6 gird grid-cols mb-4 border-1">
-              <div className="container px-4">
-                  <div className="grid grid-cols-12 items-center gap-x-4 gap-y-4">
+          <div className=" shadow-md rounded-20px pt-4 pb-4 px-4 lg:px-6 gird grid-cols mb-4 border-1">
+              <div className=" lg:px-4">
+                  <div className="grid grid-cols-12 items-center lg:gap-x-4 gap-y-4">
 
                       <div className="col-span-12 lg:col-span-6 cursor-pointer"
                           onClick={handleProjectDetailsRoute}
@@ -217,11 +217,13 @@ const wideCard = (props) => {
                                       <p className="text-funded text-md uppercase font-bold truncate">
                                           {props.title}
                                       </p>
+                                      <div className="flex justify-center lg:justify-start">
                                       <p
-                                          className="px-1  block w-40 truncate  lg:my-0 lg:mx-0 text-white text-sm p-1  bg-branding-text-color rounded-20px text-center  "
+                                          className="px-8 py-1  w-40 truncate  lg:my-0 lg:mx-0 text-white text-sm  border-1 border-white bg-branding-text-color rounded-20px justify-center text-center  "
                                       >
                                           {props.category}
                                       </p>
+                                      </div>
                                   </div>
                               </div>
                               <div className="col-span-12 lg:col-span-5 mb-4 lg:mb-0">

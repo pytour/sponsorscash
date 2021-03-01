@@ -201,7 +201,7 @@ const projectDescription = (props) => {
                     <h4>project ended</h4>
                 </div>
             );
-        } 
+        }
         else {
             return (
                 <ul className="p-0 mb-0">
@@ -224,18 +224,18 @@ const projectDescription = (props) => {
 
     return (
         <div>
-            <div className="flex justify-between items-center  ">
-                <p className="text-funded text-xl md:text-2xl uppercase font-bold xl:mt-0 md:mt-4 lg:mt-0 sm:mt-4  ">
+            <div className="flex  items-center  ">
+                <p className="text-center lg:text-left  text-funded text-xl md:text-2xl uppercase font-bold xl:mt-0 md:mt-4 lg:mt-0 sm:mt-4  ">
                     {props.title}
                 </p>
             </div>
-            <div className="py-2 flex justify-between">
+            <div className="py-2 flex ">
 
-                <div className=" text-md py-1.5 px-2 bg-shadow-card bg-opacity-25 rounded-xl text-progress-bar text-center block">
-                    {props.category}
+                <div className=" text-md py-1.5 px-2 bg-shadow-card bg-opacity-25 rounded-xl text-progress-bar  lg:block">
+                    <p className="text-center lg:text-left "> {props.category} </p>
                 </div>
             </div>
-            <p className="text-goal justify-between break-words">{props.description}</p>
+            <p className="text-center lg:text-left text-goal break-words">{props.description}</p>
 
 
             <div className="grid lg:grid-cols-5 gap-y-4 gap-x-8 mb-3 pt-3 pb-1">

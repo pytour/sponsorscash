@@ -60,11 +60,10 @@ const validate = (values) => {
 const project = (props) => {
 
     const token = useSelector((state) => state.token);
-    const [project, setProject] = useState({});
     const [userData, setUserData] = useState({});
     const dispatch = useDispatch();
     const [projectImages, setProjectImages] = useState({});
-    const [propsImage, setPropsImage]= useState([])
+    const [propsImage, setPropsImage]= useState(props &&  props.project.images)
     const [isImageSet, setIsImageSet] = useState(false);
     const [date, setDate] = useState( new Date(props.project && props.project.endTime));
     const [loading, setLoading]= useState(true);
@@ -92,9 +91,11 @@ const project = (props) => {
 
     let requestBody={};
 
-    if(propsImage && projectImages)  requestBody= {
-        changed: projectImages,
-        allImagesNames: propsImage
+    if(propsImage && projectImages) {
+        requestBody = {
+            changed: projectImages,
+            allImagesNames: propsImage
+        }
     }
 
 
@@ -157,11 +158,11 @@ const project = (props) => {
         let oldProps= props &&  props.project.images;
         let imagePropUpdate= propsImage.length && propsImage.find(element => element === imageName);
 
-        if(!imagePropUpdate || imagePropUpdate===0 ) {
+        // if(!imagePropUpdate || imagePropUpdate===0 ) {
             // Do not add new images only edit existed
             //      oldProps.push(imageName);
             setPropsImage(oldProps);
-        }
+        // }
 
         setIsImageSet(!isImageSet);
     };
@@ -264,9 +265,10 @@ const project = (props) => {
         if(userData.username ===  props.projectCreator.username) {
             return (
                 <Layout>
-                    <div className="container max-w-screen-xl my-4 mx-auto ">
-                        <div className="grid grid-cols-12 gap-8">
+                    <div className="container max-w-screen-xl my-4 mx-auto  ">
+                        <div className="grid grid-cols-12 gap-8 mx-4 lg:mx-2 ">
                             <div className=" col-span-12 lg:col-span-5 ">
+
                                 <h6 className="mb-2 font-bold">Choose Project Images (Optional)</h6>
                                 <div className=" rounded-2xl overflow-hidden shadow-md">
 
@@ -419,7 +421,7 @@ const project = (props) => {
                                             <div className="mb-3 w-full">
                                                 <p className="mb-3">Funding goal:</p>
                                                 <input
-                                                    type="text"
+                                                    type="number"
                                                     name="goal"
                                                     id="goal"
                                                     placeholder="Funding Goal (BCH)"

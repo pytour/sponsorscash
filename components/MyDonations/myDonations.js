@@ -36,7 +36,7 @@ const myDonations = (props) => {
                           <p className="block lg:text-3xl text-branding-color py-4 text-xl">My Donations</p>
                       </div>
 
-              <div className="container grid gird-cols md:grid-cols-2  lg:grid-cols-3 xl:grid-cols-3 gap-x-2 lg:gap-x-8 gap-y-4  ">
+              <div className="grid gird-cols md:grid-cols-2  lg:grid-cols-3 xl:grid-cols-3 gap-x-2 lg:gap-x-8 gap-y-4  ">
                   {donations[0] ? (
                       donations.map((donation, index) => {
                           const handleProjectDetailsRoute = () => {
