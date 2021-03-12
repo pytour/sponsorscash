@@ -17,7 +17,12 @@ const projectSchema = mongoose.Schema({
     hasEnded:{type:Boolean,default: false},
     isTransactionCleared:{type:Boolean,default:false},
     projectWalletID:{type:mongoose.Schema.Types.ObjectId},
-    status:{type:String}
+    status:{type:String},
+    address:{type:Array, default:[]},
+    //add address
+    // address:array
+
+
 });
 
 projectSchema.plugin(updateIfCurrentPlugin);

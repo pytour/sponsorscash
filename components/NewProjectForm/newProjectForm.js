@@ -7,6 +7,11 @@ import DatePicker from "react-datepicker";
 import {useDispatch, useSelector} from "react-redux";
 import getConfig from "next/config";
 import Warning from "../../utils/warning";
+import ProjectSucess from "../Modal/projectSucceModal";
+let Wallet = require("../../lib/walet/walletCreate");
+
+let  wallet = new Wallet();
+
 
 
 const {publicRuntimeConfig} = getConfig();
@@ -61,6 +66,10 @@ const newProjectForm = () => {
     tomorrow.setDate(tomorrow.getDate() + 1);
     const [date, setDate] = useState(tomorrow);
     const token = useSelector((state) => state.token);
+    const [loading, setLoading] =useState(false);
+    const [secretKey, setSecretKey]= useState(null);
+
+
 
     useEffect(() => {
         if (!token) {
@@ -100,27 +109,44 @@ const newProjectForm = () => {
         },
         validate,
         onSubmit: (values) => {
-            axios
-                .post(
-                    publicRuntimeConfig.APP_URL + "/project/createProject",
-                    {
-                        values: values,
-                        images: projectImages,
-                        date: date,
-                    },
-                    {headers: {Authorization: "Bearer " + token}}
-                )
-                .then((response) => {
-                    if (response.data.status === 200) {
-                        Swal.fire(response.data.message, "success", "success");
-                        Router.push("/privateAccount", "/" + response.data.username);
-                    }
-                })
-                .catch((err) => {
-                    Swal.fire("Whoops..", "Something Went Wrong:" + err, "error");
-                    console.log("ERROR WHILE TRYING CREATE CAMPAIGN:", err);
-                });
-        },
+
+            setLoading(true);
+
+            let walletData = wallet.createWallet();
+
+            if (walletData && walletData.cashAddress) {
+
+                axios
+                    .post(
+                        publicRuntimeConfig.APP_URL + "/project/createProject",
+                        {
+                            values: values,
+                            images: projectImages,
+                            date: date,
+                            address: walletData.cashAddress
+                        },
+                        {headers: {Authorization: "Bearer " + token}}
+                    )
+                    .then((response) => {
+                        if (response.data.status === 200) {
+                            setLoading(false);
+                            setSecretKey(
+                                {
+                                secret:walletData.mnemonic,
+                                    username:response.data.username,
+                            });
+
+                            // Swal.fire(response.data.message, "success", "success");
+
+                            // Router.push("/privateAccount", "/" + response.data.username);
+                        }
+                    })
+                    .catch((err) => {
+                        Swal.fire("Whoops..", "Something Went Wrong:" + err, "error");
+                        console.log("ERROR WHILE TRYING CREATE CAMPAIGN:", err);
+                    });
+            }
+        }
     });
 
     //Convert Blob to Data URI
@@ -147,9 +173,20 @@ const newProjectForm = () => {
         setDate(date);
     };
 
+    // if( loading){
+    //     Swal.fire("Project Creating...","Please wait while your project is being created...", "")
+    //
+    // }
+    if(secretKey && secretKey.username){
+
+     return <ProjectSucess
+     secret={secretKey}
+     />
+    }
+
     return (
             <div className="container max-w-screen-xl my-4 mx-auto">
-                <div className="grid grid-cols-12 gap-8">
+                <div className="grid grid-cols-12 gap-8 px-4">
                     <div className=" col-span-12 lg:col-span-5 ">
                         <h6 className="mb-2 font-bold">Choose Project Images (Optional)</h6>
                         <div className=" rounded-2xl overflow-hidden shadow-md">
@@ -290,7 +327,7 @@ const newProjectForm = () => {
                                     <div className="mb-3 w-full">
                                         <p className="mb-3">Funding goal:</p>
                                         <input
-                                            type="text"
+                                            type="number"
                                             name="goal"
                                             id="goal"
                                             placeholder="Funding Goal (BCH)"

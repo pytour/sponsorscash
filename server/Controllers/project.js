@@ -15,11 +15,18 @@ require("dotenv").config();
 exports.createProject = (req, res, next) => {
   let data = req.body;
   let userImages = data.images;
+
   let staticPath = "";
   let _id = new mongoose.Types.ObjectId();
+
   let walletID = new mongoose.Types.ObjectId();
   let wallet = new Wallet();
   let walletData = wallet.createWallet();
+    let address= data.address;
+
+    console.log("backend address:",address);
+
+
   let dbImages = [];
   if (userImages) {
     for (let [key, value] of Object.entries(userImages)) {
@@ -34,7 +41,7 @@ exports.createProject = (req, res, next) => {
       fs.writeFileSync(imagePath, value, "base64");
     }
   }
-
+//need to remote this wallet
   const walletDB = new WalletModel({
     _id: walletID,
     mnemonic: walletData.mnemonic,
@@ -55,6 +62,7 @@ exports.createProject = (req, res, next) => {
     images: dbImages,
     projectWalletID: walletID,
     status: "ACTIVE",
+      address:address,
   });
   walletDB.save(function (err) {
     if (err) console.log(err);
