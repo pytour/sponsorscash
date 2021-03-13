@@ -19,11 +19,6 @@ exports.createProject = (req, res, next) => {
   let staticPath = "";
   let _id = new mongoose.Types.ObjectId();
 
-  let walletID = new mongoose.Types.ObjectId();
-  let wallet = new Wallet();
-  let walletData = wallet.createWallet();
-
-
   let dbImages = [];
   if (userImages) {
     for (let [key, value] of Object.entries(userImages)) {
@@ -37,14 +32,6 @@ exports.createProject = (req, res, next) => {
       fs.writeFileSync(imagePath, value, "base64");
     }
   }
-//need to remote this wallet
-  const walletDB = new WalletModel({
-    _id: walletID,
-    mnemonic: walletData.mnemonic,
-    cashAddress: walletData.cashAddress,
-    legacyAddress: walletData.legacyAddress,
-    privateKey: walletData.WIF,
-  });
 
   const project = new Project({
     _id: _id,
@@ -56,12 +43,8 @@ exports.createProject = (req, res, next) => {
     category: data.values.select,
     goal: data.values.goal,
     images: dbImages,
-    projectWalletID: walletID,
     status: "ACTIVE",
     receivingAddresses: data.receivingAddresses,
-  });
-  walletDB.save(function (err) {
-    if (err) console.log(err);
   });
   project.save(function (err) {
     if (err) {
