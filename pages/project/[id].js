@@ -14,9 +14,6 @@ const project = (props) => {
 
   const [project, setProject] = useState({});
   const [donations, setDonations] = useState();
-  // const [funded, setFunded] = useState(0);
-
-  const token = useSelector((state) => state.token);
   // TODO:
   // Need to use setInterval to check for new deposits each 6 seconds
   // If new dep found update FUNDED value on API /checkGoalStatus
@@ -196,7 +193,7 @@ project.getInitialProps = async ({ query }) => {
 
   if (res.data.status === 200) {
     project = res.data.project;
-    cashAddress = res.data.cashAddress;
+    //cashAddress = res.data.cashAddress;
     projectCreator = {
       creator: res.data.creator,
       avatar: res.data.avatar,
@@ -214,5 +211,3 @@ project.getInitialProps = async ({ query }) => {
 };
 
 export default withRedux(project);
-
-// TODO https://insomnia.fountainhead.cash/v1/address/history/bitcoincash:qzz6jumhmcf29vj25ldvcdh4xs3jguqpg5j6qdxq0y

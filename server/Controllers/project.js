@@ -164,17 +164,12 @@ exports.getSingleProject = async (req, res, next) => {
 
     // Get project receiving  BCH ADDRESS
     try {
-      bchAddress = await WalletModel.findOne({
-        _id: project.projectWalletID,
-      }).exec();
-
       // Return result
       res.send({
         status: 200,
         project: project,
         creator: user.name || user.username,
         avatar: user.image, // user.cashID,
-        cashAddress: bchAddress.cashAddress, // Campaign address
         username: user.username,
       });
     } catch (error) {
