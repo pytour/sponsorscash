@@ -123,7 +123,7 @@ const newProjectForm = () => {
                             values: values,
                             images: projectImages,
                             date: date,
-                            address: walletData.cashAddress
+                            receivingAddresses: walletData.cashAddress
                         },
                         {headers: {Authorization: "Bearer " + token}}
                     )

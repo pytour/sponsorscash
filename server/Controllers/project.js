@@ -22,9 +22,6 @@ exports.createProject = (req, res, next) => {
   let walletID = new mongoose.Types.ObjectId();
   let wallet = new Wallet();
   let walletData = wallet.createWallet();
-    let address= data.address;
-
-    console.log("backend address:",address);
 
 
   let dbImages = [];
@@ -37,7 +34,6 @@ exports.createProject = (req, res, next) => {
       );
       dbImages.push(staticPath);
       console.log("image path:", imagePath);
-      console.log("image value:", value);
       fs.writeFileSync(imagePath, value, "base64");
     }
   }
@@ -62,7 +58,7 @@ exports.createProject = (req, res, next) => {
     images: dbImages,
     projectWalletID: walletID,
     status: "ACTIVE",
-      address:address,
+    receivingAddresses: data.receivingAddresses,
   });
   walletDB.save(function (err) {
     if (err) console.log(err);
