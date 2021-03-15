@@ -833,3 +833,18 @@ exports.checkGoalStatus = (req, res, next) => {
       });
   }
 };
+
+
+exports.setProjectAddresses = async (req, res, next) => {
+    const { addresses } = req.body;
+
+    const project = await Project.findById(req.params.id);
+    project.receivingAddresses = addresses;
+    await project.save();
+
+    res.send({
+        status: 200,
+        addresses,
+        project: project,
+    })
+}

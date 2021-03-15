@@ -13,10 +13,40 @@ import {
     TwitterIcon,
     TwitterShareButton,
 } from "react-share";
+import Warning from "../../utils/warning";
+import * as formik from "formik";
+import {useFormik} from "formik";
+import Router from "next/router";
+import {CopyToClipboard} from "react-copy-to-clipboard";
 
 const bitboxSDK = require("bitbox-sdk").BITBOX;
 const BITBOX = new bitboxSDK();
 const {publicRuntimeConfig} = getConfig();
+
+const validate = (values) => {
+    const errors = {};
+
+    if (!values.comment) {
+        errors.comment = "Required";
+    }
+
+    if (!values.name) {
+        errors.name = "Required";
+    }
+
+    if (!values.amount) {
+        errors.amount = "Required";
+    } else {
+        let amount = +values.amount;
+        if (typeof amount !== "number" && !isNaN(amount)) {
+            errors.amount = "Must be number";
+        } else if (amount < 0.0001) {
+            errors.amount = "Must be greater than 0.0001 BCH";
+        }
+    }
+
+    return errors;
+};
 
 const projectDescription = (props) => {
     const [modal, setModal] = useState(false);
@@ -32,6 +62,14 @@ const projectDescription = (props) => {
     const image = useSelector((state) => state.image);
     const [copySuccess, setCopySuccess] = useState("");
     const textAreaRef = useRef(null);
+    const [receivingAddress,setReceivingAddress] = useState(null);
+
+    const [copier, setCopier] = useState(false);
+
+    function handleCopyFunc(value) {
+        setCopier(true)
+    }
+
 
     function copyToClipboard(e) {
         textAreaRef.current.select();
@@ -171,10 +209,28 @@ const projectDescription = (props) => {
 
     const pay = () => {
         if (amount < publicRuntimeConfig.MINIMUM_AMOUNT) {
-            Swal.fire("Dust Amount", "Amount must be at least 0.0002 BCH", "error");
+            Swal.fire("Dust Amount", "Amount must be at least 0.00002 BCH", "error");
+        }
+        else {
+            axios
+                .post(publicRuntimeConfig.APP_URL + "/donations/getDonationAddress", {
+                    projectId: props.id,
+                    amount: formik.values.goal,
+                    name:formik.values.name,
+                    comment:formik.values.comment
+                })
+                .then((res1) => {
+                    if (res1.data.status === 201) {
+                        console.log("succe",res1);
+                        // setIsNotCompleted(false);
+                        Swal.fire("Campaign Cash Address:", "success", "info");
+
+                    }
+                    else console.log(res1,'error')
+                }) .catch((err) => console.log(err));
         }
         // Return cashAddress for this project
-        Swal.fire("Campaign Cash Address:", props.projCashAddress, "info");
+        // Swal.fire("Campaign Cash Address:", props.projCashAddress, "info");
     };
 
     let endTime = props.endTime ? props.endTime.split(".")[0] : "";
@@ -221,6 +277,39 @@ const projectDescription = (props) => {
             );
         }
     };
+
+
+    const formik = useFormik({
+
+        initialValues: {
+            name: "",
+            comment: "",
+            amount: 0,
+        },
+        validate,
+        onSubmit: (values) => {
+            axios
+                .get(publicRuntimeConfig.APP_URL + "/donations/getDonationAddress", {
+
+                    params: {
+                        projectId: props.id,
+                        values,
+                    }
+
+                })
+                .then((res1) => {
+                    if (res1.data.status === 200) {
+                        setReceivingAddress(res1.data.data.address.address);
+                        console.log("succeed",res1.data.data.address.address);
+                        // setIsNotCompleted(false);
+                        // Swal.fire("Campaign Cash Address to send money:", res1.data.data.address.address, "info");
+
+                    }
+                    else console.log(res1,'error')
+                }) .catch((err) => console.log(err));
+        },
+    });
+
 
     return (
         <div>
@@ -304,9 +393,9 @@ const projectDescription = (props) => {
                                 className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
                                 {/*header*/}
                                 <div
-                                    className="flex items-start justify-between p-3 border-b border-solid border-gray-300 rounded-t">
-                                    <h4 className="text-3xl font-semibold">
-                                        Donate
+                                    className="flex items-center justify-center p-3 border-b border-solid border-gray-300 rounded-t">
+                                    <h4 className="text-3xl text-center font-semibold">
+                                        {receivingAddress ? "BCH Cash Address" :  "Donate"}
                                     </h4>
                                     <button onClick={() => setModal(false)}
                                             className="p-1 ml-auto bg-transparent border-0 text-red  float-right text-3xl leading-none font-semibold outline-none focus:outline-none"
@@ -318,26 +407,108 @@ const projectDescription = (props) => {
                                     </button>
                                 </div>
                                 {/*body*/}
-                                <div className="relative p-6 flex-auto">
-                                    <div>
-                                        <strong>Enter Amount: </strong>
-                                        <input
-                                            className="w-full h-10 p-3 text-outline-color placeholder-outline-color
+                                {!receivingAddress &&    <form onSubmit={formik.handleSubmit}>
+                                <div className=" p-6  flex-auto">
+
+
+                                    {/*<div>*/}
+                                        {/*<strong>Enter BCH Amount: </strong>*/}
+                                        {/*<input*/}
+                                            {/*className="w-full h-10 p-3 text-outline-color placeholder-outline-color*/}
+                                   {/*rounded-2xl border-outline-color outline-outline-color ring-border-color focus:ring-2 focus:ring-purple-300*/}
+                                   {/*focus:border-purple-300  focus:outline-none*/}
+                                    {/*border-1 focus:border-0  bg-transparent my-2"*/}
+                                            {/*onChange={calcFees} type="text"/>*/}
+                                    {/*</div>*/}
+
+                                    <div className="flex space-between items-baseline text-branding-color">
+                                        <div className="mb-3 w-full">
+                                            <p className="mb-3">Enter BCH Amount:</p>
+                                            <input
+                                                type="number"
+                                                name="amount"
+                                                id="amount"
+                                                placeholder="Amount (BCH)"
+                                                onChange={formik.handleChange}
+                                                onBlur={formik.handleBlur}
+                                                value={formik.values.amount}
+                                                className="mb-3 w-full  h-10 p-3 text-outline-color placeholder-placeholder
                                    rounded-2xl border-outline-color outline-outline-color ring-border-color focus:ring-2 focus:ring-purple-300
                                    focus:border-purple-300  focus:outline-none
-                                    border-1 focus:border-0  bg-transparent my-2"
-                                            onChange={calcFees} type="text"/>
+                                    border-1 focus:border-0  bg-transparent"
+                                            />
+                                            {formik.touched.amount && formik.errors.amount ? (
+                                                <Warning
+                                                    message={formik.errors.amount}/>
+                                            ) : null}
+                                        </div>
                                     </div>
-                                    <div>
-                                        <strong>Platform Fee: {publicRuntimeConfig.FEE_AMOUNT}%</strong>
-                                    </div>
-                                    <div>
-                                        <strong>Sponsoree receive: {amount}</strong>
-                                    </div>
+
+                                            <div className="flex  space-between items-baseline text-branding-color">
+                                                <div className="mb-3 w-full">
+                                                    <p className="mb-3">Your Name</p>
+                                                    <input
+                                                        type="text"
+                                                        name="name"
+                                                        id="name"
+                                                        placeholder="Name"
+                                                        onChange={formik.handleChange}
+                                                        onBlur={formik.handleBlur}
+                                                        value={formik.values.name}
+                                                        className=" w-full  h-10 p-3 text-outline-color placeholder-placeholder
+                                   rounded-2xl border-outline-color outline-outline-color ring-border-color focus:ring-2 focus:ring-purple-300
+                                   focus:border-purple-300  focus:outline-none
+                                    border-1 focus:border-0  bg-transparent"
+                                                    />
+                                                    {formik.touched.name && formik.errors.name ? (
+                                                        <Warning
+                                                            message={formik.errors.name}/>
+                                                    ) : null}
+                                                </div>
+                                            </div>
+
+                                            <div className="mb-2 w-full">
+                                                <p className="text-left pb-3 text-branding-color">Comment</p>
+                                                <textarea
+                                                    name="comment"
+                                                    id="comment"
+                                                    placeholder="Comment"
+                                                    onChange={formik.handleChange}
+                                                    onBlur={formik.handleBlur}
+                                                    value={formik.values.comment}
+                                                    className="px-3 pt-1.5 w-full
+                                   rounded-md border-outline-color outline-outline-color
+                                    ring-border-color focus:ring-2 focus:ring-purple-300
+                                   focus:border-purple-300  focus:outline-none
+                                    border-1 focus:border-0  bg-transparent"
+                                                />
+                                                {formik.touched.comment && formik.errors.comment ? (
+                                                    <Warning
+                                                        message={formik.errors.comment}/>
+                                                ) : null}
+
+
+                                        </div>
+
                                 </div>
                                 {/*footer*/}
                                 <div
-                                    className="flex items-center justify-end p-6 border-t border-solid border-gray-300 rounded-b">
+                                    className="flex items-center justify-center p-6 border-t border-solid border-gray-300 rounded-b">
+
+                                    {/*<button*/}
+                                        {/*className="bg-branding-color text-white active:bg-branding-color font-bold uppercase text-sm px-6 py-2 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1"*/}
+                                        {/*type="button"*/}
+                                        {/*style={{transition: "all .15s ease"}}*/}
+                                        {/*onClick={sendBch}>*/}
+                                        {/*Pay with Badger*/}
+                                    {/*</button>*/}
+                                    <button
+                                        className="bg-branding-color mr-4 text-white active:bg-branding-color uppercase font-bold uppercase text-sm px-12 py-2 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1"
+                                        type="submit"
+                                        style={{transition: "all .15s ease"}}
+                                        >
+                                        Get Address
+                                    </button>
                                     <button
                                         className="text-white bg-red-400  font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1"
                                         type="button"
@@ -346,21 +517,52 @@ const projectDescription = (props) => {
                                     >
                                         Close
                                     </button>
-                                    <button
-                                        className="bg-branding-color text-white active:bg-branding-color font-bold uppercase text-sm px-6 py-2 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1"
-                                        type="button"
-                                        style={{transition: "all .15s ease"}}
-                                        onClick={sendBch}>
-                                        Pay with Badger
-                                    </button>
-                                    <button
-                                        className="bg-branding-color text-white active:bg-branding-color font-bold uppercase text-sm px-6 py-2 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1"
-                                        type="button"
-                                        style={{transition: "all .15s ease"}}
-                                        onClick={pay}>
-                                        Pay
-                                    </button>
                                 </div>
+                                </form> }
+
+                                {
+                                    receivingAddress && <div>
+
+                                        <div className=" ">
+
+                                            <div className="flex">
+
+                                                <div className=" md:my-8 items-center justify-items-center">
+
+                                                    <p className="text-center text-xl font-black px-4 pt-8 pb-6 text-site-theme"> Please sentd BCH to this Cash Address: </p>
+
+                                                    <h1 className="mx-6 text-gray-400 text-center text-xl text-black font-black p-4"> {receivingAddress}  </h1>
+
+
+                                                    <p className="py-6 mx-4 text-base font-medium text-red-500">Please note,this address is valid for 5 minutes,try to send amount within this time</p>
+
+                                                </div>
+
+
+
+                                            </div>
+
+
+                                            <div className="flex items-center justify-center p-6  border-solid border-gray-300 rounded-b">
+                                                <CopyToClipboard text={receivingAddress}
+                                                                 onCopy={() => console.log('copied')}>
+                                                    <button
+                                                        className="text-white  bg-branding-color  font-bold uppercase px-6 py-3 text-center text-sm outline-none focus:outline-none mr-1 mb-1"
+                                                        type="button"
+                                                        style={{ transition: "all .15s ease" }}
+                                                        onClick={handleCopyFunc}
+                                                    >
+                                                        { copier ? "Copier": "Click to Copy"}
+                                                    </button>
+                                                </CopyToClipboard>
+
+                                            </div>
+
+                                        </div>
+
+
+                                    </div>
+                                }
                             </div>
                         </div>
                     </div>

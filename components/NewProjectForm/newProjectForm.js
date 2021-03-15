@@ -8,10 +8,11 @@ import {useDispatch, useSelector} from "react-redux";
 import getConfig from "next/config";
 import Warning from "../../utils/warning";
 import ProjectSucess from "../Modal/projectSucceModal";
+import DotLoader from "react-spinners/DotLoader";
+
 let Wallet = require("../../lib/walet/walletCreate");
 
-let  wallet = new Wallet();
-
+let wallet = new Wallet();
 
 
 const {publicRuntimeConfig} = getConfig();
@@ -66,9 +67,9 @@ const newProjectForm = () => {
     tomorrow.setDate(tomorrow.getDate() + 1);
     const [date, setDate] = useState(tomorrow);
     const token = useSelector((state) => state.token);
-    const [loading, setLoading] =useState(false);
-    const [secretKey, setSecretKey]= useState(null);
-
+    const [loading, setLoading] = useState(false);
+    const [secretKey, setSecretKey] = useState(null);
+    const [walletInfo, setWalletInfo] = useState(null);
 
 
     useEffect(() => {
@@ -111,43 +112,25 @@ const newProjectForm = () => {
         onSubmit: (values) => {
 
             setLoading(true);
-
             let walletData = wallet.createWallet();
-
             if (walletData && walletData.cashAddress) {
+                setWalletInfo({
+                    wallet: walletData, formValue: values,
 
-                axios
-                    .post(
-                        publicRuntimeConfig.APP_URL + "/project/createProject",
-                        {
-                            values: values,
-                            images: projectImages,
-                            date: date,
-                            receivingAddresses: walletData.cashAddress
-                        },
-                        {headers: {Authorization: "Bearer " + token}}
-                    )
-                    .then((response) => {
-                        if (response.data.status === 200) {
-                            setLoading(false);
-                            setSecretKey(
-                                {
-                                secret:walletData.mnemonic,
-                                    username:response.data.username,
-                            });
+                });
 
-                            // Swal.fire(response.data.message, "success", "success");
-
-                            // Router.push("/privateAccount", "/" + response.data.username);
-                        }
-                    })
-                    .catch((err) => {
-                        Swal.fire("Whoops..", "Something Went Wrong:" + err, "error");
-                        console.log("ERROR WHILE TRYING CREATE CAMPAIGN:", err);
+                setLoading(false);
+                setSecretKey(
+                    {
+                        secret: walletData.mnemonic,
+                        username: "none",
                     });
+
+
             }
         }
     });
+
 
     //Convert Blob to Data URI
     const imageSelect = async (e) => {
@@ -173,240 +156,254 @@ const newProjectForm = () => {
         setDate(date);
     };
 
-    // if( loading){
-    //     Swal.fire("Project Creating...","Please wait while your project is being created...", "")
-    //
-    // }
-    if(secretKey && secretKey.username){
 
-     return <ProjectSucess
-     secret={secretKey}
-     />
+    function resetAllData(value) {
+        setSecretKey(null)
     }
 
+
+    if (secretKey && secretKey.username) {
+        return (<ProjectSucess
+                secret={secretKey}
+                walletInfo={walletInfo}
+                images={projectImages}
+                resetAllData={resetAllData}
+                date={date}
+                token={token}
+            />
+        )
+    }
+
+
     return (
-            <div className="container max-w-screen-xl my-4 mx-auto">
-                <div className="grid grid-cols-12 gap-8 px-4">
-                    <div className=" col-span-12 lg:col-span-5 ">
-                        <h6 className="mb-2 font-bold">Choose Project Images (Optional)</h6>
-                        <div className=" rounded-2xl overflow-hidden shadow-md">
+        <div className="container max-w-screen-xl my-4 mx-auto">
+            <div className="grid grid-cols-12 gap-8 px-4">
+
+
+                <div className=" col-span-12 lg:col-span-5 ">
+                    <h6 className="mb-2 font-bold">Choose Project Images (Optional)</h6>
+                    <div className=" rounded-2xl overflow-hidden shadow-md">
+                        <input
+                            onChange={imageSelect}
+                            type="file"
+                            id="image1"
+                            name="image1"
+                            accept="image/*"
+                            className="hidden"
+                        />
+                        <label htmlFor="image1"
+                               className="flex h-full p-1 bg-gray-400 bg-opacity-75 cursor-pointer z-40 relative bottom-74">
+                            <p className="w-full text-center relative top-40 text-white ">
+                                {projectImages.image1 ? "Change Image" : "Choose Image"}</p>
+                        </label>
+                        {projectImages.image1 ? (
+                            <img src={projectImages.image1} className="w-full h-96 -mt-2"/>
+                        ) : (
+                            ""
+                        )}
+                    </div>
+                    <div className="grid grid-cols-2  md:grid-cols-4 gap-4 md:gap-2 my-4">
+
+                        <div className="rounded-xl overflow-hidden  shadow-md w-full h-32  ">
+
                             <input
                                 onChange={imageSelect}
                                 type="file"
-                                id="image1"
-                                name="image1"
+                                id="image2"
+                                name="image2"
                                 accept="image/*"
                                 className="hidden"
                             />
-                            <label htmlFor="image1"
-                                   className="flex h-full p-1 bg-gray-400 bg-opacity-75 cursor-pointer z-40 relative bottom-74">
-                                <p className="w-full text-center relative top-40 text-white ">
-                                    {projectImages.image1 ? "Change Image" : "Choose Image"}</p>
+
+                            <label htmlFor="image2"
+                                   className={"flex cursor-pointer  bg-gray-400 bg-opacity-75 z-40 "}
+                            >
+                                <p className={"w-full text-center   text-white z-50  " + (projectImages.image2 ? 'bg-gray-400 bg-opacity-75  mt-10 pt-2' : 'mt-0')}
+                                > {projectImages.image2 ? "Change  Image" : "Choose Image"}</p>
                             </label>
-                            {projectImages.image1 ? (
-                                <img src={projectImages.image1} className="w-full h-96 -mt-2"/>
+                            {projectImages.image2 ? (
+                                <img src={projectImages.image2} className="w-full h-full -mt-20"/>
                             ) : (
                                 ""
                             )}
                         </div>
-                        <div className="grid grid-cols-2  md:grid-cols-4 gap-4 md:gap-2 my-4">
+                        <div className="rounded-xl  overflow-hidden  shadow-md w-full h-32">
 
-                            <div className="rounded-xl overflow-hidden  shadow-md w-full h-32  ">
+                            <input
+                                onChange={imageSelect}
+                                type="file"
+                                id="image3"
+                                name="image3"
+                                accept="image/*"
+                                className="hidden"
+                            />
+                            <label htmlFor="image3" className="flex cursor-pointer  bg-gray-400 bg-opacity-75 z-40 ">
+                                <p className={"w-full text-center   text-white z-50  " + (projectImages.image3 ? 'bg-gray-400 bg-opacity-75  mt-10 pt-2' : 'mt-0')}
+                                > {projectImages.image3 ? "Change  Image" : "Choose Image"}</p>
+                            </label>
+                            {projectImages.image3 ? (
+                                <img src={projectImages.image3} className="w-full h-full -mt-20"/>
+                            ) : (
+                                ""
+                            )}
+                        </div>
+                        <div className="rounded-xl  overflow-hidden  shadow-md w-full h-32  ">
 
-                                <input
-                                    onChange={imageSelect}
-                                    type="file"
-                                    id="image2"
-                                    name="image2"
-                                    accept="image/*"
-                                    className="hidden"
-                                />
+                            <input
+                                onChange={imageSelect}
+                                type="file"
+                                id="image4"
+                                name="image4"
+                                accept="image/*"
+                                className="hidden"
+                            />
+                            <label htmlFor="image4"
+                                   className="flex cursor-pointer  bg-gray-400 bg-opacity-75 z-40 ">
+                                <p className={"w-full text-center   text-white z-50  " + (projectImages.image4 ? 'bg-gray-400 bg-opacity-75  mt-10 pt-2' : 'mt-0')}
+                                > {projectImages.image4 ? "Change  Image" : "Choose Image"}</p>
+                            </label>
+                            {projectImages.image4 ? (
+                                <img src={projectImages.image4} className="w-full h-full -mt-20"/>
+                            ) : (
+                                ""
+                            )}
+                        </div>
+                        <div className="rounded-xl  overflow-hidden  shadow-md w-full h-32  ">
 
-                                <label htmlFor="image2"
-                                       className={"flex cursor-pointer  bg-gray-400 bg-opacity-75 z-40 " }
-                                >
-                                    <p className={"w-full text-center   text-white z-50  " + (projectImages.image2 ? 'bg-gray-400 bg-opacity-75  mt-10 pt-2': 'mt-0')}
-                                    > {projectImages.image2 ? "Change  Image" : "Choose Image" }</p>
-                                </label>
-                                {projectImages.image2 ? (
-                                    <img src={projectImages.image2} className="w-full h-full -mt-20"/>
-                                ) : (
-                                    ""
-                                )}
-                            </div>
-                            <div className="rounded-xl  overflow-hidden  shadow-md w-full h-32">
-
-                                <input
-                                    onChange={imageSelect}
-                                    type="file"
-                                    id="image3"
-                                    name="image3"
-                                    accept="image/*"
-                                    className="hidden"
-                                />
-                                <label htmlFor="image3" className="flex cursor-pointer  bg-gray-400 bg-opacity-75 z-40 " >
-                                    <p className={"w-full text-center   text-white z-50  " + (projectImages.image3 ? 'bg-gray-400 bg-opacity-75  mt-10 pt-2': 'mt-0')}
-                                    > {projectImages.image3 ? "Change  Image" : "Choose Image" }</p>
-                                </label>
-                                {projectImages.image3 ? (
-                                    <img src={projectImages.image3} className="w-full h-full -mt-20"/>
-                                ) : (
-                                    ""
-                                )}
-                            </div>
-                            <div className="rounded-xl  overflow-hidden  shadow-md w-full h-32  ">
-
-                                <input
-                                    onChange={imageSelect}
-                                    type="file"
-                                    id="image4"
-                                    name="image4"
-                                    accept="image/*"
-                                    className="hidden"
-                                />
-                                <label htmlFor="image4"
-                                       className="flex cursor-pointer  bg-gray-400 bg-opacity-75 z-40 " >
-                                    <p className={"w-full text-center   text-white z-50  " + (projectImages.image4 ? 'bg-gray-400 bg-opacity-75  mt-10 pt-2': 'mt-0')}
-                                    > {projectImages.image4 ? "Change  Image" : "Choose Image" }</p>
-                                </label>
-                                {projectImages.image4 ? (
-                                    <img src={projectImages.image4} className="w-full h-full -mt-20"/>
-                                ) : (
-                                    ""
-                                )}
-                            </div>
-                            <div className="rounded-xl  overflow-hidden  shadow-md w-full h-32  ">
-
-                                <input
-                                    onChange={imageSelect}
-                                    type="file"
-                                    id="image5"
-                                    name="image5"
-                                    accept="image/*"
-                                    className="hidden"
-                                />
-                                <label htmlFor="image5"
-                                       className="flex cursor-pointer  bg-gray-400 bg-opacity-75 z-40 " >
-                                    <p className={"w-full text-center   text-white z-50  " + (projectImages.image5 ? 'bg-gray-400 bg-opacity-75  mt-10 pt-2': 'mt-0')}
-                                    > {projectImages.image5 ? "Change  Image" : "Choose Image" }</p>
-                                </label>
-                                {projectImages.image5 ? (
-                                    <img src={projectImages.image5} className="w-full h-full -mt-20"/>
-                                ) : (
-                                    ""
-                                )}
-                            </div>
+                            <input
+                                onChange={imageSelect}
+                                type="file"
+                                id="image5"
+                                name="image5"
+                                accept="image/*"
+                                className="hidden"
+                            />
+                            <label htmlFor="image5"
+                                   className="flex cursor-pointer  bg-gray-400 bg-opacity-75 z-40 ">
+                                <p className={"w-full text-center   text-white z-50  " + (projectImages.image5 ? 'bg-gray-400 bg-opacity-75  mt-10 pt-2' : 'mt-0')}
+                                > {projectImages.image5 ? "Change  Image" : "Choose Image"}</p>
+                            </label>
+                            {projectImages.image5 ? (
+                                <img src={projectImages.image5} className="w-full h-full -mt-20"/>
+                            ) : (
+                                ""
+                            )}
                         </div>
                     </div>
-                    <div className="col-span-12  lg:col-span-7">
-                        <form onSubmit={formik.handleSubmit}>
-                            <div>
-                                <div className="flex  space-between items-baseline text-branding-color">
-                                    <div className="mb-3 w-full">
-                                        <p className="mb-3">Campaign Title:</p>
-                                        <input
-                                            type="text"
-                                            name="title"
-                                            id="title"
-                                            placeholder="Campaign title"
-                                            onChange={formik.handleChange}
-                                            onBlur={formik.handleBlur}
-                                            value={formik.values.title}
-                                            className=" w-full  h-10 p-3 text-outline-color placeholder-placeholder
+                </div>
+                <div className="relative col-span-12  lg:col-span-7">
+                    {loading && <div className="p-5 flex items-center justify-center object-center z-40">
+                        <DotLoader size={50} color={"#7d73c3"}/>
+                    </div>}
+
+                    <form onSubmit={formik.handleSubmit}>
+                        <div>
+                            <div className="flex  space-between items-baseline text-branding-color">
+                                <div className="mb-3 w-full">
+                                    <p className="mb-3">Campaign Title:</p>
+                                    <input
+                                        type="text"
+                                        name="title"
+                                        id="title"
+                                        placeholder="Campaign title"
+                                        onChange={formik.handleChange}
+                                        onBlur={formik.handleBlur}
+                                        value={formik.values.title}
+                                        className=" w-full  h-10 p-3 text-outline-color placeholder-placeholder
                                    rounded-2xl border-outline-color outline-outline-color ring-border-color focus:ring-2 focus:ring-purple-300
                                    focus:border-purple-300  focus:outline-none
                                     border-1 focus:border-0  bg-transparent"
-                                        />
-                                        {formik.touched.title && formik.errors.title ? (
-                                            <Warning
-                                                message={formik.errors.title}/>
-                                        ) : null}
-                                    </div>
+                                    />
+                                    {formik.touched.title && formik.errors.title ? (
+                                        <Warning
+                                            message={formik.errors.title}/>
+                                    ) : null}
                                 </div>
-                                <div className="flex space-between items-baseline text-branding-color">
-                                    <div className="mb-3 w-full">
-                                        <p className="mb-3">Funding goal:</p>
-                                        <input
-                                            type="number"
-                                            name="goal"
-                                            id="goal"
-                                            placeholder="Funding Goal (BCH)"
-                                            onChange={formik.handleChange}
-                                            onBlur={formik.handleBlur}
-                                            value={formik.values.goal}
-                                            className="mb-3 w-full  h-10 p-3 text-outline-color placeholder-placeholder
+                            </div>
+                            <div className="flex space-between items-baseline text-branding-color">
+                                <div className="mb-3 w-full">
+                                    <p className="mb-3">Funding goal:</p>
+                                    <input
+                                        type="number"
+                                        name="goal"
+                                        id="goal"
+                                        placeholder="Funding Goal (BCH)"
+                                        onChange={formik.handleChange}
+                                        onBlur={formik.handleBlur}
+                                        value={formik.values.goal}
+                                        className="mb-3 w-full  h-10 p-3 text-outline-color placeholder-placeholder
                                    rounded-2xl border-outline-color outline-outline-color ring-border-color focus:ring-2 focus:ring-purple-300
                                    focus:border-purple-300  focus:outline-none
                                     border-1 focus:border-0  bg-transparent"
-                                        />
-                                        {formik.touched.goal && formik.errors.goal ? (
-                                            <Warning
-                                                message={formik.errors.goal}/>
-                                        ) : null}
-                                    </div>
+                                    />
+                                    {formik.touched.goal && formik.errors.goal ? (
+                                        <Warning
+                                            message={formik.errors.goal}/>
+                                    ) : null}
                                 </div>
+                            </div>
 
 
-                                <select
-                                    className="mb-3 w-full  h-10 pl-3 py-1 text-outline-color placeholder-placeholder
+                            <select
+                                className="mb-3 w-full  h-10 pl-3 py-1 text-outline-color placeholder-placeholder
                                    rounded-2xl border-outline-color outline-outline-color ring-border-color focus:ring-2 focus:ring-purple-300
                                    focus:border-purple-300  focus:outline-none
                                     border-1 focus:border-0  bg-transparent"
-                                    type="select"
-                                    id="select"
-                                    name="select"
-                                    onChange={formik.handleChange}
-                                    onBlur={formik.handleBlur}
-                                    value={formik.values.select}
-                                >
-                                    <option selected hidden>
-                                        Category
-                                    </option>
-                                    <option value="Art">Art</option>
-                                    <option value="Architecture">Architecture</option>
-                                    <option value="Audio">Audio</option>
-                                    <option value="Blockchain">Blockchain</option>
-                                    <option value="Blogs and Vlogs">Blogs and Vlogs</option>
-                                    <option value="Culture">Culture</option>
-                                    <option value="Dance and Theater">Dance and Theater</option>
-                                    <option value="Education">Education</option>
-                                    <option value="Enviroment">Enviroment</option>
-                                    <option value="Fashion and Wearables"> Fashion & Wearables</option>
-                                    <option value="Film">Film</option>
-                                    <option value="Food and Beverages">Food & Beverages</option>
-                                    <option value="Health and Fitness">Health and Fitness</option>
-                                    <option value="Home">Home</option>
-                                    <option value="Human Rights">Human Rights</option>
-                                    <option value="Local Businesses">Local Businessess</option>
-                                    <option value="Mobile">Mobile</option>
-                                    <option value="Music">Music</option>
-                                    <option value="Other">Other</option>
-                                    <option value="Podcasts">Podcasts</option>
-                                    <option value="Photography">Photography</option>
-                                    <option value="Sport">Sport</option>
-                                    <option value="Science">Science</option>
-                                    <option value="Technology">Technology</option>
-                                    <option value="Transportation">Transportation</option>
-                                    <option value="Travel and Outdoors">Travel & Outdoors</option>
-                                    <option value="Video games">Video Games</option>
-                                    <option value="Video">Video</option>
-                                    <option value="Wellness">Wellness</option>
-                                    <option value="Web series and TV shows">
-                                        Web Series & TV shows
-                                    </option>
-                                    <option value="Writing and Publishing">
-                                        Writing and Publishing
-                                    </option>
-                                </select>
-                                {formik.touched.select && formik.errors.select ? (
-                                    <Warning
-                                        message={formik.errors.select}/>
-                                ) : null}
+                                type="select"
+                                id="select"
+                                name="select"
+                                onChange={formik.handleChange}
+                                onBlur={formik.handleBlur}
+                                value={formik.values.select}
+                            >
+                                <option selected hidden>
+                                    Category
+                                </option>
+                                <option value="Art">Art</option>
+                                <option value="Architecture">Architecture</option>
+                                <option value="Audio">Audio</option>
+                                <option value="Blockchain">Blockchain</option>
+                                <option value="Blogs and Vlogs">Blogs and Vlogs</option>
+                                <option value="Culture">Culture</option>
+                                <option value="Dance and Theater">Dance and Theater</option>
+                                <option value="Education">Education</option>
+                                <option value="Enviroment">Enviroment</option>
+                                <option value="Fashion and Wearables"> Fashion & Wearables</option>
+                                <option value="Film">Film</option>
+                                <option value="Food and Beverages">Food & Beverages</option>
+                                <option value="Health and Fitness">Health and Fitness</option>
+                                <option value="Home">Home</option>
+                                <option value="Human Rights">Human Rights</option>
+                                <option value="Local Businesses">Local Businessess</option>
+                                <option value="Mobile">Mobile</option>
+                                <option value="Music">Music</option>
+                                <option value="Other">Other</option>
+                                <option value="Podcasts">Podcasts</option>
+                                <option value="Photography">Photography</option>
+                                <option value="Sport">Sport</option>
+                                <option value="Science">Science</option>
+                                <option value="Technology">Technology</option>
+                                <option value="Transportation">Transportation</option>
+                                <option value="Travel and Outdoors">Travel & Outdoors</option>
+                                <option value="Video games">Video Games</option>
+                                <option value="Video">Video</option>
+                                <option value="Wellness">Wellness</option>
+                                <option value="Web series and TV shows">
+                                    Web Series & TV shows
+                                </option>
+                                <option value="Writing and Publishing">
+                                    Writing and Publishing
+                                </option>
+                            </select>
+                            {formik.touched.select && formik.errors.select ? (
+                                <Warning
+                                    message={formik.errors.select}/>
+                            ) : null}
 
 
-                                <div className="mt-3 mb-3 flex justify-between text-branding-color">
-                                    <p className="text-center pt-1">Funding End Date:</p>
-                                    <span className=" px-3 pt-1.5  h-10
+                            <div className="mt-3 mb-3 flex justify-between text-branding-color">
+                                <p className="text-center pt-1">Funding End Date:</p>
+                                <span className=" px-3 pt-1.5  h-10
                                    rounded-2xl border-outline-color outline-outline-color
                                     ring-border-color focus:ring-2 focus:ring-purple-300
                                    focus:border-purple-300  focus:outline-none
@@ -414,8 +411,8 @@ const newProjectForm = () => {
                                          <DatePicker selected={date} onChange={handleDateChange} className=" "/>
 
                                         </span>
-                                </div>
-                                <div className="mb-3 w-full">
+                            </div>
+                            <div className="mb-3 w-full">
                                  <textarea
                                      name="description"
                                      id="description"
@@ -429,12 +426,12 @@ const newProjectForm = () => {
                                    focus:border-purple-300  focus:outline-none
                                     border-1 focus:border-0  bg-transparent"
                                  />
-                                    {formik.touched.description && formik.errors.description ? (
-                                        <Warning
-                                            message={formik.errors.description}/>
-                                    ) : null}
-                                </div>
-                                <div className="mb-3 w-full">
+                                {formik.touched.description && formik.errors.description ? (
+                                    <Warning
+                                        message={formik.errors.description}/>
+                                ) : null}
+                            </div>
+                            <div className="mb-3 w-full">
                                     <textarea
                                         name="detail"
                                         id="detail"
@@ -449,19 +446,22 @@ const newProjectForm = () => {
                                                    focus:border-purple-300  focus:outline-none
                                                     border-1 focus:border-0  bg-transparent"
                                     />
-                                    {formik.touched.detail && formik.errors.detail ? (
-                                        <Warning
-                                            message={formik.errors.detail}/>
-                                    ) : null}
-                                </div>
+                                {formik.touched.detail && formik.errors.detail ? (
+                                    <Warning
+                                        message={formik.errors.detail}/>
+                                ) : null}
                             </div>
-                            <button type="submit" className="md:w-half w-full text-black rounded-xs h-10 uppercase bg-outline-color text-lg hover:shadow-xl shadow-md  mb-6 mt-6">
-                                Create Project
-                            </button>
-                        </form>
-                    </div>
+                        </div>
+                        <button type="submit"
+                                className="md:w-half w-full text-black rounded-xs h-10 uppercase bg-outline-color text-lg hover:shadow-xl shadow-md  mb-6 mt-6">
+                            Create Project
+                        </button>
+                    </form>
+
+
                 </div>
             </div>
+        </div>
     );
 };
 
