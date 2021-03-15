@@ -2,6 +2,10 @@ const mongoose = require("mongoose");
 const DonationModel = require("../Models/donations");
 const Project = require("../Models/project");
 require("dotenv").config();
+const { add, forEach } = require("lodash");
+const rentedAddress = require("../Models/rentedAddress");
+const RentedAddressModel = require("../Models/rentedAddress");
+
 
 exports.createDonation = (req, res, next) => {
   let data = req.body;
@@ -99,3 +103,104 @@ exports.getUserDonations = (req, res, next) => {
     });
   });
 };
+//new info
+
+
+
+exports.getDonationAddress = async (req, res, next) => {
+    const { projectId, amount,name,comment } = req.query;
+    lendAddress(projectId, amount,name,comment).then(address => {
+        res.send({
+            status: 200,
+            data: {
+                query: req.query,
+                body: req.body,
+                address,
+            }
+        });
+    }).catch(err => {
+        console.log(err)
+        res.send({
+            status: 404,
+            data: err
+        });
+    });
+}
+
+async function lendAddress(projectId, amount,name,comment) {
+    // const session = await RentedAddressModel.startSession();
+    const session = null; // enable session if using replicaSet otherwise unsupported
+
+    // return session.withTransaction(async function () {
+    // get project by id
+    let project = await Project.findById(projectId)
+    // .setOptions({ session });
+
+    let addresses = project.receivingAddresses || [];
+
+    let alreadyRented = await RentedAddressModel
+        .find({ projectId: projectId })
+        .select({ address: 1 })
+    // .setOptions({ session });
+
+    alreadyRented = alreadyRented.map(rented => rented.address);
+
+    let unassignedAddresses = addresses.filter((address) => { return !alreadyRented.includes(address); });
+
+    let picked = unassignedAddresses.length && unassignedAddresses[0];
+
+    if (picked) {
+        let rentedAddress = new RentedAddressModel({
+            projectId: projectId,
+            data: {
+                projectId:projectId,
+                amount:amount,
+                name:name,
+                comment:comment
+            },
+            address: picked,
+            amount: amount,
+        });
+        console.log("rented address",rentedAddress)
+        return rentedAddress
+        // .setOptions({ session })
+            .save();
+    } else {
+        return Promise.reject('All addresses are rented at the moment');
+    }
+    // })
+}
+
+exports.saveTransaction = (req, res) => {
+    const { txId, address, amount } = req.body;
+
+    receiveDonation(txId, address, amount, req.body).then((ret) => {
+        res.send({
+            status: 200,
+            data: ret
+        })
+    })
+}
+
+async function receiveDonation(txId, address, amount, info) {
+    let rentedAddresses = await RentedAddressModel.find({ address: address });
+    if (rentedAddresses && rentedAddresses.length) {
+        let matched = rentedAddresses.find(rentedAddress => {
+            return (Math.abs(rentedAddress.amount - amount) < rentedAddress.amount * 0.05); // check amount -/+ 5%
+        });
+        if (matched) {
+            await DonationModel.create({
+                ...info,
+                txId: txId,
+                donatedBCH: amount,
+                projectId: matched.projectId,
+                _id: new mongoose.Types.ObjectId(),
+            })
+            await matched.delete();
+            return 'deleting';
+        }
+    }
+    // save annonymouse transaction
+
+    return Promise.resolve(false);
+}
