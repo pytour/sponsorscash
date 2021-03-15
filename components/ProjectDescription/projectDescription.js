@@ -176,7 +176,7 @@ const projectDescription = (props) => {
                                 setIsNotCompleted(false);
                             }
                             // save this donation to donations db!
-                            console.log("save this donation to donations db!");
+                            // console.log("save this donation to donations db!");
                             axios
                                 .post(
                                     publicRuntimeConfig.APP_URL + "/donations/createDonation",
@@ -287,7 +287,7 @@ const projectDescription = (props) => {
             amount: 0,
         },
         validate,
-        onSubmit: (values) => {
+        onSubmit: (values,{resetForm}) => {
             axios
                 .get(publicRuntimeConfig.APP_URL + "/donations/getDonationAddress", {
 
@@ -307,9 +307,17 @@ const projectDescription = (props) => {
                     }
                     else console.log(res1,'error')
                 }) .catch((err) => console.log(err));
+
+            setTimeout(()=>{
+                resetForm();
+            },1500)
         },
     });
 
+    function handleModlaClose() {
+        setModal(false)
+        setReceivingAddress(null)
+    }
 
     return (
         <div>
@@ -397,7 +405,7 @@ const projectDescription = (props) => {
                                     <h4 className="text-3xl text-center font-semibold">
                                         {receivingAddress ? "BCH Cash Address" :  "Donate"}
                                     </h4>
-                                    <button onClick={() => setModal(false)}
+                                    <button onClick={handleModlaClose}
                                             className="p-1 ml-auto bg-transparent border-0 text-red  float-right text-3xl leading-none font-semibold outline-none focus:outline-none"
                                     >
                     <span
