@@ -86,9 +86,8 @@ export default function ProjectSucess({resetAllData, walletInfo, images, secret,
                                 remember the bellow key phrase to access your wallet.</p>
                             <p className="py-4 text-green-600 text-xl "> Your Wallet access key phrase is: </p>
 
-                            <p className="bg-black text-white block p-4 -underline font-black"> " {secret.secret} " </p>
-                            <p className="pt-10 pb-4 text-xl text-red-400  "> Write it in a plain paper or if you loose
-                                it,you will loose your fund. </p>
+                               <p className="bg-black text-white block p-4 -underline font-black">  {secret.secret}  </p>
+                            <p className="pt-10 pb-4 text-xl text-red-400  ">  Write it in a plain paper or if you loose it,you will loose your fund.  </p>
 
                         </div>
                         {/*footer*/}
