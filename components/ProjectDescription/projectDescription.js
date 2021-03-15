@@ -288,12 +288,17 @@ const projectDescription = (props) => {
         },
         validate,
         onSubmit: (values,{resetForm}) => {
+
+
             axios
                 .get(publicRuntimeConfig.APP_URL + "/donations/getDonationAddress", {
 
                     params: {
                         projectId: props.id,
-                        values,
+                        name:values.name,
+                        amount:values.amount,
+                        comment:values.comment
+
                     }
 
                 })
