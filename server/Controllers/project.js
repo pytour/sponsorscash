@@ -55,7 +55,6 @@ exports.createProject = (req, res, next) => {
             address:obj
 
         })
-        console.log(receivingAddress,"rec new obj");
 
         return receivingAddress.save(function (err) {
             if (err) {

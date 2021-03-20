@@ -12,6 +12,7 @@ const donationsSchema = mongoose.Schema({
   userImage: { type: String },
   name: { type: String },
   username: { type: String },
+    comment:{type:String},
 });
 
 module.exports = mongoose.model("Donations", donationsSchema);

@@ -217,7 +217,8 @@ const projectDescription = (props) => {
                     projectId: props.id,
                     amount: formik.values.goal,
                     name:formik.values.name,
-                    comment:formik.values.comment
+                    comment:formik.values.comment,
+                    userId: userId,
                 })
                 .then((res1) => {
                     if (res1.data.status === 201) {
@@ -297,7 +298,8 @@ const projectDescription = (props) => {
                         projectId: props.id,
                         name:values.name,
                         amount:values.amount,
-                        comment:values.comment
+                        comment:values.comment,
+                        userId:userId ? userId : null,
 
                     }
 

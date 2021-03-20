@@ -108,8 +108,8 @@ exports.getUserDonations = (req, res, next) => {
 
 
 exports.getDonationAddress = async (req, res, next) => {
-    const { projectId, amount,name,comment } = req.query;
-    lendAddress(projectId, amount,name,comment).then(address => {
+    const { projectId, amount,name,comment,userId } = req.query;
+    lendAddress(projectId, amount,name,comment,userId).then(address => {
         res.send({
             status: 200,
             data: {
@@ -127,7 +127,7 @@ exports.getDonationAddress = async (req, res, next) => {
     });
 }
 
-async function lendAddress(projectId, amount,name,comment) {
+async function lendAddress(projectId, amount,name,comment,userId) {
     // const session = await RentedAddressModel.startSession();
     const session = null; // enable session if using replicaSet otherwise unsupported
 
@@ -156,7 +156,8 @@ async function lendAddress(projectId, amount,name,comment) {
                 projectId:projectId,
                 amount:amount,
                 name:name,
-                comment:comment
+                comment:comment,
+                userId:userId ? userId: null,
             },
             address: picked,
             amount: amount,
