@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const User = require("../Models/users");
 const Project = require("../Models/project");
+const ReceivingAddress = require("../Models/receivingAddress");
 const DonationModel = require("../Models/donations");
 const WalletModel = require("../Models/wallet");
 const fs = require("fs");
@@ -46,6 +47,23 @@ exports.createProject = (req, res, next) => {
     status: "ACTIVE",
     receivingAddresses: data.receivingAddresses,
   });
+
+    data && data.receivingAddresses && data.receivingAddresses.map(obj=>{
+        let  receivingAddress= new ReceivingAddress({
+            _id:new mongoose.Types.ObjectId(),
+            projectId:req.decodedTokenData.userId,
+            address:obj
+
+        })
+        console.log(receivingAddress,"rec new obj");
+
+        return receivingAddress.save(function (err) {
+            if (err) {
+                console.log("Error at createDonation:", err);
+            }
+        });
+    })
+
   project.save(function (err) {
     if (err) {
       console.log("project save error");

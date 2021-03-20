@@ -9,7 +9,7 @@ const RentedAddressModel = require("../Models/rentedAddress");
 
 exports.createDonation = (req, res, next) => {
   let data = req.body;
-  console.log("createDonation:", data);
+
   let projectTitle = data.title;
   let projectImage = data.image;
   let txId = data.txId;
