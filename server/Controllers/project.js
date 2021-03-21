@@ -51,9 +51,8 @@ exports.createProject = (req, res, next) => {
     data && data.receivingAddresses && data.receivingAddresses.map(obj=>{
         let  receivingAddress= new ReceivingAddress({
             _id:new mongoose.Types.ObjectId(),
-            projectId:req.decodedTokenData.userId,
+            projectId:_id,
             address:obj
-
         })
 
         return receivingAddress.save(function (err) {
