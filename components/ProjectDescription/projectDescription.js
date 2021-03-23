@@ -1,6 +1,5 @@
 import React, {useEffect, useRef, useState} from "react";
 import axios from "axios";
-import * as Swal from "sweetalert2";
 import {useSelector} from "react-redux";
 
 import getConfig from "next/config";
@@ -14,9 +13,7 @@ import {
     TwitterShareButton,
 } from "react-share";
 import Warning from "../../utils/warning";
-import * as formik from "formik";
 import {useFormik} from "formik";
-import Router from "next/router";
 import {CopyToClipboard} from "react-copy-to-clipboard";
 
 const bitboxSDK = require("bitbox-sdk").BITBOX;
@@ -49,174 +46,159 @@ const validate = (values) => {
 };
 
 const projectDescription = (props) => {
-    const [modal, setModal] = useState(false);
-    const [modalShare, setModalShare] = useState(false);
-    const [amount, setAmount] = useState(0);
-    const [funded, setFunded] = useState(0);
-    // const [fee, setFee] = useState(0);
-    const [isNotCompleted, setIsNotCompleted] = useState(true);
-    const token = useSelector((state) => state.token);
-    const username = useSelector((state) => state.username);
-    const userId = useSelector((state) => state.id);
-    const name = useSelector((state) => state.name);
-    const image = useSelector((state) => state.image);
-    const [copySuccess, setCopySuccess] = useState("");
-    const textAreaRef = useRef(null);
-    const [receivingAddress, setReceivingAddress] = useState(null);
+  const [modal, setModal] = useState(false);
+  const [modalShare, setModalShare] = useState(false);
+  const [amount, setAmount] = useState(0);
+  const [funded, setFunded] = useState(0);
+  // const [fee, setFee] = useState(0);
+  const [isNotCompleted, setIsNotCompleted] = useState(true);
+  const token = useSelector((state) => state.token);
+  const username = useSelector((state) => state.username);
+  const userId = useSelector((state) => state.id);
+  const name = useSelector((state) => state.name);
+  const image = useSelector((state) => state.image);
+  const [copySuccess, setCopySuccess] = useState("");
+  const textAreaRef = useRef(null);
+  const [receivingAddress, setReceivingAddress] = useState(null);
 
-    const [copier, setCopier] = useState(false);
+  const [copier, setCopier] = useState(false);
 
-    function handleCopyFunc(value) {
-        setCopier(true)
-    }
+  function handleCopyFunc(value) {
+    setCopier(true);
+  }
 
+  function copyToClipboard(e) {
+    textAreaRef.current.select();
+    document.execCommand("copy");
+    // This is just personal preference.
+    // I prefer to not show the whole text area selected.
+    e.target.focus();
+    setCopySuccess("Copied!");
+  }
 
-    function copyToClipboard(e) {
-        textAreaRef.current.select();
-        document.execCommand("copy");
-        // This is just personal preference.
-        // I prefer to not show the whole text area selected.
-        e.target.focus();
-        setCopySuccess("Copied!");
-    }
-
-    useEffect(() => {
-        if (props.id) {
-            // console.log("description prop", props);
-            axios
-                .post(publicRuntimeConfig.APP_URL + "/project/checkGoalStatus", {
-                    id: props.id,
-                })
-                .then((res) => {
-                    // console.log("is hitted: ", res.data.status);
-                    if (res.data.status === 201) {
-                        console.log("PROJECT GOAL HITTED");
-                        // Goal hitted ,but Countdown may be not ended then donations active
-                        setIsNotCompleted(false);
-                    }
-                    if (true) {
-                        // if (!props.hasEnded)
-                        axios
-                            .post(publicRuntimeConfig.APP_URL + "/project/checkFunds", {
-                                projectID: props.id,
-                            })
-                            .then((funds) => {
-                                if (funds.data.status === 200) {
-                                    console.log("projDescription checkFunds:", funds.data.funded);
-                                    let fundedVal =
-                                        funds.data.funded > props.funded
-                                            ? funds.data.funded
-                                            : props.funded;
-                                    setFunded(fundedVal);
-                                } else if (funds.data.status === 400) {
-                                    console.log(
-                                        "projDescription :: Error at checkFunds:",
-                                        funds.data.message
-                                    );
-                                    setFunded(props.funded);
-                                }
-                            })
-                            .catch((err) => {
-                                console.log(
-                                    "projDescription:: Error at checkFunds: ",
-                                    err.message
-                                );
-                                setFunded(props.funded);
-                            });
-                    } else {
-                        setFunded(props.funded);
-                    }
-                })
-                .catch((err) => console.log("Error at checkGoalStatus: ", err.message));
-        } else {
-            setFunded(props.funded);
-        }
-    }, [props.id]);
-
-    useEffect(() => {
-        setFunded(props.funded);
-    }, [props.funded]);
-
-
-    let endTime = props.endTime ? props.endTime.split(".")[0] : "";
-
-    const countdownTimer = ({days, hours, minutes, seconds, completed}) => {
-        if (completed) {
+  useEffect(() => {
+    if (props.id) {
+      // console.log("description prop", props);
+      axios
+        .post(publicRuntimeConfig.APP_URL + "/project/checkGoalStatus", {
+          id: props.id,
+        })
+        .then((res) => {
+          // console.log("is hitted: ", res.data.status);
+          if (res.data.status === 201) {
+            console.log("PROJECT GOAL HITTED");
+            // Goal hitted ,but Countdown may be not ended then donations active
             setIsNotCompleted(false);
-            axios
-                .post(publicRuntimeConfig.APP_URL + "/project/setCompletion", {
-                    projectID: props.id,
-                    ended: true,
-                })
-                .then((res) => console.log(res))
-                .catch((err) => console.log("Error at setCompletion: ", err.message));
-            return (
-                <div>
-                    <h4>project ended</h4>
-                </div>
-            );
-        }
-        else {
-            return (
-                <ul className="p-0 mb-0">
-                    <li className="inline-block  text-md list-none ">
-                        <span className="mx-2 font-bold text-block">{days}</span>:
-                    </li>
-                    <li className="inline-block  text-md list-none ">
-                        <span className="mx-2 font-bold text-block">{hours}</span>:
-                    </li>
-                    <li className="inline-block  text-md list-none ">
-                        <span className="mx-2 font-bold text-block">{minutes}</span>:
-                    </li>
-                    <li className="inline-block  text-md list-none ">
-                        <span className="mx-2 font-bold text-block">{seconds}</span>
-                    </li>
-                </ul>
-            );
-        }
-    };
+          }
 
+          axios
+            .post(publicRuntimeConfig.APP_URL + "/project/checkFunds", {
+              projectID: props.id,
+            })
+            .then((funds) => {
+              if (funds.data.status === 200) {
+                console.log("projDescription checkFunds:", funds.data.funded);
+                let fundedVal =
+                  funds.data.funded > props.funded
+                    ? funds.data.funded
+                    : props.funded;
+                setFunded(fundedVal);
+              } else if (funds.data.status === 400) {
+                console.log(
+                  "projDescription :: Error at checkFunds:",
+                  funds.data.message
+                );
+                setFunded(props.funded);
+              }
+            })
+            .catch((err) => {
+              console.log(
+                "projDescription:: Error at checkFunds: ",
+                err.message
+              );
+              setFunded(props.funded);
+            });
+        })
+        .catch((err) => console.log("Error at checkGoalStatus: ", err.message));
+    } else {
+      setFunded(props.funded);
+    }
+  }, [props.id]);
 
-    const formik = useFormik({
+  useEffect(() => {
+    setFunded(props.funded);
+  }, [props.funded]);
 
-        initialValues: {
-            name: "",
-            comment: "",
-            amount: 0,
-        },
-        validate,
-        onSubmit: (values, {resetForm}) => {
+  let endTime = props.endTime ? props.endTime.split(".")[0] : "";
 
+  const countdownTimer = ({ days, hours, minutes, seconds, completed }) => {
+    if (completed) {
+      setIsNotCompleted(false);
+      axios
+        .post(publicRuntimeConfig.APP_URL + "/project/setCompletion", {
+          projectID: props.id,
+          ended: true,
+        })
+        .then((res) => console.log(res))
+        .catch((err) => console.log("Error at setCompletion: ", err.message));
+      return (
+        <div>
+          <h4>project ended</h4>
+        </div>
+      );
+    } else {
+      return (
+        <ul className="p-0 mb-0">
+          <li className="inline-block  text-md list-none ">
+            <span className="mx-2 font-bold text-block">{days}</span>:
+          </li>
+          <li className="inline-block  text-md list-none ">
+            <span className="mx-2 font-bold text-block">{hours}</span>:
+          </li>
+          <li className="inline-block  text-md list-none ">
+            <span className="mx-2 font-bold text-block">{minutes}</span>:
+          </li>
+          <li className="inline-block  text-md list-none ">
+            <span className="mx-2 font-bold text-block">{seconds}</span>
+          </li>
+        </ul>
+      );
+    }
+  };
 
-            axios
-                .get(publicRuntimeConfig.APP_URL + "/donations/getDonationAddress", {
+  const formik = useFormik({
+    initialValues: {
+      name: "",
+      comment: "",
+      amount: 0,
+    },
+    validate,
+    onSubmit: (values, { resetForm }) => {
+      axios
+        .get(publicRuntimeConfig.APP_URL + "/donations/getDonationAddress", {
+          params: {
+            projectId: props.id,
+            name: values.name,
+            amount: values.amount,
+            comment: values.comment,
+            userId: userId ? userId : null,
+          },
+        })
+        .then((res1) => {
+          if (res1.data.status === 200) {
+            setReceivingAddress(res1.data.data.address.address);
+            // console.log("succeed",res1.data.data.address.address);
+            // setIsNotCompleted(false);
+            // Swal.fire("Campaign Cash Address to send money:", res1.data.data.address.address, "info");
+          } else console.log(res1, "error");
+        })
+        .catch((err) => console.log(err));
 
-                    params: {
-                        projectId: props.id,
-                        name: values.name,
-                        amount: values.amount,
-                        comment: values.comment,
-                        userId: userId ? userId : null,
-
-                    }
-
-                })
-                .then((res1) => {
-                    if (res1.data.status === 200) {
-                        setReceivingAddress(res1.data.data.address.address);
-                        // console.log("succeed",res1.data.data.address.address);
-                        // setIsNotCompleted(false);
-                        // Swal.fire("Campaign Cash Address to send money:", res1.data.data.address.address, "info");
-
-                    }
-                    else console.log(res1, 'error')
-                }).catch((err) => console.log(err));
-
-            setTimeout(() => {
-                resetForm();
-            }, 1500)
-        },
-    });
+      setTimeout(() => {
+        resetForm();
+      }, 1500);
+    },
+  });
 
     function handleModlaClose() {
         setModal(false)
@@ -277,31 +259,33 @@ const projectDescription = (props) => {
                 </div>
             </div>
 
-            <div className="sm:text-center lg:text-left">
-                {props.status === "CANCELED" && (
-                    <p className="uppercase py-2 px-1 text-timer text-md ">Campaign cancelled</p>
-                )}
-                {props.status !== "CANCELED" && isNotCompleted && (
-                    <button
-                        type="button"
-                        onClick={() => {
-                            setModal(!modal);
-                        }}
-                        className="w-full mr-4 mb-2 sm:w-auto inline-flex justify-center text-branding-color focus:text-white  hover:text-white border-1 border-branding-color text-xl rounded-full py-1.5 px-12 hover:bg-branding-color uppercase"
-                    >
-                        donate now
-                    </button>
-                )}
-                <button
-                    type="button"
-                    onClick={() => {
-                        setModalShare(!modalShare);
-                    }}
-                    className="w-full mb-2 sm:w-auto inline-flex justify-center text-branding-color focus:text-white  hover:text-white border-1 border-branding-color text-xl rounded-full py-1.5 px-12 hover:bg-branding-color uppercase"
-                >
-                    share
-                </button>
-            </div>
+      <div className="sm:text-center lg:text-left">
+        {props.status === "CANCELED" && (
+          <p className="uppercase py-2 px-1 text-timer text-md ">
+            Campaign cancelled
+          </p>
+        )}
+        {props.status !== "CANCELED" && isNotCompleted && (
+          <button
+            type="button"
+            onClick={() => {
+              setModal(!modal);
+            }}
+            className="w-full mr-4 mb-2 sm:w-auto inline-flex justify-center text-branding-color focus:text-white  hover:text-white border-1 border-branding-color text-xl rounded-full py-1.5 px-12 hover:bg-branding-color uppercase"
+          >
+            donate now
+          </button>
+        )}
+        <button
+          type="button"
+          onClick={() => {
+            setModalShare(!modalShare);
+          }}
+          className="w-full mb-2 sm:w-auto inline-flex justify-center text-branding-color focus:text-white  hover:text-white border-1 border-branding-color text-xl rounded-full py-1.5 px-12 hover:bg-branding-color uppercase"
+        >
+          share
+        </button>
+      </div>
 
             {modal ? (
                 <>
@@ -365,7 +349,6 @@ const projectDescription = (props) => {
                                                     onChange={formik.handleChange}
                                                     onBlur={formik.handleBlur}
                                                     value={formik.values.name}
-                                                    maxLength = "25"
                                                     className=" w-full  h-10 p-3 text-outline-color placeholder-placeholder
                                    rounded-2xl border-outline-color outline-outline-color ring-border-color focus:ring-2 focus:ring-purple-300
                                    focus:border-purple-300  focus:outline-none
