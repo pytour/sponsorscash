@@ -220,9 +220,16 @@ const projectDescription = (props) => {
 
     function handleModlaClose() {
         setModal(false)
+        formik.resetForm()
         setReceivingAddress(null)
     }
 
+    function  handleModalCloseWithReset() {
+         setModal(false)
+        formik.resetForm()
+        setReceivingAddress(null)
+
+    }
     return (
         <div>
             <div className="flex  items-center justify-center  xl:justify-start">
@@ -358,6 +365,7 @@ const projectDescription = (props) => {
                                                     onChange={formik.handleChange}
                                                     onBlur={formik.handleBlur}
                                                     value={formik.values.name}
+                                                    maxLength = "25"
                                                     className=" w-full  h-10 p-3 text-outline-color placeholder-placeholder
                                    rounded-2xl border-outline-color outline-outline-color ring-border-color focus:ring-2 focus:ring-purple-300
                                    focus:border-purple-300  focus:outline-none
@@ -379,6 +387,7 @@ const projectDescription = (props) => {
                                                 onChange={formik.handleChange}
                                                 onBlur={formik.handleBlur}
                                                 value={formik.values.comment}
+                                                maxLength = "300"
                                                 className="px-3 pt-1.5 w-full
                                    rounded-md border-outline-color outline-outline-color
                                     ring-border-color focus:ring-2 focus:ring-purple-300
@@ -409,7 +418,7 @@ const projectDescription = (props) => {
                                             className="text-white bg-red-400  font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1"
                                             type="button"
                                             style={{transition: "all .15s ease"}}
-                                            onClick={() => setModal(false)}
+                                            onClick={handleModalCloseWithReset}
                                         >
                                             Close
                                         </button>
