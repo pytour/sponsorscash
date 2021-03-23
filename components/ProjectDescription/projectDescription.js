@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import { useSelector } from "react-redux";
-
 import getConfig from "next/config";
 import Countdown from "react-countdown";
 import {
@@ -192,9 +191,15 @@ const projectDescription = (props) => {
 
   function handleModlaClose() {
     setModal(false);
+    formik.resetForm();
     setReceivingAddress(null);
   }
 
+  function handleModalCloseWithReset() {
+    setModal(false);
+    formik.resetForm();
+    setReceivingAddress(null);
+  }
   return (
     <div>
       <div className="flex  items-center justify-center  xl:justify-start">
@@ -233,7 +238,7 @@ const projectDescription = (props) => {
             </div>
             <div className="text-center  text-goal">
               <p className=" text-xl text-goal font-bold">{props.goal} BCH</p>
-              <p className="uppercase text-xl  mb-0 ">goal</p>
+              <p className="uppercase text-xl  mb-0">goal</p>
             </div>
           </div>
         </div>
@@ -346,6 +351,7 @@ const projectDescription = (props) => {
                           onChange={formik.handleChange}
                           onBlur={formik.handleBlur}
                           value={formik.values.comment}
+                          maxLength="300"
                           className="px-3 pt-1.5 w-full
                                    rounded-md border-outline-color outline-outline-color
                                     ring-border-color focus:ring-2 focus:ring-purple-300
@@ -360,7 +366,7 @@ const projectDescription = (props) => {
                     {/*footer*/}
                     <div className="flex items-center justify-center p-6 border-t border-solid border-gray-300 rounded-b">
                       <button
-                        className="bg-branding-color mr-4 text-white active:bg-branding-color uppercase font-bold text-sm px-12 py-2 rounded shadow hover:shadow-lg outline-none focus:outline-none mb-1"
+                        className="bg-branding-color mr-4 text-white active:bg-branding-color font-bold uppercase text-sm px-12 py-2 rounded shadow hover:shadow-lg outline-none focus:outline-none mb-1"
                         type="submit"
                         style={{ transition: "all .15s ease" }}
                       >
@@ -370,7 +376,7 @@ const projectDescription = (props) => {
                         className="text-white bg-red-400  font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1"
                         type="button"
                         style={{ transition: "all .15s ease" }}
-                        onClick={() => setModal(false)}
+                        onClick={handleModalCloseWithReset}
                       >
                         Close
                       </button>
