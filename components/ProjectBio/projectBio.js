@@ -11,7 +11,7 @@ const DynamicComponentWithNoSSR = dynamic(
 
 const projectBio = (props) => {
   return (
-    <div  className="my-4 max-w-screen-xl px-4 lg:px-0 mx-auto">
+    <div  className="my-4 max-w-screen-xl px-4 xl:px-0 mx-auto">
       <div className="grid grid-cols-12 gap-2 lg:gap-8">
         <div className="col-span-12 lg:col-span-6 mb-3 lg:mb-0">
           <ImageGrid images={props.project.images} />

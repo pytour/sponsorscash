@@ -141,7 +141,7 @@ const project = (props) => {
           <>
               <ProjectBio project={project} projCashID={props.cashAddress} />
               <div className="border-t-2 my-4">
-                  <div className=" max-w-screen-xl px-4 lg:px-0 mx-auto "          >
+                  <div className=" max-w-screen-xl px-4 lg:px-4 xl:px-0 mx-auto "          >
                       <TabNavigation
                           projectCreator={props.projectCreator}
                           project={props.project}

@@ -20,7 +20,7 @@ const sponsorPanel = (props) => {
     return (
         <>
             <div>
-                <div className="py-4 grid grid-cols-2 lg:grid-cols-4 md:grid-cols-3 gap-4 lg:gap-8 px-4">
+                <div className="py-4 grid grid-cols-1 lg:grid-cols-2 md:grid-cols-2 gap-4 lg:gap-8 md:px-4">
                     {donations ? (
                             donations.map((el) => {
                                 if (el.name) {
@@ -34,6 +34,7 @@ const sponsorPanel = (props) => {
                                                 donation={el.donatedBCH + " BCH"}
                                                 tx={el.txId}
                                                 date={el.date}
+                                                comment={el.comment}
                                             />
                                         </div>
                                     );
@@ -50,6 +51,7 @@ const sponsorPanel = (props) => {
                                                 donation={el.donatedBCH + " BCH"}
                                                 tx={el.txId}
                                                 date={el.date}
+                                                comment={el.comment}
                                             />
                                         </div>
                                     );

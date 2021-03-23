@@ -62,7 +62,7 @@ const projectDescription = (props) => {
     const image = useSelector((state) => state.image);
     const [copySuccess, setCopySuccess] = useState("");
     const textAreaRef = useRef(null);
-    const [receivingAddress,setReceivingAddress] = useState(null);
+    const [receivingAddress, setReceivingAddress] = useState(null);
 
     const [copier, setCopier] = useState(false);
 
@@ -137,112 +137,9 @@ const projectDescription = (props) => {
         setFunded(props.funded);
     }, [props.funded]);
 
-    const sendBch = () => {
-        if (!token || !username) {
-            Swal.fire(
-                "Login first",
-                "To pay with Badger please login to Fundme.cash",
-                "error"
-            );
-            return;
-        }
-        if (amount < publicRuntimeConfig.MINIMUM_AMOUNT) {
-            Swal.fire("Dust Amount", "Amount must be at least 0.0002 BCH", "error");
-            return;
-        }
-        if (typeof web4bch !== "undefined") {
-            web4bch = new Web4Bch(web4bch.currentProvider);
-
-            let txParams = {
-                to: props.projCashAddress,
-                from: web4bch.bch.defaultAccount,
-                value: BITBOX.BitcoinCash.toSatoshi(amount),
-                opReturn: {
-                    data: ["0x6d02", "Fundmecash"],
-                },
-            };
-
-            web4bch.bch.sendTransaction(txParams, (err, txid) => {
-                if (err) {
-                    console.log("send err", err);
-                } else {
-                    axios
-                        .post(publicRuntimeConfig.APP_URL + "/project/updateFunds", {
-                            projectID: props.id,
-                            amount: amount,
-                        })
-                        .then((res1) => {
-                            if (res1.data.status === 201) {
-                                setIsNotCompleted(false);
-                            }
-                            // save this donation to donations db!
-                            // console.log("save this donation to donations db!");
-                            axios
-                                .post(
-                                    publicRuntimeConfig.APP_URL + "/donations/createDonation",
-                                    {
-                                        title: props.title,
-                                        image: props.images ? props.images[0] : "",
-                                        txId: txid,
-                                        donatedBCH: parseFloat(amount).toFixed(8),
-                                        projectId: props.id,
-                                        userId: userId,
-                                        name: name, // FROM
-                                        username: username,
-                                        userImage: image,
-                                        address: txParams.from,
-                                    }
-                                )
-                                .then((res) => {
-                                    console.log("donation success for user:", username);
-                                    console.log("txId:", txid);
-                                    // add this donation to projSponsorsTab
-                                })
-                                .catch((err) => console.log(err));
-                        })
-                        .catch((err) => console.log(err));
-                    console.log("send success, transaction id:", txid);
-                }
-            });
-        }
-    };
-
-    const pay = () => {
-        if (amount < publicRuntimeConfig.MINIMUM_AMOUNT) {
-            Swal.fire("Dust Amount", "Amount must be at least 0.00002 BCH", "error");
-        }
-        else {
-            axios
-                .post(publicRuntimeConfig.APP_URL + "/donations/getDonationAddress", {
-                    projectId: props.id,
-                    amount: formik.values.goal,
-                    name:formik.values.name,
-                    comment:formik.values.comment,
-                    userId: userId,
-                })
-                .then((res1) => {
-                    if (res1.data.status === 201) {
-                        console.log("succe",res1);
-                        // setIsNotCompleted(false);
-                        Swal.fire("Campaign Cash Address:", "success", "info");
-
-                    }
-                    else console.log(res1,'error')
-                }) .catch((err) => console.log(err));
-        }
-        // Return cashAddress for this project
-        // Swal.fire("Campaign Cash Address:", props.projCashAddress, "info");
-    };
 
     let endTime = props.endTime ? props.endTime.split(".")[0] : "";
 
-    const calcFees = (e) => {
-        let amount = parseFloat(e.target.value);
-        let fees = amount * (publicRuntimeConfig.FEE_AMOUNT / 100);
-        let depositAmount = (amount * 100 - fees * 100) / 100;
-        depositAmount = parseFloat(depositAmount).toFixed(8);
-        setAmount(+depositAmount);
-    };
     const countdownTimer = ({days, hours, minutes, seconds, completed}) => {
         if (completed) {
             setIsNotCompleted(false);
@@ -288,7 +185,7 @@ const projectDescription = (props) => {
             amount: 0,
         },
         validate,
-        onSubmit: (values,{resetForm}) => {
+        onSubmit: (values, {resetForm}) => {
 
 
             axios
@@ -296,10 +193,10 @@ const projectDescription = (props) => {
 
                     params: {
                         projectId: props.id,
-                        name:values.name,
-                        amount:values.amount,
-                        comment:values.comment,
-                        userId:userId ? userId : null,
+                        name: values.name,
+                        amount: values.amount,
+                        comment: values.comment,
+                        userId: userId ? userId : null,
 
                     }
 
@@ -307,17 +204,17 @@ const projectDescription = (props) => {
                 .then((res1) => {
                     if (res1.data.status === 200) {
                         setReceivingAddress(res1.data.data.address.address);
-                        console.log("succeed",res1.data.data.address.address);
+                        // console.log("succeed",res1.data.data.address.address);
                         // setIsNotCompleted(false);
                         // Swal.fire("Campaign Cash Address to send money:", res1.data.data.address.address, "info");
 
                     }
-                    else console.log(res1,'error')
-                }) .catch((err) => console.log(err));
+                    else console.log(res1, 'error')
+                }).catch((err) => console.log(err));
 
-            setTimeout(()=>{
+            setTimeout(() => {
                 resetForm();
-            },1500)
+            }, 1500)
         },
     });
 
@@ -328,14 +225,15 @@ const projectDescription = (props) => {
 
     return (
         <div>
-            <div className="flex  items-center  ">
-                <p className="text-center lg:text-left  text-funded text-xl md:text-2xl uppercase font-bold xl:mt-0 md:mt-4 lg:mt-0 sm:mt-4  ">
+            <div className="flex  items-center justify-center  xl:justify-start">
+                <p className="text-center xl:text-left  text-funded text-xl md:text-2xl uppercase font-bold xl:mt-0 md:mt-4 lg:mt-0 sm:mt-4  ">
                     {props.title}
                 </p>
             </div>
-            <div className="py-2 flex ">
+            <div className="py-2 flex justify-center  xl:justify-start">
 
-                <div className=" text-md py-1.5 px-2 bg-shadow-card bg-opacity-25 rounded-xl text-progress-bar  lg:block">
+                <div
+                    className=" text-md py-1.5 px-2 bg-shadow-card bg-opacity-25 rounded-xl text-progress-bar  lg:block">
                     <p className="text-center lg:text-left "> {props.category} </p>
                 </div>
             </div>
@@ -410,7 +308,7 @@ const projectDescription = (props) => {
                                 <div
                                     className="flex items-center justify-center p-3 border-b border-solid border-gray-300 rounded-t">
                                     <h4 className="text-3xl text-center font-semibold">
-                                        {receivingAddress ? "BCH Cash Address" :  "Donate"}
+                                        {receivingAddress ? "BCH Cash Address" : "Donate"}
                                     </h4>
                                     <button onClick={handleModlaClose}
                                             className="p-1 ml-auto bg-transparent border-0 text-red  float-right text-3xl leading-none font-semibold outline-none focus:outline-none"
@@ -422,118 +320,101 @@ const projectDescription = (props) => {
                                     </button>
                                 </div>
                                 {/*body*/}
-                                {!receivingAddress &&    <form onSubmit={formik.handleSubmit}>
-                                <div className=" p-6  flex-auto">
+                                {!receivingAddress && <form onSubmit={formik.handleSubmit}>
+                                    <div className=" p-6  flex-auto">
 
 
-                                    {/*<div>*/}
-                                        {/*<strong>Enter BCH Amount: </strong>*/}
-                                        {/*<input*/}
-                                            {/*className="w-full h-10 p-3 text-outline-color placeholder-outline-color*/}
-                                   {/*rounded-2xl border-outline-color outline-outline-color ring-border-color focus:ring-2 focus:ring-purple-300*/}
-                                   {/*focus:border-purple-300  focus:outline-none*/}
-                                    {/*border-1 focus:border-0  bg-transparent my-2"*/}
-                                            {/*onChange={calcFees} type="text"/>*/}
-                                    {/*</div>*/}
-
-                                    <div className="flex space-between items-baseline text-branding-color">
-                                        <div className="mb-3 w-full">
-                                            <p className="mb-3">Enter BCH Amount:</p>
-                                            <input
-                                                type="number"
-                                                name="amount"
-                                                id="amount"
-                                                placeholder="Amount (BCH)"
-                                                onChange={formik.handleChange}
-                                                onBlur={formik.handleBlur}
-                                                value={formik.values.amount}
-                                                className="mb-3 w-full  h-10 p-3 text-outline-color placeholder-placeholder
-                                   rounded-2xl border-outline-color outline-outline-color ring-border-color focus:ring-2 focus:ring-purple-300
-                                   focus:border-purple-300  focus:outline-none
-                                    border-1 focus:border-0  bg-transparent"
-                                            />
-                                            {formik.touched.amount && formik.errors.amount ? (
-                                                <Warning
-                                                    message={formik.errors.amount}/>
-                                            ) : null}
-                                        </div>
-                                    </div>
-
-                                            <div className="flex  space-between items-baseline text-branding-color">
-                                                <div className="mb-3 w-full">
-                                                    <p className="mb-3">Your Name</p>
-                                                    <input
-                                                        type="text"
-                                                        name="name"
-                                                        id="name"
-                                                        placeholder="Name"
-                                                        onChange={formik.handleChange}
-                                                        onBlur={formik.handleBlur}
-                                                        value={formik.values.name}
-                                                        className=" w-full  h-10 p-3 text-outline-color placeholder-placeholder
-                                   rounded-2xl border-outline-color outline-outline-color ring-border-color focus:ring-2 focus:ring-purple-300
-                                   focus:border-purple-300  focus:outline-none
-                                    border-1 focus:border-0  bg-transparent"
-                                                    />
-                                                    {formik.touched.name && formik.errors.name ? (
-                                                        <Warning
-                                                            message={formik.errors.name}/>
-                                                    ) : null}
-                                                </div>
-                                            </div>
-
-                                            <div className="mb-2 w-full">
-                                                <p className="text-left pb-3 text-branding-color">Comment</p>
-                                                <textarea
-                                                    name="comment"
-                                                    id="comment"
-                                                    placeholder="Comment"
+                                        <div className="flex space-between items-baseline text-branding-color">
+                                            <div className="mb-3 w-full">
+                                                <p className="mb-3">Enter BCH Amount:</p>
+                                                <input
+                                                    type="number"
+                                                    name="amount"
+                                                    id="amount"
+                                                    placeholder="Amount (BCH)"
                                                     onChange={formik.handleChange}
                                                     onBlur={formik.handleBlur}
-                                                    value={formik.values.comment}
-                                                    className="px-3 pt-1.5 w-full
+                                                    value={formik.values.amount}
+                                                    className="mb-3 w-full  h-10 p-3 text-outline-color placeholder-placeholder
+                                   rounded-2xl border-outline-color outline-outline-color ring-border-color focus:ring-2 focus:ring-purple-300
+                                   focus:border-purple-300  focus:outline-none
+                                    border-1 focus:border-0  bg-transparent"
+                                                />
+                                                {formik.touched.amount && formik.errors.amount ? (
+                                                    <Warning
+                                                        message={formik.errors.amount}/>
+                                                ) : null}
+                                            </div>
+                                        </div>
+
+                                        <div className="flex  space-between items-baseline text-branding-color">
+                                            <div className="mb-3 w-full">
+                                                <p className="mb-3">Your Name</p>
+                                                <input
+                                                    type="text"
+                                                    name="name"
+                                                    id="name"
+                                                    placeholder="Name"
+                                                    onChange={formik.handleChange}
+                                                    onBlur={formik.handleBlur}
+                                                    value={formik.values.name}
+                                                    className=" w-full  h-10 p-3 text-outline-color placeholder-placeholder
+                                   rounded-2xl border-outline-color outline-outline-color ring-border-color focus:ring-2 focus:ring-purple-300
+                                   focus:border-purple-300  focus:outline-none
+                                    border-1 focus:border-0  bg-transparent"
+                                                />
+                                                {formik.touched.name && formik.errors.name ? (
+                                                    <Warning
+                                                        message={formik.errors.name}/>
+                                                ) : null}
+                                            </div>
+                                        </div>
+
+                                        <div className="mb-2 w-full">
+                                            <p className="text-left pb-3 text-branding-color">Comment</p>
+                                            <textarea
+                                                name="comment"
+                                                id="comment"
+                                                placeholder="Comment"
+                                                onChange={formik.handleChange}
+                                                onBlur={formik.handleBlur}
+                                                value={formik.values.comment}
+                                                className="px-3 pt-1.5 w-full
                                    rounded-md border-outline-color outline-outline-color
                                     ring-border-color focus:ring-2 focus:ring-purple-300
                                    focus:border-purple-300  focus:outline-none
                                     border-1 focus:border-0  bg-transparent"
-                                                />
-                                                {formik.touched.comment && formik.errors.comment ? (
-                                                    <Warning
-                                                        message={formik.errors.comment}/>
-                                                ) : null}
+                                            />
+                                            {formik.touched.comment && formik.errors.comment ? (
+                                                <Warning
+                                                    message={formik.errors.comment}/>
+                                            ) : null}
 
 
                                         </div>
 
-                                </div>
-                                {/*footer*/}
-                                <div
-                                    className="flex items-center justify-center p-6 border-t border-solid border-gray-300 rounded-b">
+                                    </div>
+                                    {/*footer*/}
+                                    <div
+                                        className="flex items-center justify-center p-6 border-t border-solid border-gray-300 rounded-b">
 
-                                    {/*<button*/}
-                                        {/*className="bg-branding-color text-white active:bg-branding-color font-bold uppercase text-sm px-6 py-2 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1"*/}
-                                        {/*type="button"*/}
-                                        {/*style={{transition: "all .15s ease"}}*/}
-                                        {/*onClick={sendBch}>*/}
-                                        {/*Pay with Badger*/}
-                                    {/*</button>*/}
-                                    <button
-                                        className="bg-branding-color mr-4 text-white active:bg-branding-color uppercase font-bold uppercase text-sm px-12 py-2 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1"
-                                        type="submit"
-                                        style={{transition: "all .15s ease"}}
+                                        <button
+                                            className="bg-branding-color mr-4 text-white active:bg-branding-color uppercase font-bold uppercase text-sm px-12 py-2 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1"
+                                            type="submit"
+                                            style={{transition: "all .15s ease"}}
                                         >
-                                        Get Address
-                                    </button>
-                                    <button
-                                        className="text-white bg-red-400  font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1"
-                                        type="button"
-                                        style={{transition: "all .15s ease"}}
-                                        onClick={() => setModal(false)}
-                                    >
-                                        Close
-                                    </button>
-                                </div>
-                                </form> }
+                                            Get Address
+                                        </button>
+                                        <button
+                                            className="text-white bg-red-400  font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1"
+                                            type="button"
+                                            style={{transition: "all .15s ease"}}
+                                            onClick={() => setModal(false)}
+                                        >
+                                            Close
+                                        </button>
+                                    </div>
+                                </form>}
 
                                 {
                                     receivingAddress && <div>
@@ -544,30 +425,33 @@ const projectDescription = (props) => {
 
                                                 <div className=" md:my-8 items-center justify-items-center">
 
-                                                    <p className="text-center text-xl font-black px-4 pt-8 pb-6 text-site-theme"> Please sentd BCH to this Cash Address: </p>
+                                                    <p className="text-center text-xl font-black px-4 pt-8 pb-6 text-site-theme"> Please
+                                                        sentd BCH to this Cash Address: </p>
 
                                                     <h1 className="mx-6 text-gray-400 text-center text-xl text-black font-black p-4"> {receivingAddress}  </h1>
 
 
-                                                    <p className="py-6 mx-4 text-base font-medium text-red-500">Please note,this address is valid for 5 minutes,try to send amount within this time</p>
+                                                    <p className="py-6 mx-4 text-base font-medium text-red-500">Please
+                                                        note,this address is valid for 5 minutes,try to send amount
+                                                        within this time</p>
 
                                                 </div>
-
 
 
                                             </div>
 
 
-                                            <div className="flex items-center justify-center p-6  border-solid border-gray-300 rounded-b">
+                                            <div
+                                                className="flex items-center justify-center p-6  border-solid border-gray-300 rounded-b">
                                                 <CopyToClipboard text={receivingAddress}
                                                                  onCopy={() => console.log('copied')}>
                                                     <button
                                                         className="text-white  bg-branding-color  font-bold uppercase px-6 py-3 text-center text-sm outline-none focus:outline-none mr-1 mb-1"
                                                         type="button"
-                                                        style={{ transition: "all .15s ease" }}
+                                                        style={{transition: "all .15s ease"}}
                                                         onClick={handleCopyFunc}
                                                     >
-                                                        { copier ? "Copier": "Click to Copy"}
+                                                        {copier ? "Copier" : "Click to Copy"}
                                                     </button>
                                                 </CopyToClipboard>
 
