@@ -48,19 +48,21 @@ exports.createProject = (req, res, next) => {
     receivingAddresses: data.receivingAddresses,
   });
 
-    data && data.receivingAddresses && data.receivingAddresses.map(obj=>{
-        let  receivingAddress= new ReceivingAddress({
-            _id:new mongoose.Types.ObjectId(),
-            projectId:_id,
-            address:obj
-        })
+  data &&
+    data.receivingAddresses &&
+    data.receivingAddresses.map((obj) => {
+      let receivingAddress = new ReceivingAddress({
+        _id: new mongoose.Types.ObjectId(),
+        projectId: _id,
+        address: obj,
+      });
 
-        return receivingAddress.save(function (err) {
-            if (err) {
-                console.log("Error at createDonation:", err);
-            }
-        });
-    })
+      return receivingAddress.save(function (err) {
+        if (err) {
+          console.log("Error at createDonation:", err);
+        }
+      });
+    });
 
   project.save(function (err) {
     if (err) {
@@ -425,180 +427,23 @@ exports.isBchAddress = (req, res, next) => {
 exports.checkFunds = async (req, res, next) => {
   const data = req.body;
   const projectId = data.projectID;
-  let project, projWallet;
-  let balance = 0;
-  let addressDetails,
-    donations = [];
-  const WALLET = new Wallet();
-  // 1 Get project info
+  let project;
   try {
     project = await Project.findOne({ _id: projectId }).exec();
   } catch (error) {
     return res.send({ status: 400, message: "Error" + error.message });
   }
-
-  // 2 Get project wallet
-  try {
-    projWallet = await WalletModel.findOne({
-      _id: project.projectWalletID,
-    }).exec();
-  } catch (error) {
-    return res.send({ status: 400, message: "Error" + error.message });
-  }
-
-  // 3 Get campaign bch_address balance and transactions
-  try {
-    addressDetails = await WALLET.getAddressDetails(
-      projWallet.cashAddress,
-      false
-    );
-  } catch (error) {
-    console.log(
-      "Error:: Cant update funded amount with getAddressDetails:",
-      error
-    );
-    return res.send({ status: 400, message: "Error" + error.message });
-  }
-
-  balance = addressDetails.balance;
-  transactions = addressDetails.transactions;
-  console.log("Balance: ", balance);
-
-  // 4 Compare network transactions with saved transactions && Update if new tx founded
-
-  console.log("txAppearances: ", transactions.length);
-
-  for (const tx of transactions) {
-    console.log("Network Transaction:", tx);
-  }
-
-  // TODO: To prevent double check need to use DB locks
-  // in case checkFunds requested from two browsers in same time
-  // For a while set random timeout
-
-  await new Promise((r) =>
-    setTimeout(r, Math.floor(Math.random() * 2000 + 1000))
-  );
-
-  // 4.2 Get saved transactions for projectId
-  let savedTxs;
-  try {
-    donations = await DonationModel.find({
-      projectId: projectId,
-    }).exec();
-    savedTxs = donations.map((donation) => donation.txId);
-  } catch (error) {
-    console.log("Error:: Can't get donations:", error.message);
-  }
-  // 4.3 Compare saved transactions && Add new one
-
-  let newTransactions = []; // New transactions
-  for (const tx of transactions) {
-    if (!savedTxs.includes(tx)) {
-      newTransactions.push(tx);
-    }
-  }
-
-  if (newTransactions.length > 0) {
-    // Check new transactions
-    let newTransactionsDetails;
-    const campaignAddress = projWallet.cashAddress;
-    try {
-      newTransactionsDetails = await WALLET.getTransaction(newTransactions);
-      //console.log("newTransactionsDetails:", newTransactionsDetails);
-    } catch (error) {
-      console.log(error);
-    }
-
-    // Split transactions on INPUT and OUTPUT
-    // INPUT transaction have bch campaign_address in output side
-    for (const newTx of newTransactionsDetails) {
-      // console.log("\n\nNEW TX DETAILS:", JSON.stringify(newTx, null, 2));
-      console.log("\n\nNEW TX ID:", newTx.txid);
-      console.log("NEW TX DATE:", new Date(newTx.time * 1000));
-      let input = newTx.vin;
-      let output = newTx.vout; // addresses - Array with Legacy addresses
-      let confirmations = newTx.confirmations;
-      // Need to get Donors transactions (fromAddr, Amount, Date, txId)
-      let i = 0;
-      for (const el of input) {
-        i++;
-        console.log("\n* INPUT *", i);
-        console.log("Value:", el.value);
-        console.log("cashAddress:", el.cashAddress);
-      }
-      i = 0;
-      for (const el of output) {
-        i++;
-        console.log("\n* OUTPUT *", i);
-        console.log("Value:", el.value);
-        console.log("cashAddress:", el.scriptPubKey.cashAddrs);
-        console.log("scriptPubKey:", el.scriptPubKey);
-        if (
-          el.scriptPubKey.cashAddrs &&
-          +el.value > 0 &&
-          el.scriptPubKey.cashAddrs.includes(campaignAddress)
-        ) {
-          console.log("** This is sponsor transaction! **", el.value);
-
-          // Update funded value with this donation
-          console.log("FUNDED : NEW_VALUE", project.funded, +el.value);
-
-          let funded = new BigNumber(project.funded); // "11"
-          let amount = new BigNumber(el.value); // "1295.25"
-          funded = funded.plus(amount);
-          project.funded = funded.toNumber();
-
-          console.log(funded, amount);
-          try {
-            await project.save();
-            // If project saved without version error (race condition)
-            // Then save donation
-            try {
-              const donation = new DonationModel({
-                _id: new mongoose.Types.ObjectId(),
-                projectTitle: project.title,
-                projectImage: project.images[0],
-                txId: newTx.txid,
-                date: new Date().toJSON(),
-                donatedBCH: +el.value,
-                projectId: project._id,
-              });
-              await donation.save();
-            } catch (err) {
-              console.log("Error while save anonymous transaction :", err);
-            }
-          } catch (error) {
-            console.log("Error at server/checkFunds:", error);
-          }
-        }
-      }
-    }
-    if (project.funded >= project.goal) {
-      return res.send({
-        status: 200,
-        funded: project.funded,
-        completed: true,
-        message: "Funds Updated And Goal Reached",
-      });
-    } else {
-      return res.send({
-        status: 200,
-        message: "Funds updated",
-        funded: project.funded,
-      });
-    }
-  } else {
-    // There is no new transactions!
-    // Check project.FUNDED value again
-    try {
-      project = await Project.findOne({ _id: projectId }).exec();
-    } catch (error) {
-      return res.send({ status: 400, message: "Error" + error.message });
-    }
+  if (project.funded >= project.goal) {
     return res.send({
       status: 200,
-      message: "Funds the same:" + project.funded,
+      funded: project.funded,
+      completed: true,
+      message: "Goal Reached",
+    });
+  } else {
+    return res.send({
+      status: 200,
+      message: "Funded value",
       funded: project.funded,
     });
   }
@@ -828,17 +673,16 @@ exports.checkGoalStatus = (req, res, next) => {
   }
 };
 
-
 exports.setProjectAddresses = async (req, res, next) => {
-    const { addresses } = req.body;
+  const { addresses } = req.body;
 
-    const project = await Project.findById(req.params.id);
-    project.receivingAddresses = addresses;
-    await project.save();
+  const project = await Project.findById(req.params.id);
+  project.receivingAddresses = addresses;
+  await project.save();
 
-    res.send({
-        status: 200,
-        addresses,
-        project: project,
-    })
-}
+  res.send({
+    status: 200,
+    addresses,
+    project: project,
+  });
+};

@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
 import axios from "axios";
-import * as Swal from "sweetalert2";
 import { useSelector } from "react-redux";
 
 import getConfig from "next/config";
@@ -14,13 +13,9 @@ import {
   TwitterShareButton,
 } from "react-share";
 import Warning from "../../utils/warning";
-import * as formik from "formik";
 import { useFormik } from "formik";
-import Router from "next/router";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 
-const bitboxSDK = require("bitbox-sdk").BITBOX;
-const BITBOX = new bitboxSDK();
 const { publicRuntimeConfig } = getConfig();
 
 const validate = (values) => {
@@ -51,15 +46,9 @@ const validate = (values) => {
 const projectDescription = (props) => {
   const [modal, setModal] = useState(false);
   const [modalShare, setModalShare] = useState(false);
-  const [amount, setAmount] = useState(0);
   const [funded, setFunded] = useState(0);
-  // const [fee, setFee] = useState(0);
   const [isNotCompleted, setIsNotCompleted] = useState(true);
-  const token = useSelector((state) => state.token);
-  const username = useSelector((state) => state.username);
   const userId = useSelector((state) => state.id);
-  const name = useSelector((state) => state.name);
-  const image = useSelector((state) => state.image);
   const [copySuccess, setCopySuccess] = useState("");
   const textAreaRef = useRef(null);
   const [receivingAddress, setReceivingAddress] = useState(null);
@@ -81,13 +70,11 @@ const projectDescription = (props) => {
 
   useEffect(() => {
     if (props.id) {
-      // console.log("description prop", props);
       axios
         .post(publicRuntimeConfig.APP_URL + "/project/checkGoalStatus", {
           id: props.id,
         })
         .then((res) => {
-          // console.log("is hitted: ", res.data.status);
           if (res.data.status === 201) {
             console.log("PROJECT GOAL HITTED");
             // Goal hitted ,but Countdown may be not ended then donations active
