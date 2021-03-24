@@ -34,4 +34,4 @@ debug.log
 /public/UserImages/
 /public/static/images/company/
 
-package-lock.json
+.idea/
