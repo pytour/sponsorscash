@@ -1,8 +1,6 @@
-import React, { useState, useEffect } from "react";
-import { MDBContainer, MDBRow } from "mdbreact";
-import { Line, Pie } from "react-chartjs-2";
-import styles from "./charts.module.css";
-import { campaigns, pieData } from "./data";
+import React, {useState} from "react";
+import {Line, Pie} from "react-chartjs-2";
+import {campaigns, pieData} from "./data";
 
 const options = {
   scales: {
@@ -186,20 +184,13 @@ const charts = () => {
   }
 
   return (
-    <MDBContainer
-      style={{
-        maxWidth: "100%",
-        backgroundColor: "rgba(187,187,187,0.4)",
-        paddingTop: "50px",
-        paddingBottom: "150px",
-      }}
-    >
-      <MDBRow>
-        <div className="col-12 col-md-8 mx-auto">
-          <h1>FundMeToken (FMT)</h1>
+    <div className=" pt-12 pb-32 max-w-screen-xl  mx-auto  ">
+      <div className="container gird gird-cols-12 gap-8">
+        <div className="col-span-12 lg:col-span-12 leading-normal">
+          <h1 className="text-4xl text-left ">FundMeToken (FMT)</h1>
           <br />
           <>
-            <h2>Overview</h2>
+            <h2 className="mt-5 text-2xl text-left ">Overview</h2>
             <p>
               FMT will be used to airdrop website profits to all token holders.
             </p>
@@ -211,18 +202,19 @@ const charts = () => {
               <a
                 href="https://simpleledger.info/#token/e90e9e632314d7d8ea8151218187a2713804a4670573249daadeccb7f2fed076"
                 target="_blank"
+                className="underline text-blue-400"
               >
                 e90e9e632314d7d8ea8151218187a2713804a4670573249daadeccb7f2fed076
               </a>
             </p>
             <p>
-              Whitepaper:{" "}
-              <a href="https://fundme.cash/api/media/files/whitepaper.pdf">
+              Whitepaper:
+             <span> <a href="https://fundme.cash/api/media/files/whitepaper.pdf">
                 whitepaper.pdf
-              </a>
+             </a> </span>
             </p>
           </>
-          <h3 className="mt-5">Token distribution</h3>
+          <h3 className="mt-5 text-2xl text-left ">Token distribution</h3>
           <p>
             Our FMT distribution is as follows:
             <br />
@@ -234,10 +226,10 @@ const charts = () => {
           </p>
           {data ? <Pie data={distrPie} /> : ""}
 
-          <h1>Platform approx. growth prediction charts</h1>
+          <h1 className="mt-5 text-4xl text-left " >Platform approx. growth prediction charts</h1>
           <br />
           <>
-            <h2>Briefly</h2>
+            <h2 className="mt-5 text-2xl text-left ">Briefly</h2>
             <p>Here we will use example data to see platform growth charts</p>
             <p>platform growth conditioned by FundMe rewards system</p>
             <p>Prediction trending line based on quadratic function:</p>
@@ -249,11 +241,13 @@ const charts = () => {
           {/* <h3 className="mt-5">Campaigns chart</h3>
           {data ? <Line data={data} options={options} /> : ""}
           <br /> */}
-          <img
-            className={`${styles.imageChart} d-block mt-4`}
+         <div className="w-full h-full">
+             <img
+            className="p-1 w-full bg-branding-title rounded-sm text-center  mt-4"
             src="static/images/camp-chart.jpg"
             alt="chart"
           />
+         </div>
           {/* <h3 className="mt-5">Users chart</h3>
           {users ? <Line data={users} options={options} /> : ""} */}
           <br />
@@ -277,27 +271,9 @@ const charts = () => {
             {fmtData ? <Line data={fmtData} options={options} /> : ""}
           </div>
 
-          {/* <div>
-            <h3 className="mt-5">FMT / BCH chart</h3>
-            <p>
-              <i>Approximate prediction for FMT / BCH price chart</i>
-            </p>
-            <p>
-              <i>
-                Calculated as TOTAL BCH DEPOSITS / TOTAL FMT TOKENS + FMT INIT
-                PRICE
-              </i>
-            </p>
-            <i>
-              where BCH DEPOSITS returns from Ads system (based on chart above)
-            </i>
-            <br />
-            <br />
-            {fmtBch ? <Line data={fmtBch} /> : ""}
-          </div> */}
         </div>
-      </MDBRow>
-    </MDBContainer>
+      </div>
+    </div>
   );
 };
 export default charts;

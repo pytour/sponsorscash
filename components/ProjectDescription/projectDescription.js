@@ -1,44 +1,62 @@
-import React, { useEffect, useState, useRef } from "react";
-import styles from "./projectDescription.module.css";
-import {
-  MDBBtn,
-  MDBModal,
-  MDBModalBody,
-  MDBModalFooter,
-  MDBModalHeader,
-} from "mdbreact";
+import React, { useEffect, useRef, useState } from "react";
 import axios from "axios";
-import * as Swal from "sweetalert2";
-const bitboxSDK = require("bitbox-sdk").BITBOX;
-const BITBOX = new bitboxSDK();
 import { useSelector } from "react-redux";
-
 import getConfig from "next/config";
-const { publicRuntimeConfig } = getConfig();
 import Countdown from "react-countdown";
 import {
-  TelegramShareButton,
-  TelegramIcon,
-  FacebookShareButton,
   FacebookIcon,
-  TwitterShareButton,
+  FacebookShareButton,
+  TelegramIcon,
+  TelegramShareButton,
   TwitterIcon,
+  TwitterShareButton,
 } from "react-share";
+import Warning from "../../utils/warning";
+import { useFormik } from "formik";
+import { CopyToClipboard } from "react-copy-to-clipboard";
+
+const { publicRuntimeConfig } = getConfig();
+
+const validate = (values) => {
+  const errors = {};
+
+  if (!values.comment) {
+    errors.comment = "Required";
+  }
+
+  if (!values.name) {
+    errors.name = "Required";
+  }
+
+  if (!values.amount) {
+    errors.amount = "Required";
+  } else {
+    let amount = +values.amount;
+    if (typeof amount !== "number" && !isNaN(amount)) {
+      errors.amount = "Must be number";
+    } else if (amount < 0.0001) {
+      errors.amount = "Must be greater than 0.0001 BCH";
+    }
+  }
+
+  return errors;
+};
 
 const projectDescription = (props) => {
   const [modal, setModal] = useState(false);
   const [modalShare, setModalShare] = useState(false);
-  const [amount, setAmount] = useState(0);
   const [funded, setFunded] = useState(0);
-  // const [fee, setFee] = useState(0);
   const [isNotCompleted, setIsNotCompleted] = useState(true);
-  const token = useSelector((state) => state.token);
-  const username = useSelector((state) => state.username);
   const userId = useSelector((state) => state.id);
-  const name = useSelector((state) => state.name);
-  const image = useSelector((state) => state.image);
   const [copySuccess, setCopySuccess] = useState("");
   const textAreaRef = useRef(null);
+  const [receivingAddress, setReceivingAddress] = useState(null);
+
+  const [copier, setCopier] = useState(false);
+
+  function handleCopyFunc(value) {
+    setCopier(true);
+  }
 
   function copyToClipboard(e) {
     textAreaRef.current.select();
@@ -51,50 +69,44 @@ const projectDescription = (props) => {
 
   useEffect(() => {
     if (props.id) {
-      // console.log("description prop", props);
       axios
         .post(publicRuntimeConfig.APP_URL + "/project/checkGoalStatus", {
           id: props.id,
         })
         .then((res) => {
-          // console.log("is hitted: ", res.data.status);
           if (res.data.status === 201) {
             console.log("PROJECT GOAL HITTED");
             // Goal hitted ,but Countdown may be not ended then donations active
             setIsNotCompleted(false);
           }
-          if (true) {
-            // if (!props.hasEnded)
-            axios
-              .post(publicRuntimeConfig.APP_URL + "/project/checkFunds", {
-                projectID: props.id,
-              })
-              .then((funds) => {
-                if (funds.data.status === 200) {
-                  console.log("projDescription checkFunds:", funds.data.funded);
-                  let fundedVal =
-                    funds.data.funded > props.funded
-                      ? funds.data.funded
-                      : props.funded;
-                  setFunded(fundedVal);
-                } else if (funds.data.status === 400) {
-                  console.log(
-                    "projDescription :: Error at checkFunds:",
-                    funds.data.message
-                  );
-                  setFunded(props.funded);
-                }
-              })
-              .catch((err) => {
+
+          axios
+            .post(publicRuntimeConfig.APP_URL + "/project/checkFunds", {
+              projectID: props.id,
+            })
+            .then((funds) => {
+              if (funds.data.status === 200) {
+                console.log("projDescription checkFunds:", funds.data.funded);
+                let fundedVal =
+                  funds.data.funded > props.funded
+                    ? funds.data.funded
+                    : props.funded;
+                setFunded(fundedVal);
+              } else if (funds.data.status === 400) {
                 console.log(
-                  "projDescription:: Error at checkFunds: ",
-                  err.message
+                  "projDescription :: Error at checkFunds:",
+                  funds.data.message
                 );
                 setFunded(props.funded);
-              });
-          } else {
-            setFunded(props.funded);
-          }
+              }
+            })
+            .catch((err) => {
+              console.log(
+                "projDescription:: Error at checkFunds: ",
+                err.message
+              );
+              setFunded(props.funded);
+            });
         })
         .catch((err) => console.log("Error at checkGoalStatus: ", err.message));
     } else {
@@ -106,93 +118,8 @@ const projectDescription = (props) => {
     setFunded(props.funded);
   }, [props.funded]);
 
-  const sendBch = () => {
-    if (!token || !username) {
-      Swal.fire(
-        "Login first",
-        "To pay with Badger please login to Fundme.cash",
-        "error"
-      );
-      return;
-    }
-    if (amount < publicRuntimeConfig.MINIMUM_AMOUNT) {
-      Swal.fire("Dust Amount", "Amount must be at least 0.0002 BCH", "error");
-      return;
-    }
-    if (typeof web4bch !== "undefined") {
-      web4bch = new Web4Bch(web4bch.currentProvider);
-
-      let txParams = {
-        to: props.projCashAddress,
-        from: web4bch.bch.defaultAccount,
-        value: BITBOX.BitcoinCash.toSatoshi(amount),
-        opReturn: {
-          data: ["0x6d02", "Fundmecash"],
-        },
-      };
-
-      web4bch.bch.sendTransaction(txParams, (err, txid) => {
-        if (err) {
-          console.log("send err", err);
-        } else {
-          axios
-            .post(publicRuntimeConfig.APP_URL + "/project/updateFunds", {
-              projectID: props.id,
-              amount: amount,
-            })
-            .then((res1) => {
-              if (res1.data.status === 201) {
-                setIsNotCompleted(false);
-              }
-              // save this donation to donations db!
-              console.log("save this donation to donations db!");
-              axios
-                .post(
-                  publicRuntimeConfig.APP_URL + "/donations/createDonation",
-                  {
-                    title: props.title,
-                    image: props.images ? props.images[0] : "",
-                    txId: txid,
-                    donatedBCH: parseFloat(amount).toFixed(8),
-                    projectId: props.id,
-                    userId: userId,
-                    name: name, // FROM
-                    username: username,
-                    userImage: image,
-                    address: txParams.from,
-                  }
-                )
-                .then((res) => {
-                  console.log("donation success for user:", username);
-                  console.log("txId:", txid);
-                  // add this donation to projSponsorsTab
-                })
-                .catch((err) => console.log(err));
-            })
-            .catch((err) => console.log(err));
-          console.log("send success, transaction id:", txid);
-        }
-      });
-    }
-  };
-
-  const pay = () => {
-    if (amount < publicRuntimeConfig.MINIMUM_AMOUNT) {
-      Swal.fire("Dust Amount", "Amount must be at least 0.0002 BCH", "error");
-    }
-    // Return cashAddress for this project
-    Swal.fire("Campaign Cash Address:", props.projCashAddress, "info");
-  };
-
   let endTime = props.endTime ? props.endTime.split(".")[0] : "";
 
-  const calcFees = (e) => {
-    let amount = parseFloat(e.target.value);
-    let fees = amount * (publicRuntimeConfig.FEE_AMOUNT / 100);
-    let depositAmount = (amount * 100 - fees * 100) / 100;
-    depositAmount = parseFloat(depositAmount).toFixed(8);
-    setAmount(+depositAmount);
-  };
   const countdownTimer = ({ days, hours, minutes, seconds, completed }) => {
     if (completed) {
       setIsNotCompleted(false);
@@ -211,86 +138,117 @@ const projectDescription = (props) => {
     } else {
       return (
         <ul className="p-0 mb-0">
-          <li className={styles.countDownTimerLi}>
-            <span
-              className={`${styles.countDownTimerSpan} ${styles.countDownDaysHours}`}
-            >
-              {days}
-            </span>
-            :
+          <li className="inline-block  text-md list-none ">
+            <span className="mx-2 font-bold text-block">{days}</span>:
           </li>
-          <li className={styles.countDownTimerLi}>
-            <span
-              className={`${styles.countDownTimerSpan} ${styles.countDownDaysHours}`}
-            >
-              {hours}
-            </span>
-            :
+          <li className="inline-block  text-md list-none ">
+            <span className="mx-2 font-bold text-block">{hours}</span>:
           </li>
-          <li className={styles.countDownTimerLi}>
-            <span
-              className={`${styles.countDownTimerSpan} ${styles.countDownMinsSec}`}
-            >
-              {minutes}
-            </span>
-            :
+          <li className="inline-block  text-md list-none ">
+            <span className="mx-2 font-bold text-block">{minutes}</span>:
           </li>
-          <li className={styles.countDownTimerLi}>
-            <span
-              className={`${styles.countDownTimerSpan} ${styles.countDownMinsSec}`}
-            >
-              {seconds}
-            </span>
+          <li className="inline-block  text-md list-none ">
+            <span className="mx-2 font-bold text-block">{seconds}</span>
           </li>
         </ul>
       );
     }
   };
 
+  const formik = useFormik({
+    initialValues: {
+      name: "",
+      comment: "",
+      amount: 0,
+    },
+    validate,
+    onSubmit: (values, { resetForm }) => {
+      axios
+        .get(publicRuntimeConfig.APP_URL + "/donations/getDonationAddress", {
+          params: {
+            projectId: props.id,
+            name: values.name,
+            amount: values.amount,
+            comment: values.comment,
+            userId: userId ? userId : null,
+          },
+        })
+        .then((res1) => {
+          if (res1.data.status === 200) {
+            setReceivingAddress(res1.data.data.address.address);
+            // console.log("succeed",res1.data.data.address.address);
+            // setIsNotCompleted(false);
+            // Swal.fire("Campaign Cash Address to send money:", res1.data.data.address.address, "info");
+          } else console.log(res1, "error");
+        })
+        .catch((err) => console.log(err));
+
+      setTimeout(() => {
+        resetForm();
+      }, 1500);
+    },
+  });
+
+  function handleModlaClose() {
+    setModal(false);
+    formik.resetForm();
+    setReceivingAddress(null);
+  }
+
+  function handleModalCloseWithReset() {
+    setModal(false);
+    formik.resetForm();
+    setReceivingAddress(null);
+  }
   return (
-    <>
-      <div className="d-flex flex-column flex-lg-row justify-content-between align-items-lg-center mt-3 mt-lg-0">
-        <p className={`${styles.projectTitle} text-uppercase font-weight-bold`}>
+    <div>
+      <div className="flex  items-center justify-center  xl:justify-start">
+        <p className="text-center xl:text-left  text-funded text-xl md:text-2xl uppercase font-bold xl:mt-0 md:mt-4 lg:mt-0 sm:mt-4  ">
           {props.title}
         </p>
-        <p className={styles.hpProjectCategory}>{props.category}</p>
       </div>
+      <div className="py-2 flex justify-center  xl:justify-start">
+        <div className=" text-md py-1.5 px-2 bg-shadow-card bg-opacity-25 rounded-xl text-progress-bar  lg:block">
+          <p className="text-center lg:text-left "> {props.category} </p>
+        </div>
+      </div>
+      <p className="text-center lg:text-left text-goal break-words">
+        {props.description}
+      </p>
 
-      <p className={styles.projectText}>{props.description}</p>
-
-      <div className="text-center text-lg-left mb-3">
-        <div
-          className={`${styles.countDownTimer} d-lg-inline-block text-center mx-auto mr-lg-5 mb-3`}
-        >
+      <div className="grid lg:grid-cols-5 gap-y-4 gap-x-8 mb-3 pt-3 pb-1">
+        <div className="lg:col-span-2  text-center bg-card bg-opacity-50 px-4 py-2 rounded-2xl">
           {props.endTime && isNotCompleted ? (
             <Countdown date={endTime} renderer={countdownTimer} />
           ) : (
-            <h5>This campaign has ended</h5>
+            <div className="text-xl  text-center font-medium mb-1">
+              This campaign has ended
+            </div>
           )}
 
-          <p className={`${styles.fundEnds} text-uppercase text-center mb-0`}>
-            funding ends
-          </p>
+          <p className="uppercase text-center mb-0 text-timer">funding ends</p>
         </div>
-        <div className="donations d-lg-inline-block text-center">
-          <div className={`${styles.funded} d-inline-block pr-3 border-right`}>
-            <p style={{ fontSize: "1.3rem" }} className="font-weight-bold mb-0">
-              {funded ? +parseFloat(funded).toFixed(8) : 0} BCH
-            </p>
-            <p className="text-uppercase mb-0">funded</p>
-          </div>
-          <div className={`${styles.goal} d-inline-block pl-3`}>
-            <p style={{ fontSize: "1.3rem" }} className="font-weight-bold mb-0">
-              {props.goal} BCH
-            </p>
-            <p className="text-uppercase mb-0">goal</p>
+        <div className="lg:col-span-3 ">
+          <div className="grid grid-cols-2 gap-2 py-3 px-1 divide-x divide-black-400 text-center items-center ">
+            <div className="text-center text-funded text-xl ">
+              <p className="text-xl font-black">
+                {funded ? +parseFloat(funded).toFixed(8) : 0} BCH
+              </p>
+              <p className="uppercase text-xl  text-timer ">funded</p>
+            </div>
+            <div className="text-center  text-goal">
+              <p className=" text-xl text-goal font-bold">{props.goal} BCH</p>
+              <p className="uppercase text-xl  mb-0">goal</p>
+            </div>
           </div>
         </div>
       </div>
 
-      <div className="text-center text-lg-left">
+      <div className="sm:text-center lg:text-left">
         {props.status === "CANCELED" && (
-          <p className="text-uppercase d-block">Campaign cancelled</p>
+          <p className="uppercase py-2 px-1 text-timer text-md ">
+            Campaign cancelled
+          </p>
         )}
         {props.status !== "CANCELED" && isNotCompleted && (
           <button
@@ -298,7 +256,7 @@ const projectDescription = (props) => {
             onClick={() => {
               setModal(!modal);
             }}
-            className={`${styles.btnDonate} btn text-uppercase d-block d-lg-inline-block mx-auto mr-lg-4 mb-3 mb-lg-0`}
+            className="w-full mr-4 mb-2 sm:w-auto inline-flex justify-center text-branding-color focus:text-white  hover:text-white border-1 border-branding-color text-xl rounded-full py-1.5 px-12 hover:bg-branding-color uppercase"
           >
             donate now
           </button>
@@ -308,104 +266,259 @@ const projectDescription = (props) => {
           onClick={() => {
             setModalShare(!modalShare);
           }}
-          className={`${styles.btnDonate} btn text-uppercase d-block d-lg-inline-block mx-auto mr-lg-4 mb-3 mb-lg-0`}
+          className="w-full mb-2 sm:w-auto inline-flex justify-center text-branding-color focus:text-white  hover:text-white border-1 border-branding-color text-xl rounded-full py-1.5 px-12 hover:bg-branding-color uppercase"
         >
           share
         </button>
       </div>
-      <MDBModal isOpen={modal} toggle={setModal} centered>
-        <MDBModalHeader>Donate</MDBModalHeader>
-        <MDBModalBody>
-          <div>
-            <strong>Enter Amount:</strong>
-            <input className={styles.hpInput} onChange={calcFees} type="text" />
-          </div>
-          <div>
-            <strong>Platform Fee: {publicRuntimeConfig.FEE_AMOUNT}%</strong>
-          </div>
-          <div>
-            <strong>Sponsoree receive: {amount}</strong>
-          </div>
-        </MDBModalBody>
-        <MDBModalFooter>
-          <MDBBtn
-            color="secondary"
-            onClick={() => {
-              setModal(false);
-            }}
-          >
-            Close
-          </MDBBtn>
-          <MDBBtn color="primary" onClick={sendBch}>
-            Pay with Badger
-          </MDBBtn>
-          <MDBBtn color="primary" onClick={pay}>
-            Pay
-          </MDBBtn>
-        </MDBModalFooter>
-      </MDBModal>
-      <MDBModal isOpen={modalShare} toggle={setModalShare} centered>
-        <MDBModalHeader>SHARE</MDBModalHeader>
-        <MDBModalBody>
-          <div className="text-center">
-            <TelegramShareButton
-              url={`https://fundme.cash/project/${props.id}`}
-              quote={props.title}
-              className={styles.btnShareSmall}
-            >
-              <TelegramIcon size={32} round />
-            </TelegramShareButton>
-            <FacebookShareButton
-              url={`https://fundme.cash/project/${props.id}`}
-              quote={props.title}
-              className={styles.btnShareSmall}
-            >
-              <FacebookIcon size={32} round />
-            </FacebookShareButton>
-            <TwitterShareButton
-              url={`https://fundme.cash/project/${props.id}`}
-              quote={props.title}
-              className={styles.btnShareSmall}
-            >
-              <TwitterIcon size={32} round />
-            </TwitterShareButton>
-            <div>
-              {
-                /* Logical shortcut for only displaying the 
-          button if the copy command exists */
-                document.queryCommandSupported("copy") && (
-                  <div className="p-2">
-                    <MDBBtn color="primary" onClick={copyToClipboard}>
-                      Copy URL
-                    </MDBBtn>
-                    {copySuccess}
+
+      {modal ? (
+        <>
+            <div
+                className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
+
+                <div className="relative w-full  my-4 mx-auto max-w-3xl">
+                    {/*content*/}
+                    <div
+                        className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
+                    {/*header*/}
+                <div className="flex items-center justify-center p-3 border-b border-solid border-gray-300 rounded-t">
+                  <h4 className="text-2xl text-center font-semibold">
+                    {receivingAddress ? "BCH Cash Address" : "Donate"}
+                  </h4>
+                  <button
+                    onClick={handleModlaClose}
+                    className="p-1 ml-auto bg-transparent border-0 text-red  float-right text-3xl leading-none font-semibold outline-none focus:outline-none"
+                  >
+                    <span className="bg-transparent text-black font-black  h-6 w-6 text-3xl block outline-none focus:outline-none">
+                      ×
+                    </span>
+                  </button>
+                </div>
+                {/*body*/}
+                {!receivingAddress && (
+                  <form onSubmit={formik.handleSubmit}>
+                    <div className=" p-6  flex-auto">
+                      <div className="flex space-between items-baseline text-branding-color">
+                        <div className="mb-3 w-full">
+                          <p className="mb-3">Enter BCH Amount:</p>
+                          <input
+                            type="number"
+                            name="amount"
+                            id="amount"
+                            placeholder="Amount (BCH)"
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                            value={formik.values.amount}
+                            className="mb-3 w-full  h-10 p-3 text-outline-color placeholder-placeholder
+                                   rounded-2xl border-outline-color outline-outline-color ring-border-color focus:ring-2 focus:ring-purple-300
+                                   focus:border-purple-300  focus:outline-none
+                                    border-1 focus:border-0  bg-transparent"
+                          />
+                          {formik.touched.amount && formik.errors.amount ? (
+                            <Warning message={formik.errors.amount} />
+                          ) : null}
+                        </div>
+                      </div>
+
+                      <div className="flex  space-between items-baseline text-branding-color">
+                        <div className="mb-3 w-full">
+                          <p className="mb-3">Your Name</p>
+                          <input
+                            type="text"
+                            name="name"
+                            id="name"
+                            placeholder="Name"
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                            value={formik.values.name}
+                            className=" w-full  h-10 p-3 text-outline-color placeholder-placeholder
+                                   rounded-2xl border-outline-color outline-outline-color ring-border-color focus:ring-2 focus:ring-purple-300
+                                   focus:border-purple-300  focus:outline-none
+                                    border-1 focus:border-0  bg-transparent"
+                          />
+                          {formik.touched.name && formik.errors.name ? (
+                            <Warning message={formik.errors.name} />
+                          ) : null}
+                        </div>
+                      </div>
+
+                      <div className="mb-2 w-full">
+                        <p className="text-left pb-3 text-branding-color">
+                          Comment
+                        </p>
+                        <textarea
+                          name="comment"
+                          id="comment"
+                          placeholder="Comment"
+                          onChange={formik.handleChange}
+                          onBlur={formik.handleBlur}
+                          value={formik.values.comment}
+                          maxLength="300"
+                          className="px-3 pt-1.5 w-full
+                                   rounded-md border-outline-color outline-outline-color
+                                    ring-border-color focus:ring-2 focus:ring-purple-300
+                                   focus:border-purple-300  focus:outline-none
+                                    border-1 focus:border-0  bg-transparent"
+                        />
+                        {formik.touched.comment && formik.errors.comment ? (
+                          <Warning message={formik.errors.comment} />
+                        ) : null}
+                      </div>
+                    </div>
+                    {/*footer*/}
+                    <div className="flex items-center justify-center p-6 border-t border-solid border-gray-300 rounded-b">
+                      <button
+                        className="bg-branding-color mr-4 text-white active:bg-branding-color font-bold uppercase text-sm md:px-12 px-6 py-2 rounded shadow hover:shadow-lg outline-none focus:outline-none mb-1"
+                        type="submit"
+                        style={{ transition: "all .15s ease" }}
+                      >
+                        Get Address
+                      </button>
+                      <button
+                        className="text-white bg-red-400  font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1"
+                        type="button"
+                        style={{ transition: "all .15s ease" }}
+                        onClick={handleModalCloseWithReset}
+                      >
+                        Close
+                      </button>
+                    </div>
+                  </form>
+                )}
+
+                {receivingAddress && (
+                  <div>
+
+                      <div className="p-6 flex-auto text-center">
+                        <div className=" md:my-8 items-center justify-items-center">
+                          <p className=" text-xl font-black px-4 pt-8 pb-6 text-site-theme">
+                            {" "}
+                            Please sentd BCH to this Cash Address:{" "}
+                          </p>
+
+                          <p className="mx-4 text-xl text-black font-black p-4 break-words">
+                            {receivingAddress}
+                          </p>
+
+                          <p className="py-6 mx-4 text-base font-medium text-red-500">
+                            Please note,this address is valid for 5 minutes,try
+                            to send amount within this time
+                          </p>
+                        </div>
+                      </div>
+
+                      <div className="flex items-center justify-center p-6  border-solid border-gray-300 rounded-b">
+                        <CopyToClipboard
+                          text={receivingAddress}
+                          onCopy={() => console.log("copied")}
+                        >
+                          <button
+                            className="text-white  bg-branding-color  font-bold uppercase px-6 py-3 text-center text-sm outline-none focus:outline-none mr-1 mb-1"
+                            type="button"
+                            style={{ transition: "all .15s ease" }}
+                            onClick={handleCopyFunc}
+                          >
+                            {copier ? "Copier" : "Click to Copy"}
+                          </button>
+                        </CopyToClipboard>
+                      </div>
                   </div>
-                )
-              }
-              <form>
-                <textarea
-                  ref={textAreaRef}
-                  value={`https://fundme.cash/project/${props.id}`}
-                />
-              </form>
+                )}
+              </div>
             </div>
           </div>
-        </MDBModalBody>
-        <MDBModalFooter>
-          <MDBBtn
-            color="secondary"
-            onClick={() => {
-              setModalShare(false);
-            }}
-          >
-            Close
-          </MDBBtn>
-          {/* <MDBBtn color="primary" onClick={pay}>
-            Pay
-          </MDBBtn> */}
-        </MDBModalFooter>
-      </MDBModal>
-    </>
+          <div className="opacity-25 fixed inset-0 z-40 bg-black" />
+        </>
+      ) : null}
+
+      {modalShare ? (
+        <>
+          <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
+            <div className="relative w-full  my-4 mx-auto max-w-3xl">
+              {/*content*/}
+              <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
+                {/*header*/}
+                <div className="flex items-start justify-between p-3 border-b border-solid border-gray-300 rounded-t">
+                  <h4 className="text-3xl uppercase font-semibold">Share</h4>
+                  <button
+                    onClick={() => setModalShare(false)}
+                    className="p-1 ml-auto bg-transparent border-0 text-red  float-right text-3xl leading-none font-semibold outline-none focus:outline-none"
+                  >
+                    <span className="bg-transparent text-black font-black  h-6 w-6 text-2xl block outline-none focus:outline-none">
+                      ×
+                    </span>
+                  </button>
+                </div>
+                {/*body*/}
+                <div className="relative p-6 flex-auto">
+                  <div className="text-center">
+                    <TelegramShareButton
+                      url={`https://fundme.cash/project/${props.id}`}
+                      quote={props.title}
+                      className="py-1.5 px-4 hover:bg-branding-text-color hover:text-white"
+                    >
+                      <TelegramIcon size={32} round />
+                    </TelegramShareButton>
+                    <FacebookShareButton
+                      url={`https://fundme.cash/project/${props.id}`}
+                      quote={props.title}
+                      className="py-1.5 px-4 hover:bg-branding-text-color hover:text-white"
+                    >
+                      <FacebookIcon size={32} round />
+                    </FacebookShareButton>
+                    <TwitterShareButton
+                      url={`https://fundme.cash/project/${props.id}`}
+                      quote={props.title}
+                      className="py-1.5 px-4 hover:bg-branding-text-color hover:text-white"
+                    >
+                      <TwitterIcon size={32} round />
+                    </TwitterShareButton>
+                    <div>
+                      {
+                        /* Logical shortcut for only displaying the
+                                          button if the copy command exists */
+                        document.queryCommandSupported("copy") && (
+                          <div className="p-2">
+                            <button
+                              color="primary"
+                              onClick={copyToClipboard}
+                              className="py-2 px-4 border-2 ring-1 text-black bg-white  h-10 mr-4 mb-4 "
+                            >
+                              Copy URL
+                            </button>
+                            {copySuccess}
+                          </div>
+                        )
+                      }
+                      <form>
+                        <textarea
+                          ref={textAreaRef}
+                          className="border ring-1 w-70 mx-auto "
+                          value={`https://fundme.cash/project/${props.id}`}
+                        />
+                      </form>
+                    </div>
+                  </div>
+                </div>
+                {/*footer*/}
+                <div className="flex items-center justify-end p-6 border-t border-solid border-gray-300 rounded-b">
+                  <button
+                    className="text-white bg-red-400  font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1"
+                    type="button"
+                    style={{ transition: "all .15s ease" }}
+                    onClick={() => setModalShare(false)}
+                  >
+                    Close
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="opacity-25 fixed inset-0 z-40 bg-black" />
+        </>
+      ) : null}
+    </div>
   );
 };
 

@@ -1,36 +1,19 @@
-import React, { useEffect, useState } from "react";
-import { withRedux } from "../../lib/redux";
+import React, {useEffect, useState} from "react";
+import {withRedux} from "../../lib/redux";
 import Layout from "../../components/Layout/Layout";
 import ProjectBio from "../../components/ProjectBio/projectBio";
-import TabNavigation from "../../components/TabNavigation/tabNavigation";
-import {
-  MDBBtn,
-  MDBCol,
-  MDBContainer,
-  MDBRow,
-  MDBCard,
-  MDBCardBody,
-} from "mdbreact";
-import { useRouter } from "next/router";
+import TabNavigation from "../../components/TabNavigation/Tabs";
 import axios from "axios";
-import Swal from "sweetalert2";
-import Router from "next/router";
-import { useSelector } from "react-redux";
+import {useSelector} from "react-redux";
 import DotLoader from "react-spinners/DotLoader";
 import getConfig from "next/config";
-import projectBio from "../../components/ProjectBio/projectBio";
 
 const { publicRuntimeConfig } = getConfig();
 
 const project = (props) => {
-  // const router = useRouter();
-  const [project, setProject] = useState({});
-  // const [projectCreator, setProjectCreator] = useState({});
-  // const [userWallet,setUserWallet] = useState({});
-  const [donations, setDonations] = useState();
-  // const [funded, setFunded] = useState(0);
 
-  const token = useSelector((state) => state.token);
+  const [project, setProject] = useState({});
+  const [donations, setDonations] = useState();
   // TODO:
   // Need to use setInterval to check for new deposits each 6 seconds
   // If new dep found update FUNDED value on API /checkGoalStatus
@@ -130,8 +113,9 @@ const project = (props) => {
 
   // Set initial data: project && donations
   useEffect(() => {
+      console.log("last donors tab projectId", props);
     let projectId = props.project._id;
-    //console.log("last donors tab projectId", projectId);
+
     if (projectId) {
       setProject(props.project);
       axios
@@ -154,42 +138,38 @@ const project = (props) => {
   return (
     <Layout props={props}>
       {props.project && props.project._id ? (
-        <>
-          <ProjectBio project={project} projCashID={props.cashAddress} />
-          <MDBContainer
-            style={{
-              borderTop: "1px solid #D8D4D4",
-              boxShadow: "inset 0 13px 6px -10px rgba(125, 115, 195, 0.2)",
-            }}
-            fluid
-          >
-            <TabNavigation
-              projectCreator={props.projectCreator}
-              project={props.project}
-              donations={donations}
-            />
-          </MDBContainer>
-        </>
+          <>
+              <ProjectBio project={project} projCashID={props.cashAddress} />
+              <div className="border-t-2 my-4">
+                  <div className=" max-w-screen-xl px-4 lg:px-4 xl:px-0 mx-auto "          >
+                      <TabNavigation
+                          projectCreator={props.projectCreator}
+                          project={props.project}
+                          donations={donations}
+                      />
+                  </div>
+              </div>
+          </>
       ) : props.error ? (
-        <MDBContainer style={{ padding: "40px" }}>
-          <MDBRow center>
-            <MDBCard>
-              <MDBCardBody className="p-4 m-4 align-middle">
-                Error 404: Page not found.
-              </MDBCardBody>
-            </MDBCard>
-          </MDBRow>
-        </MDBContainer>
+          <div className=" max-w-screen-xl p-12 lg:p-46 mx-auto "  >
+              <div className="object-center ">
+                  <div className="group rounded-sm h-32 lg:h-96 overflow-hidden shadow-sm ">
+                      <div className="p-4 m-4 items-middle text-center ">
+                          Error 404: Page not found.
+                      </div>
+                  </div>
+              </div>
+          </div>
       ) : (
-        <MDBContainer style={{ padding: "40px" }}>
-          <MDBRow center>
-            <MDBCard>
-              <MDBCardBody className="p-4 m-4 align-middle">
-                <DotLoader size={70} color={"#7d73c3"} />
-              </MDBCardBody>
-            </MDBCard>
-          </MDBRow>
-        </MDBContainer>
+          <div className="max-w-screen-xl mx-auto items-center text-center p-40"  >
+          <div className="flex flex-wrap content-center h-48 ">
+            <div>
+                <div className="p-5 object-center">
+                    <DotLoader size={50} color={"#7d73c3"} />
+                </div>
+            </div>
+          </div>
+        </div>
       )}
     </Layout>
   );
@@ -213,7 +193,7 @@ project.getInitialProps = async ({ query }) => {
 
   if (res.data.status === 200) {
     project = res.data.project;
-    cashAddress = res.data.cashAddress;
+    //cashAddress = res.data.cashAddress;
     projectCreator = {
       creator: res.data.creator,
       avatar: res.data.avatar,
@@ -231,5 +211,3 @@ project.getInitialProps = async ({ query }) => {
 };
 
 export default withRedux(project);
-
-// TODO https://insomnia.fountainhead.cash/v1/address/history/bitcoincash:qzz6jumhmcf29vj25ldvcdh4xs3jguqpg5j6qdxq0y

@@ -13,11 +13,13 @@ const projectSchema = mongoose.Schema({
     goal:{type:Number},
     sponsors:{type:Array},
     details: {type:String},
-    //comments: {type:Array},
     hasEnded:{type:Boolean,default: false},
     isTransactionCleared:{type:Boolean,default:false},
-    projectWalletID:{type:mongoose.Schema.Types.ObjectId},
-    status:{type:String}
+    //projectWalletID:{type:mongoose.Schema.Types.ObjectId},
+    status:{type:String},
+    receivingAddresses:[{ type: String }],
+    // addressList: [{ type: String }], need to think,which one
+    // transactions: [],  //need to know its need
 });
 
 projectSchema.plugin(updateIfCurrentPlugin);

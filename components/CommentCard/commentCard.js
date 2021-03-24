@@ -6,6 +6,7 @@ import engStrings from "react-timeago/lib/language-strings/en";
 import buildFormatter from "react-timeago/lib/formatters/buildFormatter";
 
 import getConfig from "next/config";
+
 const { publicRuntimeConfig } = getConfig();
 
 
@@ -13,11 +14,11 @@ const formatter = buildFormatter(engStrings);
 
 const commentCard = (props) => {
   return (
-    <div className={`${styles.messageCard} p-3 mt-4 mb-4`}>
-      <div className="container">
-        <div className="row mb-3">
-          <div className="col-3 col-sm-2 col-md-1">
-            <div className={`d-inline-block`}>
+    <div className="rounded-2xl border-1 border-gray-200 bg-white p-4 mt-4 mb-4">
+
+        <div className="flex mb-4 flex-row ">
+          <div className="block">
+            <div className="block">
               <img
                 src={publicRuntimeConfig.APP_URL + "/media/user/" + props.image}
                 alt="user-avatar"
@@ -25,21 +26,20 @@ const commentCard = (props) => {
               />
             </div>
           </div>
-          <div className="col-8 col-sm-4 col-md-2">
-            <div className="username d-inline-block">
+          <div className="pl-1 block">
+            <div className="text-placeholder text-base block ml-6">
               <Link href={"/" + props.username}>
                 <a>
-                  <p className={`${styles.userName} mb-0`}>{props.name}</p>
+                  <p className="text-base text-placeholder">{props.name}</p>
                 </a>
               </Link>
-              <small className={`${styles.smallTime} d-block`}>
+              <small className="text-xs text-percentage block  ">
               <TimeAgo date={new Date(props.date)} formatter={formatter} />
               </small>
             </div>
           </div>
         </div>
-      </div>
-      <p className={`${styles.commentMessage} mb-0`}>{props.text}</p>
+        <div className="text-percentage text-base ml-2">{props.text}</div>
     </div>
   );
 };

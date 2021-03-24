@@ -1,15 +1,15 @@
 import React from "react";
 import Layout from "../components/Layout";
-import { withRedux } from "../lib/redux";
-import { MDBContainer, MDBAlert } from 'mdbreact';
+import {withRedux} from "../lib/redux";
+
 const About = () => (
   <div>
     <Layout>
-        <MDBContainer>
-            <MDBAlert color="primary" >
+        <div>
+            <div>
                 A simple primary alert—check it out!
-            </MDBAlert>
-        </MDBContainer>
+            </div>
+        </div>
     </Layout>
   </div>
 );

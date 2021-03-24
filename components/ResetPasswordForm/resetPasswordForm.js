@@ -1,14 +1,12 @@
-import React, {useState} from 'react'
-import {MDBAlert, MDBContainer, MDBRow} from "mdbreact";
-import styles from './resetPasswordForm.module.css'
-import Link from "next/link";
+import React from 'react'
 import getConfig from 'next/config'
-const {publicRuntimeConfig} = getConfig();
 import axios from 'axios';
-import Router from 'next/router';
+import Router, {useRouter} from 'next/router';
 import * as Swal from 'sweetalert2';
 import {useFormik} from "formik";
-import {useRouter} from "next/router";
+import Warning from "../../utils/warning";
+
+const {publicRuntimeConfig} = getConfig();
 
 const validate = values => {
     const errors = {};
@@ -61,43 +59,52 @@ const resetPasswordForm = () => {
         }
     });
     return (
-        <MDBContainer style={{maxWidth: '100%', backgroundColor: 'rgba(156, 180, 247, 0.4)'}}>
-            <MDBRow>
-                <div className="col-12 col-md-6 col-xl-4 mx-auto">
-                    <div className={styles.hpLoginBody}>
-                        <h6 className={`${styles.hpLoginHead} text-uppercase text-center`}>Enter Email and New Password to Reset</h6>
-                        <form onSubmit={formik.handleSubmit}>
-                            <div className="form-group">
-                                <input type="email" name="email" id="email"
+        <div className="bg-login-bg bg-opacity-40">
+            <div className="py-6 px-3 md:px-0 lg:px-0 xl:px-0 lg:w-2/7 sm:w-full md:w-3/7 xl:w-2/7 items-center justify-center md:mx-auto  ">
+                <div className="mx-auto p-4 bg-white shadow-md rounded-2xl">
+                    <h2 className="pt-0 pb-4  text-branding-text-color text-2xl uppercase text-center">Enter Email and New Password to Reset</h2>
+
+                    <form onSubmit={formik.handleSubmit}>
+                        <div className="mb-4 text-outline-color">
+                        <input type="email" name="email" id="email"
                                        onChange={formik.handleChange}
                                        onBlur={formik.handleBlur}
                                        value={formik.values.email}
-                                       className={`${styles.hpLoginFormControl} form-control`} placeholder="Email"/>
+                               className="w-full h-10 p-3 text-outline-color placeholder-outline-color
+                                   rounded-2xl border-outline-color outline-outline-color
+                                    ring-border-color focus:ring-2 focus:ring-purple-300
+                                   focus:border-purple-300  focus:outline-none
+                                    border-1 focus:border-0  bg-transparent ..."
+                               placeholder="Email"/>
                                 {formik.touched.email && formik.errors.email ? (
-                                    <MDBAlert color="danger" >
-                                        {formik.errors.email}
-                                    </MDBAlert>
+                                    <Warning
+                                        message= {formik.errors.email}
+                                    />
                                 ) : null}
                             </div>
-                            <div className="form-group">
-                                <input type="password" name="password" id="password"
+                        <div className="mb-4 text-outline-color">
+                        <input type="password" name="password" id="password"
                                        onChange={formik.handleChange}
                                        onBlur={formik.handleBlur}
                                        value={formik.values.password}
-                                       className={`${styles.hpLoginFormControl} form-control`} placeholder="Password"/>
+                               className="w-full h-10 p-3 text-outline-color placeholder-outline-color
+                                   rounded-2xl border-outline-color outline-outline-color
+                                    ring-border-color focus:ring-2 focus:ring-purple-300
+                                   focus:border-purple-300  focus:outline-none
+                                    border-1 focus:border-0  bg-transparent ..." placeholder="Password"/>
                                 {formik.touched.password && formik.errors.password ? (
-                                    <MDBAlert color="danger" >
-                                        {formik.errors.password}
-                                    </MDBAlert>
+                                    <Warning
+                                        message={formik.errors.password}
+                                   />
                                 ) : null}
                             </div>
-                            <button type="submit" className={`${styles.hpBtnLogin} btn`}>Save New Password</button>
+                        <button type="submit" className="w-full text-white rounded-2xl h-10 uppercase bg-outline-color text-lg hover:shadow-xl shadow-md  mb-6 mt-6">Save New Password</button>
+
                         </form>
 
-                    </div>
                 </div>
-            </MDBRow>
-        </MDBContainer>
+            </div>
+        </div>
     );
 };
 export default resetPasswordForm;

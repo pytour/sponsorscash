@@ -1,7 +1,6 @@
 import React from "react";
 import ImageGrid from "../ImageGrid/imageGrid";
 // import ProjectDescription from "../ProjectDescription/projectDescription";
-import { MDBCol, MDBContainer, MDBRow } from "mdbreact";
 
 import dynamic from 'next/dynamic'
 
@@ -12,12 +11,12 @@ const DynamicComponentWithNoSSR = dynamic(
 
 const projectBio = (props) => {
   return (
-    <MDBContainer className="my-4">
-      <MDBRow>
-        <MDBCol lg="5">
+    <div  className="my-4 max-w-screen-xl px-4 xl:px-0 mx-auto">
+      <div className="grid grid-cols-12 gap-2 lg:gap-8">
+        <div className="col-span-12 lg:col-span-6 mb-3 lg:mb-0">
           <ImageGrid images={props.project.images} />
-        </MDBCol>
-        <MDBCol lg="7">
+        </div>
+        <div className="col-span-12 lg:col-span-6">
           <DynamicComponentWithNoSSR
             id={props.project._id}
             images={props.project.images}
@@ -32,9 +31,9 @@ const projectBio = (props) => {
             hasEnded={props.project.hasEnded}
             status={props.project.status}
           />
-        </MDBCol>
-      </MDBRow>
-    </MDBContainer>
+        </div>
+      </div>
+    </div>
   );
 };
 

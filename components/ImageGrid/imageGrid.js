@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from "react";
-import styles from "./imageGrid.module.css";
+import React, {useState} from "react";
 import Lightbox from "react-awesome-lightbox";
-
 import getConfig from "next/config";
+import Image from "next/image";
+
 const { publicRuntimeConfig } = getConfig();
 
 const imageGrid = (props) => {
@@ -19,53 +19,68 @@ const imageGrid = (props) => {
     allImages = props.images.map((id) => {
       return `${publicRuntimeConfig.APP_URL}/media/project/${id}`;
     });
+  console.log("....image1",allImages[0]);
 
   return (
     <>
-      <div className={styles.projectMainImg} style={{ cursor: "pointer" }}>
-        <img
-          src={
-            allImages[0]
-              ? allImages[0]
-              : publicRuntimeConfig.APP_URL + "/media/project/default.jpg"
-          }
-          alt="image 1"
-          className="w-100"
-          onClick={() => {
-            setImgIndex(0);
-            setIsOpen(true);
-          }}
-        />
-      </div>
-      {allImages.length > 1 ? (
-        <div className="d-flex justify-content-between">
-          {allImages.map((link, index) => {
-            if (index > 0)
-              return (
-                <div
-                  className={styles.projectMinorImg}
-                  style={{ cursor: "pointer" }}
-                >
-                  <img
-                    src={
-                      props.images && props.images[index]
-                        ? link
-                        : "https://via.placeholder.com/500"
-                    }
-                    alt={"image " + index}
-                    className="w-100 h-100"
-                    onClick={() => {
-                      setImgIndex(index);
-                      setIsOpen(true);
-                    }}
-                  />
-                </div>
-              );
-          })}
+        <div className="grid  grid-cols-7   gap-2">
+        <div className="col-span-4  relative rounded-2xl overflow-hidden shadow-sm h-64  md:h-96 w-full cursor-pointer">
+            <Image
+                layout="fill"
+                objectFit="cover"
+                // width={100}
+                // height={114}
+
+
+                src={
+                    allImages[0]
+                        ? allImages[0]
+                        : publicRuntimeConfig.APP_URL + "/media/project/default.jpg"
+                }
+                alt="image 1"
+
+                onClick={() => {
+                    setImgIndex(0);
+                    setIsOpen(true);
+                }}
+            />
         </div>
-      ) : (
-        <></>
-      )}
+        {allImages.length > 1 ? (
+            <div className=" col-span-3   ">
+            <div className="grid grid-cols-2 gap-x-2 gap-y-6 overflow-hidden  w-full h-full cursor-pointer">
+                {allImages.map((link, index) => {
+                    if (index > 0)
+                        return (
+                            <div
+                                className="cols-span-1  relative rounded-2xl overflow-hidden shadow-sm cursor-pointer w-full h-full max-h-44 "
+                            >
+                                <Image
+                                    // layout={'responsive'}
+                                    layout="fill"
+                                    objectFit="cover"
+                                    src={
+                                        props.images && props.images[index]
+                                            ? link
+                                            : "https://via.placeholder.com/500"
+                                    }
+                                    alt={"image " + index}
+
+                                    onClick={() => {
+                                        setImgIndex(index);
+                                        setIsOpen(true);
+                                    }}
+                                />
+                            </div>
+                        );
+                })}
+            </div>
+            </div>
+        ) : (
+            <></>
+        )}
+        </div>
+
+
       {isOpen &&
         (allImages.length > 1 ? (
           <Lightbox

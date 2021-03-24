@@ -15,8 +15,9 @@ const projectRoutes = require("./Routes/project");
 const mediaRoute = require("./Routes/media");
 require("dotenv").config();
 
-const connectionString = `mongodb+srv://dev:${process.env.MONGO_ATLAS_PW}@cluster0-xxhpq.mongodb.net/sponsorcash?retryWrites=true&w=majority`;
-
+// const connectionString = process.env.MONGO_CONNECTION_STRING;
+ const connectionString = `mongodb+srv://fundmecash:fundme123@cluster0.jobe7.mongodb.net/fundme?retryWrites=true&w=majority`
+// env.MONGO_ATLAS_PW}@cluster0.jobe7.mongodb.net/fundme?retryWrites=true&w=majority`;
 mongoose.connect(connectionString, { useNewUrlParser: true, useUnifiedTopology: true }, function (error) {
   console.log(
     "open done" + mongoose.connection.host + "\t" + mongoose.connection.port
@@ -27,7 +28,13 @@ mongoose.connect(connectionString, { useNewUrlParser: true, useUnifiedTopology: 
   }
 });
 
-/*
+/* mongoose.connect(process.env.MONGO_URI)
+    .then(connection => {
+        console.log('Connected to MongoDB')
+    })
+    .catch(error => {
+      console.log(error.message)
+     })
 
 const key = fs.readFileSync(__dirname + '/cert/localhost.key');
 const cert = fs.readFileSync(__dirname + '/cert/localhost.crt');

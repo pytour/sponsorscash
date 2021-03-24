@@ -5,5 +5,8 @@ module.exports = {
         APP_URL: process.env.APP_URL,
         FEE_AMOUNT: process.env.FEE_AMOUNT,
         MINIMUM_AMOUNT:0.0002
-    }
+    },
+    images: {
+        domains: ['localhost','fundme.cash'],
+    },
 };

@@ -97,6 +97,9 @@
     color: #9F9E9E;
     font-size: 1.125rem;
 }
+.bgImage{
+    background-image: url('../../public/images/cover.jpg');
+}
 
 .hpImageBorder{
     border-top-left-radius: 40px;

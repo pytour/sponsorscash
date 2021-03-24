@@ -91,7 +91,7 @@ exports.user_signup = (req, res, next) => {
                 );
                 let verifyURL = `https://${req.headers.host}/api/users/confirmation/${token.token}`;
                 let mailOptions = {
-                  from: "fundmecashinfo@gmail.com",
+                  from: "noreply@fundme.cash",
                   to: user.email,
                   subject: "Account Verification Token",
                   text:
@@ -524,19 +524,27 @@ exports.getUserProfileByID = (req, res, next) => {
   User.findOne({ username: username })
     .exec()
     .then((user) => {
-      if (user) {
-        return res.status(200).json({
-          name: user.name,
-          username: user.username,
-          memberSince: user.startedAt,
-          image: user.image,
-          accountType: user.accountType,
-          bio: user.bio,
-          websiteURL: user.websiteURL,
-          socialLinks: user.socialLinks,
-          projects: user.projects,
-        });
-      }
+        if (user) {
+            return res.status(200).json({
+                name: user.name,
+                username: user.username,
+                memberSince: user.startedAt,
+                image: user.image,
+                accountType: user.accountType,
+                bio: user.bio,
+                websiteURL: user.websiteURL,
+                socialLinks: user.socialLinks,
+                projects: user.projects,
+            });
+        }
+
+        else {
+            // TODO
+            return res.status(201).json({
+                name:username ,
+                message: "user not found",
+            });
+        }
     })
     .catch((err) => console.log(err));
 };

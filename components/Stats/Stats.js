@@ -1,16 +1,9 @@
-import React, { useState, useEffect } from "react";
-import {
-  MDBContainer,
-  MDBRow,
-  MDBTable,
-  MDBTableBody,
-  MDBTableHead,
-} from "mdbreact";
-import { Line } from "react-chartjs-2";
+import React, {useEffect, useState} from "react";
+import {Line} from "react-chartjs-2";
 import getConfig from "next/config";
+import axios from "axios";
 
 const { publicRuntimeConfig } = getConfig();
-import axios from "axios";
 
 const options = {
   scales: {
@@ -289,22 +282,15 @@ const stats = () => {
   }
 
   return (
-    <MDBContainer
-      style={{
-        maxWidth: "100%",
-        backgroundColor: "rgba(187,187,187,0.4)",
-        paddingTop: "50px",
-        paddingBottom: "150px",
-      }}
-    >
-      <MDBRow>
-        <div className="col-12 col-md-8 mx-auto">
-          <h1>Platform Stats</h1>
+    <div className=" bg-gray-100 " >
+      <div className="max-w-screen-xl container  pt-12 pb-20 mx-auto">
+        <div className="grid grid-cols ">
+          <h1 className="text-4xl text-branding-text-color">Platform Stats</h1>
           <br />
           <>
-            <h2>Overview</h2>
+            <h2 className="text-2xl text-branding-text-color">Overview</h2>
             {stats && usersStats ? (
-              <>
+              <div className="leading-tight ">
                 Total campaigns: {campaigns.length}
                 <br />
                 Total raised: {Math.floor(stats.totalFundedBch)} BCH <br />
@@ -313,34 +299,34 @@ const stats = () => {
                 %)
                 <br />
                 Total users: {usersStats.count}
-              </>
+              </div>
             ) : (
               ""
             )}
           </>
-          <h3 className="mt-5">BCH raised chart</h3>
+          <h3 className="text-3xl mt-5">BCH raised chart</h3>
           {data ? <Line data={data} options={options} /> : ""}
-          <h3 className="mt-5">Total campaigns chart</h3>
+          <h3 className="text-3xl mt-5">Total campaigns chart</h3>
           {campaignsChart ? (
             <Line data={campaignsChart} options={options} />
           ) : (
             ""
           )}
-          <h3 className="mt-5">Total users chart</h3>
+          <h3 className="text-3xl mt-5">Total users chart</h3>
           {usersChart ? <Line data={usersChart} options={options} /> : ""}
           <br />
           <br />
-          <h2>Completed campaigns</h2>
-          <MDBTable>
-            <MDBTableHead>
+          <h2 className="text-3xl">Completed campaigns</h2>
+          <div>
+            <table>
               <tr>
                 <th>Date</th>
                 <th>Goal</th>
                 <th>Funded</th>
                 <th>Title</th>
               </tr>
-            </MDBTableHead>
-            <MDBTableBody>
+            </table>
+            <table>
               {campaigns
                 ? campaigns
                     .sort((a, b) => b.funded - a.funded)
@@ -356,11 +342,11 @@ const stats = () => {
                         );
                     })
                 : ""}
-            </MDBTableBody>
-          </MDBTable>
+            </table>
+          </div>
         </div>
-      </MDBRow>
-    </MDBContainer>
+      </div>
+    </div>
   );
 };
 export default stats;

@@ -1,15 +1,17 @@
-import "@fortawesome/fontawesome-free/css/all.min.css";
-import "bootstrap-css-only/css/bootstrap.min.css";
-import "mdbreact/dist/css/mdb.css";
+// import "@fortawesome/fontawesome-free/css/all.min.css";
 import "react-datepicker/dist/react-datepicker.css";
-import "bootstrap/dist/css/bootstrap.min.css";
 import "react-awesome-lightbox/build/style.css";
+// import "tailwindcss/tailwind.css";
+import '@fortawesome/fontawesome-free/js/fontawesome';
+import '@fortawesome/fontawesome-free/js/solid';
+import '@fortawesome/fontawesome-free/js/regular';
+import '@fortawesome/fontawesome-free/js/brands';
+import '../styles/globals.css'
 
 import Head from "next/head";
 import React from "react";
-// This default export is required in a new `pages/_app.js` file.
-
 import getConfig from "next/config";
+// This default export is required in a new `pages/_app.js` file.
 const { publicRuntimeConfig } = getConfig();
 
 export default function MyApp({ Component, pageProps }) {

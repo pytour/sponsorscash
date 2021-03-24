@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const User = require("../Models/users");
 const Project = require("../Models/project");
+const ReceivingAddress = require("../Models/receivingAddress");
 const DonationModel = require("../Models/donations");
 const WalletModel = require("../Models/wallet");
 const fs = require("fs");
@@ -15,11 +16,10 @@ require("dotenv").config();
 exports.createProject = (req, res, next) => {
   let data = req.body;
   let userImages = data.images;
+
   let staticPath = "";
   let _id = new mongoose.Types.ObjectId();
-  let walletID = new mongoose.Types.ObjectId();
-  let wallet = new Wallet();
-  let walletData = wallet.createWallet();
+
   let dbImages = [];
   if (userImages) {
     for (let [key, value] of Object.entries(userImages)) {
@@ -30,18 +30,9 @@ exports.createProject = (req, res, next) => {
       );
       dbImages.push(staticPath);
       console.log("image path:", imagePath);
-      console.log("image value:", value);
       fs.writeFileSync(imagePath, value, "base64");
     }
   }
-
-  const walletDB = new WalletModel({
-    _id: walletID,
-    mnemonic: walletData.mnemonic,
-    cashAddress: walletData.cashAddress,
-    legacyAddress: walletData.legacyAddress,
-    privateKey: walletData.WIF,
-  });
 
   const project = new Project({
     _id: _id,
@@ -53,12 +44,26 @@ exports.createProject = (req, res, next) => {
     category: data.values.select,
     goal: data.values.goal,
     images: dbImages,
-    projectWalletID: walletID,
     status: "ACTIVE",
+    receivingAddresses: data.receivingAddresses,
   });
-  walletDB.save(function (err) {
-    if (err) console.log(err);
-  });
+
+  data &&
+    data.receivingAddresses &&
+    data.receivingAddresses.map((obj) => {
+      let receivingAddress = new ReceivingAddress({
+        _id: new mongoose.Types.ObjectId(),
+        projectId: _id,
+        address: obj,
+      });
+
+      return receivingAddress.save(function (err) {
+        if (err) {
+          console.log("Error at createDonation:", err);
+        }
+      });
+    });
+
   project.save(function (err) {
     if (err) {
       console.log("project save error");
@@ -177,17 +182,12 @@ exports.getSingleProject = async (req, res, next) => {
 
     // Get project receiving  BCH ADDRESS
     try {
-      bchAddress = await WalletModel.findOne({
-        _id: project.projectWalletID,
-      }).exec();
-
       // Return result
       res.send({
         status: 200,
         project: project,
         creator: user.name || user.username,
         avatar: user.image, // user.cashID,
-        cashAddress: bchAddress.cashAddress, // Campaign address
         username: user.username,
       });
     } catch (error) {
@@ -200,6 +200,83 @@ exports.getSingleProject = async (req, res, next) => {
   } else {
     return res.send({
       status: 404,
+    });
+  }
+};
+
+/**
+ * **Update project data:** short and full description ; ending date ; ...
+ *
+ * Body: `{ id , values, images, endTime }`
+ *
+ * where images: `{ changed: { key:value , ...}, allImagesNames: [imageName1, ...] }`
+ *
+ * imageName (String) exmaple: projImg_5e6a3e651673aa0017740711_5f842ef68f0968378077904e_image1.png
+ */
+exports.editProject = async (req, res, next) => {
+  let data = req.body;
+  let images = data.images;
+  let projectId = data.id;
+  let userId = req.decodedTokenData.userId;
+  let staticPath = "";
+  let dbImages = images.allImagesNames;
+
+  // Check if user owner of this project
+  let isOwner;
+  try {
+    const user = await User.findOne({
+      _id: req.decodedTokenData.userId,
+    }).exec();
+    console.log(`[x] editProject ${projectId} for user ${user.username}`);
+    for (const id of user.projects) {
+      if (id.toString() === projectId) {
+        isOwner = true;
+      }
+    }
+  } catch (error) {
+    return res.send({
+      status: 404,
+      msg: error.message,
+    });
+  }
+
+  if (!isOwner) {
+    return res.send({
+      status: 404,
+      msg: "User is not owner of project: " + projectId,
+    });
+  }
+
+  if (images && images.changed) {
+    // Update images that changed
+    for (let [key, value] of Object.entries(images.changed)) {
+      value = value.replace(/^data:image\/(jpeg|png);base64,/, "");
+      staticPath = `projImg_${userId}_${projectId}_${key}.png`;
+      let imagePath = path.normalize(
+        __dirname + `/../../public/ProjectImages/${staticPath}`
+      );
+      fs.writeFileSync(imagePath, value, "base64");
+    }
+  }
+
+  try {
+    await Project.updateOne(
+      { _id: projectId },
+      {
+        description: data.values.description,
+        details: data.values.detail,
+        images: dbImages,
+        endTime: data.endTime,
+      }
+    );
+    return res.send({
+      status: 200,
+      msg: "Successfully updated, projectId:" + projectId,
+    });
+  } catch (error) {
+    return res.send({
+      status: 404,
+      msg: error.message,
     });
   }
 };
@@ -350,180 +427,23 @@ exports.isBchAddress = (req, res, next) => {
 exports.checkFunds = async (req, res, next) => {
   const data = req.body;
   const projectId = data.projectID;
-  let project, projWallet;
-  let balance = 0;
-  let addressDetails,
-    donations = [];
-  const WALLET = new Wallet();
-  // 1 Get project info
+  let project;
   try {
     project = await Project.findOne({ _id: projectId }).exec();
   } catch (error) {
     return res.send({ status: 400, message: "Error" + error.message });
   }
-
-  // 2 Get project wallet
-  try {
-    projWallet = await WalletModel.findOne({
-      _id: project.projectWalletID,
-    }).exec();
-  } catch (error) {
-    return res.send({ status: 400, message: "Error" + error.message });
-  }
-
-  // 3 Get campaign bch_address balance and transactions
-  try {
-    addressDetails = await WALLET.getAddressDetails(
-      projWallet.cashAddress,
-      false
-    );
-  } catch (error) {
-    console.log(
-      "Error:: Cant update funded amount with getAddressDetails:",
-      error
-    );
-    return res.send({ status: 400, message: "Error" + error.message });
-  }
-
-  balance = addressDetails.balance;
-  transactions = addressDetails.transactions;
-  console.log("Balance: ", balance);
-
-  // 4 Compare network transactions with saved transactions && Update if new tx founded
-
-  console.log("txAppearances: ", transactions.length);
-
-  for (const tx of transactions) {
-    console.log("Network Transaction:", tx);
-  }
-
-  // TODO: To prevent double check need to use DB locks
-  // in case checkFunds requested from two browsers in same time
-  // For a while set random timeout
-
-  await new Promise((r) =>
-    setTimeout(r, Math.floor(Math.random() * 2000 + 1000))
-  );
-
-  // 4.2 Get saved transactions for projectId
-  let savedTxs;
-  try {
-    donations = await DonationModel.find({
-      projectId: projectId,
-    }).exec();
-    savedTxs = donations.map((donation) => donation.txId);
-  } catch (error) {
-    console.log("Error:: Can't get donations:", error.message);
-  }
-  // 4.3 Compare saved transactions && Add new one
-
-  let newTransactions = []; // New transactions
-  for (const tx of transactions) {
-    if (!savedTxs.includes(tx)) {
-      newTransactions.push(tx);
-    }
-  }
-
-  if (newTransactions.length > 0) {
-    // Check new transactions
-    let newTransactionsDetails;
-    const campaignAddress = projWallet.cashAddress;
-    try {
-      newTransactionsDetails = await WALLET.getTransaction(newTransactions);
-      //console.log("newTransactionsDetails:", newTransactionsDetails);
-    } catch (error) {
-      console.log(error);
-    }
-
-    // Split transactions on INPUT and OUTPUT
-    // INPUT transaction have bch campaign_address in output side
-    for (const newTx of newTransactionsDetails) {
-      // console.log("\n\nNEW TX DETAILS:", JSON.stringify(newTx, null, 2));
-      console.log("\n\nNEW TX ID:", newTx.txid);
-      console.log("NEW TX DATE:", new Date(newTx.time * 1000));
-      let input = newTx.vin;
-      let output = newTx.vout; // addresses - Array with Legacy addresses
-      let confirmations = newTx.confirmations;
-      // Need to get Donors transactions (fromAddr, Amount, Date, txId)
-      let i = 0;
-      for (const el of input) {
-        i++;
-        console.log("\n* INPUT *", i);
-        console.log("Value:", el.value);
-        console.log("cashAddress:", el.cashAddress);
-      }
-      i = 0;
-      for (const el of output) {
-        i++;
-        console.log("\n* OUTPUT *", i);
-        console.log("Value:", el.value);
-        console.log("cashAddress:", el.scriptPubKey.cashAddrs);
-        console.log("scriptPubKey:", el.scriptPubKey);
-        if (
-          el.scriptPubKey.cashAddrs &&
-          +el.value > 0 &&
-          el.scriptPubKey.cashAddrs.includes(campaignAddress)
-        ) {
-          console.log("** This is sponsor transaction! **", el.value);
-
-          // Update funded value with this donation
-          console.log("FUNDED : NEW_VALUE", project.funded, +el.value);
-
-          let funded = new BigNumber(project.funded); // "11"
-          let amount = new BigNumber(el.value); // "1295.25"
-          funded = funded.plus(amount);
-          project.funded = funded.toNumber();
-
-          console.log(funded, amount);
-          try {
-            await project.save();
-            // If project saved without version error (race condition)
-            // Then save donation
-            try {
-              const donation = new DonationModel({
-                _id: new mongoose.Types.ObjectId(),
-                projectTitle: project.title,
-                projectImage: project.images[0],
-                txId: newTx.txid,
-                date: new Date().toJSON(),
-                donatedBCH: +el.value,
-                projectId: project._id,
-              });
-              await donation.save();
-            } catch (err) {
-              console.log("Error while save anonymous transaction :", err);
-            }
-          } catch (error) {
-            console.log("Error at server/checkFunds:", error);
-          }
-        }
-      }
-    }
-    if (project.funded >= project.goal) {
-      return res.send({
-        status: 200,
-        funded: project.funded,
-        completed: true,
-        message: "Funds Updated And Goal Reached",
-      });
-    } else {
-      return res.send({
-        status: 200,
-        message: "Funds updated",
-        funded: project.funded,
-      });
-    }
-  } else {
-    // There is no new transactions!
-    // Check project.FUNDED value again
-    try {
-      project = await Project.findOne({ _id: projectId }).exec();
-    } catch (error) {
-      return res.send({ status: 400, message: "Error" + error.message });
-    }
+  if (project.funded >= project.goal) {
     return res.send({
       status: 200,
-      message: "Funds the same:" + project.funded,
+      funded: project.funded,
+      completed: true,
+      message: "Goal Reached",
+    });
+  } else {
+    return res.send({
+      status: 200,
+      message: "Funded value",
       funded: project.funded,
     });
   }
@@ -751,4 +671,18 @@ exports.checkGoalStatus = (req, res, next) => {
         }
       });
   }
+};
+
+exports.setProjectAddresses = async (req, res, next) => {
+  const { addresses } = req.body;
+
+  const project = await Project.findById(req.params.id);
+  project.receivingAddresses = addresses;
+  await project.save();
+
+  res.send({
+    status: 200,
+    addresses,
+    project: project,
+  });
 };

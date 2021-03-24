@@ -1,215 +1,139 @@
-import React, { useEffect, useState } from "react";
-import {
-  MDBNavbar,
-  MDBNavbarBrand,
-  MDBNavbarNav,
-  // MDBNavbarToggler,
-  MDBCollapse,
-  MDBNavItem,
-  MDBContainer,
-  MDBHamburgerToggler,
-  // MDBNavLink,
-  // MDBDropdown,
-  // MDBDropdownMenu,
-  // MDBDropdownItem,
-  // MDBDropdownToggle,
-  // MDBIcon,
-} from "mdbreact";
+import React from "react";
 import Link from "next/link";
-import styles from "./navbar.module.css";
-import { withRedux } from "../../lib/redux";
-import Router, { useRouter } from "next/router";
-import { useDispatch, useSelector } from "react-redux";
-import * as Swal from "sweetalert2";
+import {withRedux} from "../../lib/redux";
+import Router, {useRouter} from "next/router";
+import {useDispatch, useSelector} from "react-redux";
+import Swal from 'sweetalert2'
 
 const NavbarPage = (props) => {
-  const dispatch = useDispatch();
-  const router = useRouter();
-  const [isOpen, setIsOpen] = useState(false);
-  const isLoggedIn = useSelector((state) => state.isLoggedIn);
-  // const token = useSelector((state) => state.token);
-  const name = useSelector((state) => state.name);
-  const username = useSelector((state) => state.username);
+    const dispatch = useDispatch();
+    const router = useRouter();
+    const [navbarOpen, setNavbarOpen] = React.useState(false);
+    const isLoggedIn = useSelector((state) => state.isLoggedIn);
+    const name = useSelector((state) => state.name);
+    const username = useSelector((state) => state.username);
 
-  const loginButton = () => {
-    if (isLoggedIn && username) {
-      // console.log("router ", router.pathname);
-      if (props.isPrivatePage && "/privateAccount" === router.pathname) {
-        return (
-          <a
-            onClick={() => {
-              dispatch({ type: "DEAUTHENTICATE" });
-              Router.push("/login");
-            }}
-            className={`${styles.hpText} ${styles.linkTransformOnHover} nav-link text-uppercase`}
-          >
-            Log out
-          </a>
-        );
-      } else {
-        return (
-          <a
-            onClick={() => {
-              Router.push("/privateAccount", "/" + username);
-            }}
-          >
-            <strong
-              className={`${styles.hpText} ${styles.linkTransformOnHover} nav-link text-uppercase`}
-            >
-              {name || username}
-            </strong>
-          </a>
-        );
-      }
-    } else {
-      return (
-        <Link href="/login">
-          <a>
-            <strong
-              className={`${styles.hpText} ${styles.linkTransformOnHover} nav-link text-uppercase`}
-            >
-              Login
-            </strong>
-          </a>
-        </Link>
-      );
-    }
-  };
+    const loginButton = () => {
+        if (isLoggedIn && username) {
+            if (props.isPrivatePage && "/privateAccount" === router.pathname) {
+                return (
 
-  const warnMessage = () => {
-    Swal.fire({
-      icon: "warning",
-      title: "Warning",
-      html: `This site is in BETA, bugs may be present. Report bugs to
-    <a href="https://t.me/fundmecash">our telegram chat</a>`,
-    });
-  };
+                    <button
+                        className="py-2 md:py-1   text-branding-text-color md:text-base text-sm border-none hover:border hover:rounded-md font-normal uppercase hover:text-branding-text-color-hover transition delay-400 duration-300 ease-in-out hover:translate-x-5 focus:translate-x-5"
+                        onClick={() => {
+                            dispatch({type: "DEAUTHENTICATE"});
+                            Router.push("/login");
+                        }}
+                    >Log out </button>
+                );
+            } else {
+                return (
+                    <button
+                        className="py-2 md:py-1   text-branding-text-color border-none hover:border hover:rounded-md md:text-base text-sm font-normal uppercase hover:text-branding-text-color-hover transition delay-400 duration-300 ease-in-out hover:translate-x-5 focus:translate-x-5 "
+                        onClick={() => {
+                            Router.push("/privateAccount", "/" + username);
+                        }}
+                    > {name || username}
+                    </button>
+                );
+            }
+        }
+        else {
+            return (
+                <button
+                    className="py-2 md:py-1 text-branding-text-color border-none hover:border hover:rounded-md md:text-base text-sm font-normal uppercase hover:text-branding-text-color-hover transition delay-400 duration-300 ease-in-out hover:translate-x-5 focus:translate-x-5 "
+                    onClick={() => {
+                        Router.push("/login");
+                    }}
+                > Login </button>
+            );
+        }
+    };
 
-  const campaignButton = () => {
-    if (isLoggedIn && username) {
-      return (
-        <a
-          onClick={() => {
-            Router.push("/newProject");
-          }}
-          className={`${styles.hpText} ${styles.linkTransformOnHover} nav-link text-uppercase`}
-        >
-          Start Campaign
-        </a>
-      );
-    } else {
-      return (
-        <Link href="/login">
-          <a>
-            <strong
-              className={`${styles.hpText} ${styles.linkTransformOnHover} nav-link text-uppercase`}
-            >
-              Start Campaign
-            </strong>
-          </a>
-        </Link>
-      );
-    }
-  };
+    const warnMessage = () => {
+        Swal.fire({
+            icon: "warning",
+            title: "Warning",
+            html: `This site is in BETA, bugs may be present. Report bugs to
+     <a href="https://t.me/fundmecash"> our telegram chat </a>`,
+        });
+    };
 
-  return (
-    <MDBNavbar style={{ backgroundColor: "#7d73c3" }}>
-      <MDBContainer>
-        <MDBNavbarBrand>
-          <Link href="/">
-            <a>
-              <p className={styles.hpBrandName}>
-                FUNDME<span style={{ color: "white" }}>.CASH </span>
-                <span onClick={warnMessage} style={{ color: "red" }}>
-                  BETA
-                </span>
-                <span
-                  style={{
-                    color: "red",
-                    backgroundColor: "white",
-                    padding: "4px",
-                    margin: "5px",
-                    borderRadius: "6px",
-                    display: "inline",
-                  }}
-                >
-                  NO FEE
-                </span>
-              </p>
-            </a>
-          </Link>
-        </MDBNavbarBrand>
-        <MDBHamburgerToggler
-          color="#FFCA79"
-          id="hamburger1"
-          onClick={() => setIsOpen(!isOpen)}
-        />
-        <MDBCollapse isOpen={isOpen} navbar>
-          <MDBNavbarNav left>
-            <MDBNavItem>{campaignButton()}</MDBNavItem>
-            <MDBNavItem>{loginButton()}</MDBNavItem>
-          </MDBNavbarNav>
-        </MDBCollapse>
-      </MDBContainer>
-    </MDBNavbar>
+    const campaignButton = () => {
+        if (isLoggedIn && username) {
+            return (
+                <button
+                    className=" mr-4 py-2 md:py-1 text-branding-text-color md:text-base text-sm border-none hover:border hover:rounded-md font-normal uppercase hover:text-branding-text-color-hover transition delay-400 duration-300 ease-in-out hover:translate-x-5 focus:translate-x-5"
+                    onClick={() => {
+                        Router.push("/newProject");
+                    }}
+                > Start Campaign </button>
+            );
+        } else {
+            return (
+                <button
+                    className=" mr-4 py-2 md:py-1  text-branding-text-color border-none hover:border hover:rounded-md md:text-base text-sm font-normal uppercase hover:text-branding-text-color-hover transition delay-400 duration-300 ease-in-out hover:translate-x-5 focus:translate-x-5 "
+                    onClick={() => {
+                        Router.push("/login");
+                    }}
+                > Start Campaign </button>
+            );
+        }
+    };
 
-    // <MDBNavbar style={{ backgroundColor: "#7d73c3" }} expand="md">
-    //   <div className={styles.hpMainWrapper}>
-    //     <MDBNavbarBrand>
-    //       <Link href="/">
-    //         <a className="d-md-none" href="#">
-    //           <img
-    //             src="/images/logo.png"
-    //             alt="logo"
-    //             className={styles.hpLogo}
-    //           />
-    //         </a>
-    //       </Link>
-    //     </MDBNavbarBrand>
-    //     <MDBNavbarBrand style={{ fontSize: "1em" }}>
-    //       {!isLoggedIn ? (
-    //         <a
-    //           onClick={() => {
-    //             Router.push("/login");
-    //           }}
-    //         >
-    //           <strong
-    //             className={`${styles.hpNavStartC} ${styles.hpTransformOnHover} nav-link text-uppercase`}
-    //           >
-    //             Start Campaign
-    //           </strong>
-    //         </a>
-    //       ) : (
-    //         <a
-    //           onClick={() => {
-    //             Router.push("/newProject");
-    //           }}
-    //         >
-    //           <strong
-    //             className={`${styles.hpNavStartC} ${styles.hpTransformOnHover} nav-link text-uppercase`}
-    //           >
-    //             Start Campaign
-    //           </strong>
-    //         </a>
-    //       )}
-    //     </MDBNavbarBrand>
-    //     <MDBNavbarToggler
-    //       className={styles.hpNavToggler}
-    //       onClick={() => setIsOpen(!isOpen)}
-    //     />
+    return (
+        <>
+            <nav
+                className="relative  flex flex-wrap items-center justify-between px-2 md:py-3 py-2 navbar-expand-lg bg-branding-color mb-0 shadow-md">
+                <div
+                    className="container max-w-screen-xl md:px-4 px-3 mx-auto flex flex-wrap items-center justify-between ">
+                    <div className="w-full relative flex justify-between lg:w-auto lg:static lg:block lg:justify-start">
+                        <Link href="/">
+                            <a className="">
+                                
+                                <div className=" bg-gray-100 p-1 m-1.5 rounded-lg"> 
+                                    <img className="h-10 w-auto"
+                                        src="/images/logo.png"
+                                        alt="logo"
+                                    />
+                                </div>
+                                
+                            </a>
+                        </Link>
+                        <button
+                            className="group transition duration-1000 ease-in-out text-branding-text-color cursor-pointer  leading-none px-3 py-0 rounded bg-transparent block lg:hidden outline-none focus:outline-none"
+                            type="button"
+                            onClick={() => setNavbarOpen(!navbarOpen)}
+                        >
+                            {
+                                navbarOpen === false ?
+                                <i className="transition duration-500 ease-in-out text-2xl stroke-current text-branding-text-color  fas fa-bars"/> :
+                                <i className="transition duration-500 ease-in-out stroke-current text-3xl text-branding-text-color  fas fa-times"/>
+                            }
+                        </button>
+                    </div>
+                    <div
+                        className={
+                            "lg:flex flex-grow items-center text-branding-text-color" +
+                            (navbarOpen ? " flex" : " hidden")
+                        }
+                        id="example-navbar-danger"
+                    >
+                        <ul className="flex flex-col lg:flex-row list-none lg:ml-auto ">
+                            <li className="nav-item">
+                                {campaignButton()}
+                            </li>
 
-    //     <MDBCollapse isOpen={isOpen} navbar>
-    //       <MDBNavbarNav>
-    //         <MDBNavbarBrand className={styles.hpNavItemWrapper}>
-    //           <ul className="navbar-nav">
-    //             <li className="nav-item">{loginButton()}</li>
-    //           </ul>
-    //         </MDBNavbarBrand>
-    //       </MDBNavbarNav>
-    //     </MDBCollapse>
-    //   </div>
-    // </MDBNavbar>
-  );
+                            <li className="nav-item">
+                                {loginButton()}
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </>
+
+    );
 };
 
 export default withRedux(NavbarPage);

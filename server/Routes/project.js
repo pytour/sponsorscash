@@ -10,6 +10,9 @@ router.get('/getAllProjects',projectController.getAllProjects);
 router.get('/getPopularProjects',projectController.getPopularProjects);
 router.get('/getCompletedProjects',projectController.getCompletedProjects);
 router.get('/getSingleProject/:id',projectController.getSingleProject);
+router.post('/editProject',checkAuth,projectController.editProject);
+// router.post('/:id/set-addresses', projectController.setProjectAddresses);
+
 router.get('/getProjectCashAddress/:id',projectController.getProjectCashAddress);
 router.post('/donateToProject',projectController.payUsingCustomWallet);
 router.post('/updateFunds',projectController.updateFunds);
