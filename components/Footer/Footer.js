@@ -14,10 +14,17 @@ const Footer = () => {
                 <div>
                     <Link href="/">
                         <a>
-                            <img className="mx-auto h-16 w-auto"
+                            {/* <img className="mx-auto h-16 w-auto"
                                  src="/images/logo.png"
                                  alt="logo"
-                            />
+                            /> */}
+
+                            <div className="mx-auto h-26 w-24 bg-gray-100 p-1 m-1.5 rounded-xl"> 
+                                    <img className="h-22"
+                                        src="/images/logo.png"
+                                        alt="logo"
+                                    />
+                            </div>
 
                             <p className="mx-auto mt-6 text-center text-2xl font-bold text-branding-text-color">
                                 FUNDME<span className="text-white">.CASH</span>

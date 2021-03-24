@@ -89,12 +89,15 @@ const NavbarPage = (props) => {
                     className="container max-w-screen-xl md:px-4 px-3 mx-auto flex flex-wrap items-center justify-between ">
                     <div className="w-full relative flex justify-between lg:w-auto lg:static lg:block lg:justify-start">
                         <Link href="/">
-                            <a className="text-sm md:text-xl font-md md:font-bold leading-relaxed inline-block mr-4 py-3 whitespace-no-wrap uppercase">
-                                <p className="mt-1 text-branding-text-color "> FUNDME<span
-                                    className="text-white">.CASH </span>
-                                    <span onClick={warnMessage} className="text-red-500"> BETA </span>
-                                    <span className="text-red-500 bg-white p-1 m-1.5 rounded-lg inline "> NO FEE </span>
-                                </p>
+                            <a className="">
+                                
+                                <div className=" bg-gray-100 p-1 m-1.5 rounded-lg"> 
+                                    <img className="h-10 w-auto"
+                                        src="/images/logo.png"
+                                        alt="logo"
+                                    />
+                                </div>
+                                
                             </a>
                         </Link>
                         <button
