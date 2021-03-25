@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "APP_URL=http://localhost:3000/api node server/index.js",
-    "dev-ngrok": "BASE_URL=https://dev-sponsorscash.ngrok.io APP_URL=https://dev-sponsorscash.ngrok.io/api node server/index.js",
+    "dev-server": "APP_URL=http://54.244.63.208/api node server/index.js",
     "build": "next build",
     "start": "APP_URL=http://45.35.60.233:3000/api NODE_ENV=production node server/index.js",
     "start-dev": "APP_URL=http://54.244.63.208/api NODE_ENV=production node server/index.js",
