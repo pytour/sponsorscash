@@ -7,6 +7,6 @@ module.exports = {
         MINIMUM_AMOUNT:0.0002
     },
     images: {
-        domains: ['localhost','fundme.cash'],
+        domains: ['localhost','fundme.cash', '54.244.63.208'],
     },
 };
