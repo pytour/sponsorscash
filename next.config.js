@@ -11,6 +11,9 @@ module.exports = {
     images: {
         domains: ['localhost','fundme.cash', '54.244.63.208'],
     },
+    future: {
+        webpack5: true
+      },
     webpack: (config, { buildId, dev, isServer, defaultLoaders, webpack }) => {
         config.plugins.push(
             new UglifyJsPlugin({
