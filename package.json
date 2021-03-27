@@ -65,5 +65,9 @@
     "slp-sdk": "^4.15.0",
     "sweetalert2": "^9.15.3",
     "tailwindcss": "^2.0.2"
+  },
+  "devDependencies": {
+    "uglifyjs-webpack-plugin": "^2.2.0",
+    "webpack": "^5.28.0"
   }
 }
