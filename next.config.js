@@ -1,5 +1,3 @@
-const UglifyEsPlugin = require("uglify-es-webpack-plugin");
-
 module.exports = {
   publicRuntimeConfig: {
     // Will be available on both server and client
@@ -11,21 +9,8 @@ module.exports = {
   images: {
     domains: ["localhost", "fundme.cash", "54.244.63.208"],
   },
-  plugins: [
-    new UglifyEsPlugin({
-      mangle: {
-        reserved: [
-          "Buffer",
-          "BigInteger",
-          "Point",
-          "ECPubKey",
-          "ECKey",
-          "sha512_asm",
-          "asm",
-          "ECPair",
-          "HDNode",
-        ],
-      },
-    }),
-  ],
+  webpack: function (config) {
+    config.optimization.minimize = false;
+    return config;
+  },
 };

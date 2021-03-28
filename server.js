@@ -4,11 +4,8 @@ const { parse } = require("url");
 const next = require("next");
 const port = process.env.PORT || 3000;
 const dev = process.env.NODE_ENV !== "production";
-const cors = require("cors");
 const app = next({ dev });
 const handle = app.getRequestHandler();
-
-app.use(cors());
 
 app.prepare().then(() => {
   createServer((req, res) => {
