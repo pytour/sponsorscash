@@ -38,36 +38,7 @@ const loginform = () => {
             Router.push('/privateAccount', '/' + username);
         }
     }, []);
-    const isAccountAssociated = cashID => {
-        if (cashID !== undefined) {
-            return axios
-                .post(publicRuntimeConfig.APP_URL + '/users/cashid/associated', { cashID: cashID })
-                .then(res => {
-                    return res.data;
-                })
-                .catch(err => err);
-        }
-    };
-    const loginCashId = async (cashID, res) => {
-        if (res) {
-            let accountAssociation = await isAccountAssociated(cashID);
-            if (!accountAssociation.isAssociated) {
-                // Redirect to account association page
-                if (cashID) {
-                    dispatch({ type: 'SET_CASHID', payload: cashID });
-                    Router.push('/cashIDAssociation');
-                }
-            } else {
-                // Log In User
-                dispatch({ type: 'AUTHENTICATE', payload: accountAssociation.token });
-                if (accountAssociation.accountType === 'Regular') {
-                    Router.push('/privateAccount', '/' + accountAssociation.username);
-                } else {
-                    Router.push('/sponsorAccount', '/sponsor/' + accountAssociation.username);
-                }
-            }
-        }
-    };
+    
     const formik = useFormik({
         initialValues: {
             email: '',

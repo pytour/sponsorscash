@@ -18,7 +18,6 @@ const usersSchema = mongoose.Schema({
         twitter: { type: String },
         email: { type: String }
     },
-    cashID: { type: String },
     walletID: { type: mongoose.Schema.Types.ObjectId },
     email: {
         type: String,

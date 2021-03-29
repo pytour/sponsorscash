@@ -183,7 +183,7 @@ exports.getSingleProject = async (req, res) => {
                 status: 200,
                 project: project,
                 creator: user.name || user.username,
-                avatar: user.image, // user.cashID,
+                avatar: user.image,
                 username: user.username
             });
         } catch (error) {

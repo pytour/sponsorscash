@@ -5,7 +5,6 @@ const User = require('../Models/users');
 const Token = require('../Models/token');
 const nodemailer = require('nodemailer');
 const sendgridTransport = require('nodemailer-sendgrid-transport');
-const CashID = require('../Classes/cashid');
 const fs = require('fs');
 const path = require('path');
 const WalletModel = require('../Models/wallet');
@@ -315,125 +314,6 @@ exports.resetPassword = (req, res) => {
     });
 };
 
-exports.cashidRequest = (req, res) => {
-    let cashid = new CashID(req.body.domain, req.body.path);
-    let uri = cashid.createRequest(req.body.action, req.body.data, req.body.metadata);
-    return res.send({ uri: uri });
-};
-
-exports.cashidParse = (req, res) => {
-    let cashid = new CashID();
-    let confirmation = cashid.confirmRequest(req.headers);
-    return res.status(200).send({ confirmation: confirmation.status });
-};
-
-exports.cashidAssociated = (req, res) => {
-    let cashID = req.body.cashID;
-    User.find({ cashID: cashID })
-        .exec()
-        .then(user => {
-            if (user.length < 1) {
-                return res.send({
-                    statusCode: 401,
-                    status: 'Cash ID not Associated',
-                    isAssociated: false
-                });
-            } else {
-                const token = jwt.sign(
-                    {
-                        email: user[0].email,
-                        userId: user[0]._id
-                    },
-                    process.env.JWT_SECRET,
-                    {
-                        expiresIn: '30d'
-                    }
-                );
-                return res.send({
-                    message: 'Auth successful',
-                    token: token,
-                    isAssociated: true,
-                    username: user[0].username,
-                    accountType: user[0].accountType
-                });
-            }
-        })
-        .catch(err => console.log(err));
-};
-
-exports.cashidAssociateCredentials = (req, res) => {
-    User.findOne({ email: req.body.data.values.email }, function(err, user) {
-        if (!user) return res.status(400).send({ msg: 'User does not exist.' });
-        if (!user.isVerified)
-            return res.send({
-                statusCode: 402,
-                status: 'Please Verify before logging in'
-            });
-
-        // Verify and save the user
-        bcrypt.compare(req.body.data.values.password, user.password, err => {
-            if (err) {
-                return res.send({
-                    statusCode: 401,
-                    status: 'Password is incorrect'
-                });
-            }
-            user.cashID = req.body.data.cashID;
-            user.save(function(err) {
-                if (err) {
-                    return res.status(500).send({ msg: err.message });
-                }
-                const token = jwt.sign(
-                    {
-                        email: user.email,
-                        userId: user._id
-                    },
-                    process.env.JWT_SECRET,
-                    {
-                        expiresIn: '30d'
-                    }
-                );
-                res.send({
-                    statusCode: 200,
-                    token: token,
-                    username: user.username,
-                    accountType: user.accountType
-                });
-            });
-        });
-    });
-};
-
-exports.cashidSignUp = (req, res) => {
-    User.find({ username: req.body.data.values.username })
-        .exec()
-        .then(user => {
-            if (user.username >= 1) {
-                return res.status(409).json({
-                    message: 'Username exists'
-                });
-            }
-            const newUser = new User({
-                _id: new mongoose.Types.ObjectId(),
-                username: req.body.data.values.username.toLowerCase(),
-                email: req.body.data.values.email,
-                accountType: req.body.data.values.select,
-                cashID: req.body.data.cashID,
-                isVerified: true
-            });
-            newUser.save(function(err) {
-                if (err) {
-                    console.log('user save error');
-                    return res.status(500).send({ msg: err.message });
-                }
-                res.send({
-                    statusCode: 200
-                });
-            });
-        })
-        .catch(err => console.log(err));
-};
-
 //Get User Profile Data
 exports.getUserProfile = (req, res) => {
     User.findOne({ _id: req.decodedTokenData.userId })
@@ -537,35 +417,6 @@ exports.getUserProfileByID = (req, res) => {
         .catch(err => console.log(err));
 };
 
-exports.getUserId = (req, res) => {
-    console.log(' [x] getUserId req params ', req.params);
-    let address = req.params.address;
-    User.findOne({ cashID: address })
-        .exec()
-        .then(user => {
-            console.log('user', user);
-            if (user) {
-                return res.status(200).json({
-                    id: user._id,
-                    name: user.name,
-                    username: user.username,
-                    memberSince: user.startedAt,
-                    image: user.image,
-                    accountType: user.accountType,
-                    bio: user.bio,
-                    websiteURL: user.websiteURL,
-                    socialLinks: user.socialLinks
-                });
-            } else {
-                // TODO
-                return res.status(201).json({
-                    address: address,
-                    message: 'user with such address not found'
-                });
-            }
-        })
-        .catch(err => console.log(err));
-};
 //Update User Profile
 exports.updateUserProfile = (req, res) => {
     const data = req.body;
