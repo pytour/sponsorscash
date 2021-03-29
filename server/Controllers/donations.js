@@ -6,7 +6,7 @@ const { add, forEach } = require('lodash');
 const rentedAddress = require('../Models/rentedAddress');
 const RentedAddressModel = require('../Models/rentedAddress');
 
-exports.createDonation = (req, res, next) => {
+exports.createDonation = (req, res) => {
     let data = req.body;
 
     let projectTitle = data.title;
@@ -73,7 +73,7 @@ exports.createDonation = (req, res, next) => {
         });
 };
 
-exports.getProjectDonations = (req, res, next) => {
+exports.getProjectDonations = (req, res) => {
     DonationModel.find({ projectId: req.body.projectId }).exec(function(err, donations) {
         if (err) {
             return res.status(500).send({ msg: err.message });
@@ -85,7 +85,7 @@ exports.getProjectDonations = (req, res, next) => {
     });
 };
 
-exports.getUserDonations = (req, res, next) => {
+exports.getUserDonations = (req, res) => {
     DonationModel.find({ userId: req.body.userId }).exec(function(err, donations) {
         if (err) {
             return res.status(500).send({ msg: err.message });
@@ -98,7 +98,7 @@ exports.getUserDonations = (req, res, next) => {
 };
 //new info
 
-exports.getDonationAddress = async (req, res, next) => {
+exports.getDonationAddress = async (req, res) => {
     const { projectId, amount, name, comment, userId } = req.query;
     lendAddress(projectId, amount, name, comment, userId)
         .then(address => {

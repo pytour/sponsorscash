@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const Comment = require('../Models/comments');
 
-exports.saveComment = (req, res, next) => {
+exports.saveComment = (req, res) => {
     let data = req.body;
     console.log('saveComment:', data);
 
@@ -25,7 +25,7 @@ exports.saveComment = (req, res, next) => {
     });
 };
 
-exports.deleteComment = (req, res, next) => {
+exports.deleteComment = (req, res) => {
     let id = req.body.id;
     console.log('deleteComment:', id);
 
@@ -42,7 +42,7 @@ exports.deleteComment = (req, res, next) => {
     });
 };
 
-exports.getProjectComments = (req, res, next) => {
+exports.getProjectComments = (req, res) => {
     Comment.find({ projectId: req.body.projectId }).exec(function(err, comments) {
         if (err) {
             return res.status(500).send({ msg: err.message });

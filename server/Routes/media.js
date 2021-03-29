@@ -3,7 +3,7 @@ const router = express.Router();
 const path = require('path');
 const fs = require('fs');
 
-router.get('/project/:path', function(req, res, next) {
+router.get('/project/:path', function(req, res) {
     const _path = `/ProjectImages/${req.params.path}`;
     let imagePath = path.normalize(__dirname + `/../../public${_path}`);
     try {
@@ -17,7 +17,7 @@ router.get('/project/:path', function(req, res, next) {
     }
 });
 
-router.get('/user/:path', function(req, res, next) {
+router.get('/user/:path', function(req, res) {
     const _path = `/UserImages/${req.params.path}`;
     let imagePath = path.normalize(__dirname + `/../../public${_path}`);
     try {
@@ -31,7 +31,7 @@ router.get('/user/:path', function(req, res, next) {
     }
 });
 
-router.get('/images/:path', function(req, res, next) {
+router.get('/images/:path', function(req, res) {
     const _path = `/images/${req.params.path}`;
     let imagePath = path.normalize(__dirname + `/../../public${_path}`);
     try {
@@ -45,7 +45,7 @@ router.get('/images/:path', function(req, res, next) {
     }
 });
 
-router.get('/files/:path', function(req, res, next) {
+router.get('/files/:path', function(req, res) {
     const _path = `/files/${req.params.path}`;
     let filePath = path.normalize(__dirname + `/../../public/static${_path}`);
     try {

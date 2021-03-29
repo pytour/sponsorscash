@@ -13,7 +13,7 @@ const WalletModel = require('../Models/wallet');
 const Wallet = require('../Classes/wallet');
 
 //Signup Function
-exports.user_signup = (req, res, next) => {
+exports.user_signup = (req, res) => {
     // let walletID = new mongoose.Types.ObjectId();
     // let wallet = new Wallet();
     // let walletData = wallet.createWallet();
@@ -139,7 +139,7 @@ exports.user_signup = (req, res, next) => {
 };
 
 //Login Function
-exports.user_login = (req, res, next) => {
+exports.user_login = (req, res) => {
     User.find({ email: req.body.email })
         .exec()
         .then(user => {
@@ -198,7 +198,7 @@ exports.user_login = (req, res, next) => {
 };
 
 //Confirmation Post
-exports.confirmationPost = function(req, res, next) {
+exports.confirmationPost = function(req, res) {
     // Find a matching token
     Token.findOne({ token: req.params.token }, function(err, token) {
         if (!token)
@@ -232,7 +232,7 @@ exports.confirmationPost = function(req, res, next) {
 };
 
 //Forgot password.
-exports.forgotPassword = (req, res, next) => {
+exports.forgotPassword = (req, res) => {
     User.findOne({ email: req.body.email }, function(err, user) {
         // Create a verification token for this user
         const token = new Token({
@@ -287,7 +287,7 @@ exports.forgotPassword = (req, res, next) => {
 };
 
 //Reset Password
-exports.resetPassword = (req, res, next) => {
+exports.resetPassword = (req, res) => {
     console.log(req.body.data);
     Token.findOne({ token: req.body.data.token }, function(err, token) {
         if (!token)
@@ -317,20 +317,20 @@ exports.resetPassword = (req, res, next) => {
     });
 };
 
-exports.cashidRequest = (req, res, next) => {
+exports.cashidRequest = (req, res) => {
     let cashid = new CashID(req.body.domain, req.body.path);
     let uri = cashid.createRequest(req.body.action, req.body.data, req.body.metadata);
     return res.send({ uri: uri });
 };
 
-exports.cashidParse = (req, res, next) => {
+exports.cashidParse = (req, res) => {
     let cashid = new CashID();
     let request = cashid.validateRequest(req.body);
     let confirmation = cashid.confirmRequest(req.headers);
     return res.status(200).send({ confirmation: confirmation.status });
 };
 
-exports.cashidAssociated = (req, res, next) => {
+exports.cashidAssociated = (req, res) => {
     let cashID = req.body.cashID;
     User.find({ cashID: cashID })
         .exec()
@@ -364,7 +364,7 @@ exports.cashidAssociated = (req, res, next) => {
         .catch(err => console.log(err));
 };
 
-exports.cashidAssociateCredentials = (req, res, next) => {
+exports.cashidAssociateCredentials = (req, res) => {
     User.findOne({ email: req.body.data.values.email }, function(err, user) {
         if (!user) return res.status(400).send({ msg: 'User does not exist.' });
         if (!user.isVerified)
@@ -407,7 +407,7 @@ exports.cashidAssociateCredentials = (req, res, next) => {
     });
 };
 
-exports.cashidSignUp = (req, res, next) => {
+exports.cashidSignUp = (req, res) => {
     User.find({ username: req.body.data.values.username })
         .exec()
         .then(user => {
@@ -438,7 +438,7 @@ exports.cashidSignUp = (req, res, next) => {
 };
 
 //Get User Profile Data
-exports.getUserProfile = (req, res, next) => {
+exports.getUserProfile = (req, res) => {
     User.findOne({ _id: req.decodedTokenData.userId })
         .exec()
         .then(user => {
@@ -512,7 +512,7 @@ exports.getStats = (req, res) => {
         .catch(err => console.log(err));
 };
 
-exports.getUserProfileByID = (req, res, next) => {
+exports.getUserProfileByID = (req, res) => {
     let { username } = req.params;
     User.findOne({ username: username })
         .exec()
@@ -540,7 +540,7 @@ exports.getUserProfileByID = (req, res, next) => {
         .catch(err => console.log(err));
 };
 
-exports.getUserId = (req, res, next) => {
+exports.getUserId = (req, res) => {
     console.log(' [x] getUserId req params ', req.params);
     let address = req.params.address;
     User.findOne({ cashID: address })
@@ -570,7 +570,7 @@ exports.getUserId = (req, res, next) => {
         .catch(err => console.log(err));
 };
 //Update User Profile
-exports.updateUserProfile = (req, res, next) => {
+exports.updateUserProfile = (req, res) => {
     const data = req.body;
     console.log('updateUserProfile:', data);
     // console.log("updateUserProfile:", data.imageURI, data.imageInput);
@@ -618,7 +618,7 @@ exports.updateUserProfile = (req, res, next) => {
         });
 };
 
-exports.getUserWallet = (req, res, next) => {
+exports.getUserWallet = (req, res) => {
     User.findOne({ _id: req.decodedTokenData.userId })
         .exec()
         .then(user => {

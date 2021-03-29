@@ -13,7 +13,7 @@ const BigNumber = require('bignumber.js');
 
 require('dotenv').config();
 
-exports.createProject = (req, res, next) => {
+exports.createProject = (req, res) => {
     let data = req.body;
     let userImages = data.images;
 
@@ -88,7 +88,7 @@ exports.createProject = (req, res, next) => {
     });
 };
 
-exports.getProjects = (req, res, next) => {
+exports.getProjects = (req, res) => {
     User.findOne({ _id: req.decodedTokenData.userId })
         .populate('projects')
         .exec(function(err, projects) {
@@ -102,7 +102,7 @@ exports.getProjects = (req, res, next) => {
         });
 };
 
-exports.getAllProjects = (req, res, next) => {
+exports.getAllProjects = (req, res) => {
     Project.find({ startTime: { $exists: true } })
         .then(projects => {
             res.send({
@@ -115,7 +115,7 @@ exports.getAllProjects = (req, res, next) => {
         });
 };
 
-exports.getPopularProjects = (req, res, next) => {
+exports.getPopularProjects = (req, res) => {
     Project.find({ hasEnded: false })
         .then(projects => {
             let allowedProjects = projects.filter(project => {
@@ -137,7 +137,7 @@ exports.getPopularProjects = (req, res, next) => {
         });
 };
 
-exports.getCompletedProjects = (req, res, next) => {
+exports.getCompletedProjects = (req, res) => {
     Project.find({ hasEnded: true })
         .then(projects => {
             res.send({
@@ -150,7 +150,7 @@ exports.getCompletedProjects = (req, res, next) => {
         });
 };
 
-exports.getSingleProject = async (req, res, next) => {
+exports.getSingleProject = async (req, res) => {
     let { id } = req.params;
     let project, user, bchAddress;
     // Get project
@@ -211,7 +211,7 @@ exports.getSingleProject = async (req, res, next) => {
  *
  * imageName (String) exmaple: projImg_5e6a3e651673aa0017740711_5f842ef68f0968378077904e_image1.png
  */
-exports.editProject = async (req, res, next) => {
+exports.editProject = async (req, res) => {
     let data = req.body;
     let images = data.images;
     let projectId = data.id;
@@ -277,7 +277,7 @@ exports.editProject = async (req, res, next) => {
     }
 };
 
-exports.getProjectCashAddress = (req, res, next) => {
+exports.getProjectCashAddress = (req, res) => {
     let { id } = req.params;
     // get cash address in wallet
     WalletModel.findOne({ _id: id })
@@ -291,7 +291,7 @@ exports.getProjectCashAddress = (req, res, next) => {
         .catch(err => console.log(err));
 };
 
-exports.getArrayOfProjects = (req, res, next) => {
+exports.getArrayOfProjects = (req, res) => {
     const data = req.body;
     const objIds = data.projects.map(el => mongoose.Types.ObjectId(el));
     Project.find({ _id: { $in: objIds } })
@@ -311,7 +311,7 @@ exports.getArrayOfProjects = (req, res, next) => {
         .catch(err => console.log(err));
 };
 
-exports.payUsingCustomWallet = async (req, res, next) => {
+exports.payUsingCustomWallet = async (req, res) => {
     const data = req.body;
     let wallet = new Wallet();
     let bchCompatibleAmount = data.amount.toFixed(8);
@@ -362,7 +362,7 @@ exports.payUsingCustomWallet = async (req, res, next) => {
         });
 };
 
-exports.updateFunds = (req, res, next) => {
+exports.updateFunds = (req, res) => {
     const data = req.body;
     Project.findOne({ _id: data.projectID })
         .exec()
@@ -386,7 +386,7 @@ exports.updateFunds = (req, res, next) => {
         });
 };
 
-exports.isBchAddress = (req, res, next) => {
+exports.isBchAddress = (req, res) => {
     const { bchAddress } = req.body;
     console.log(bchAddress);
     // check address
@@ -418,7 +418,7 @@ exports.isBchAddress = (req, res, next) => {
     }
 };
 
-exports.checkFunds = async (req, res, next) => {
+exports.checkFunds = async (req, res) => {
     const data = req.body;
     const projectId = data.projectID;
     let project;
@@ -443,7 +443,7 @@ exports.checkFunds = async (req, res, next) => {
     }
 };
 
-exports.setCompletion = async (req, res, next) => {
+exports.setCompletion = async (req, res) => {
     const data = req.body;
     Project.findOne({ _id: data.projectID })
         .exec()
@@ -459,7 +459,7 @@ exports.setCompletion = async (req, res, next) => {
         });
 };
 
-exports.cancelProject = async (req, res, next) => {
+exports.cancelProject = async (req, res) => {
     const { projectId } = req.body;
     const userId = req.decodedTokenData.userId;
     console.log(` [x] Cancell Project ${projectId} for ${userId}`);
@@ -505,7 +505,7 @@ exports.cancelProject = async (req, res, next) => {
     }
 };
 
-exports.withDrawFunds = async (req, res, next) => {
+exports.withDrawFunds = async (req, res) => {
     const projectId = req.body.id;
     const userCashAddress = req.body.bchAddress;
     const userId = req.decodedTokenData.userId;
@@ -638,7 +638,7 @@ exports.withDrawFunds = async (req, res, next) => {
     }
 };
 
-exports.checkGoalStatus = (req, res, next) => {
+exports.checkGoalStatus = (req, res) => {
     const data = req.body;
     let cleared = false;
     console.log(' [x] checkGoalStatus for ', data.id);
@@ -667,7 +667,7 @@ exports.checkGoalStatus = (req, res, next) => {
     }
 };
 
-exports.setProjectAddresses = async (req, res, next) => {
+exports.setProjectAddresses = async (req, res) => {
     const { addresses } = req.body;
 
     const project = await Project.findById(req.params.id);
