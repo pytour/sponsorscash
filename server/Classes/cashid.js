@@ -164,10 +164,7 @@ class CashID {
             // Initialize an empty metadata part string.
             let metadataPart = '';
 
-            if (
-                metadata[metadataName] !== undefined &&
-                metadata[metadataName].length
-            ) {
+            if (metadata[metadataName] !== undefined && metadata[metadataName].length) {
                 // Iterate over each field of this metadata type.
                 for (const metadataField of metadata[metadataName]) {
                     let dataNameValue = metadataNames[metadataName][metadataField];
@@ -265,9 +262,7 @@ class CashID {
                     }`
                 );
             } else if (parsedRequest == 0) {
-                throw new Error(
-                    `Request URI is invalid, ${statusCodes['requestBroken']}`
-                );
+                throw new Error(`Request URI is invalid, ${statusCodes['requestBroken']}`);
             }
 
             // Validate the request scheme.
@@ -284,11 +279,9 @@ class CashID {
             // Validate the request domain.
             if (parsedRequest['domain'] != this.domain) {
                 throw new Error(
-                    `Request domain  ${
-                        parsedRequest['domain']
-                    } is invalid, this service uses ${this.domain}, statuscode:${
-                        statusCodes['requestInvalidDomain']
-                    }`
+                    `Request domain  ${parsedRequest['domain']} is invalid, this service uses ${
+                        this.domain
+                    }, statuscode:${statusCodes['requestInvalidDomain']}`
                 );
             }
 
@@ -406,10 +399,7 @@ class CashID {
             // Loop over the required metadata fields.
             for (const metadataValue in parsedRequest['parameters']['required']) {
                 // If the field was required && missing from the response..
-                if (
-                    metadataValue &&
-                    responseObject['metadata'][metadataName] === undefined
-                ) {
+                if (metadataValue && responseObject['metadata'][metadataName] === undefined) {
                     // Store it in the list of missing fields.
                     missingFields[metadataName] = metadataName;
                 }
@@ -425,15 +415,11 @@ class CashID {
             }
 
             // Loop over the supplied metadata fields.
-            if (
-                responseObject['metadata'] !== undefined &&
-                responseObject['metadata'].length
-            ) {
+            if (responseObject['metadata'] !== undefined && responseObject['metadata'].length) {
                 for (const metadataValue of responseObject['metadata']) {
                     // Validate if the supplied metadata was requested
                     if (
-                        parsedRequest['parameters']['required'][metadataName] ===
-                        'undefined' &&
+                        parsedRequest['parameters']['required'][metadataName] === 'undefined' &&
                         parsedRequest['parameters']['optional'][metadataName] === undefined
                     ) {
                         throw new Error(
@@ -607,8 +593,7 @@ class CashID {
 
         requestNamedParts.parameters = {};
         for (let name in regnames['parameters']) {
-            requestNamedParts.parameters[name] =
-                requestParameters[regnames['parameters'][name]];
+            requestNamedParts.parameters[name] = requestParameters[regnames['parameters'][name]];
         }
 
         if (requestNamedParts.parameters['required']) {

@@ -1,5 +1,3 @@
-
 export function test() {
-
-    return "hi";
+    return 'hi';
 }

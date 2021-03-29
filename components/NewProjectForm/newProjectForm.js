@@ -1,57 +1,54 @@
-import React, {useEffect, useState} from "react";
-import {useFormik} from "formik";
-import axios from "axios";
-import * as Swal from "sweetalert2";
-import Router from "next/router";
-import DatePicker from "react-datepicker";
-import {useDispatch, useSelector} from "react-redux";
-import getConfig from "next/config";
-import Warning from "../../utils/warning";
-import ProjectSucess from "../Modal/projectSucceModal";
-import DotLoader from "react-spinners/DotLoader";
+import React, { useEffect, useState } from 'react';
+import { useFormik } from 'formik';
+import axios from 'axios';
+import * as Swal from 'sweetalert2';
+import Router from 'next/router';
+import DatePicker from 'react-datepicker';
+import { useDispatch, useSelector } from 'react-redux';
+import getConfig from 'next/config';
+import Warning from '../../utils/warning';
+import ProjectSucess from '../Modal/projectSucceModal';
+import DotLoader from 'react-spinners/DotLoader';
 
-let Wallet = require("../../lib/walet/walletCreate");
+let Wallet = require('../../lib/walet/walletCreate');
 
 let wallet = new Wallet();
 
+const { publicRuntimeConfig } = getConfig();
 
-const {publicRuntimeConfig} = getConfig();
-
-const validate = (values) => {
+const validate = values => {
     const errors = {};
 
     if (!values.title) {
-        errors.title = "Required";
+        errors.title = 'Required';
     } else if (!(values.title.length >= 4 && values.title.length < 150)) {
-        errors.title = "Must be greater then 4 characters and less then 150 ";
+        errors.title = 'Must be greater then 4 characters and less then 150 ';
     }
 
     if (!values.description) {
-        errors.description = "Required";
-    } else if (
-        !(values.description.length >= 4 && values.description.length < 300)
-    ) {
-        errors.description = "Must be greater then 4 characters and less then 300 ";
+        errors.description = 'Required';
+    } else if (!(values.description.length >= 4 && values.description.length < 300)) {
+        errors.description = 'Must be greater then 4 characters and less then 300 ';
     }
 
     if (!values.detail) {
-        errors.detail = "Required";
+        errors.detail = 'Required';
     } else if (!(values.detail.length >= 4 && values.detail.length < 5000)) {
-        errors.detail = "Must be greater then 4 characters and less then 5000 ";
+        errors.detail = 'Must be greater then 4 characters and less then 5000 ';
     }
 
     if (!values.select) {
-        errors.select = "Required";
+        errors.select = 'Required';
     }
 
     if (!values.goal) {
-        errors.goal = "Required";
+        errors.goal = 'Required';
     } else {
         let goal = +values.goal;
-        if (typeof goal !== "number" && !isNaN(goal)) {
-            errors.goal = "Must be number";
+        if (typeof goal !== 'number' && !isNaN(goal)) {
+            errors.goal = 'Must be number';
         } else if (goal < 0.001) {
-            errors.goal = "Must be greater than 0.001 BCH";
+            errors.goal = 'Must be greater than 0.001 BCH';
         }
     }
 
@@ -66,16 +63,15 @@ const newProjectForm = () => {
     const tomorrow = new Date(today);
     tomorrow.setDate(tomorrow.getDate() + 1);
     const [date, setDate] = useState(tomorrow);
-    const token = useSelector((state) => state.token);
+    const token = useSelector(state => state.token);
     const [loading, setLoading] = useState(false);
     const [secretKey, setSecretKey] = useState(null);
     const [walletInfo, setWalletInfo] = useState(null);
 
-
     useEffect(() => {
         if (!token) {
-            Swal.fire("Please Login first", "error", "error");
-            Router.push("/login");
+            Swal.fire('Please Login first', 'error', 'error');
+            Router.push('/login');
         } else {
             //
             // TODO: [BAC-1] check token expiration in new project page
@@ -83,62 +79,55 @@ const newProjectForm = () => {
             // if expire run DEAUTHENTICATE ask to login again
             // Route to login_page
             axios
-                .get(publicRuntimeConfig.APP_URL + "/users/getUserProfile", {
-                    headers: {Authorization: "Bearer " + token},
+                .get(publicRuntimeConfig.APP_URL + '/users/getUserProfile', {
+                    headers: { Authorization: 'Bearer ' + token }
                 })
-                .then((res) => {
+                .then(res => {
                     console.log('auth ok');
                 })
-                .catch((err) => {
-                    console.log(err)
-                    Swal.fire("Please Login first", "error", "error");
-                    dispatch({type: "DEAUTHENTICATE"});
-                    Router.push("/login");
+                .catch(err => {
+                    console.log(err);
+                    Swal.fire('Please Login first', 'error', 'error');
+                    dispatch({ type: 'DEAUTHENTICATE' });
+                    Router.push('/login');
                 });
         }
-
-
     }, []);
 
     const formik = useFormik({
         initialValues: {
-            title: "",
-            description: "",
-            select: "",
-            detail: "",
-            goal: "",
+            title: '',
+            description: '',
+            select: '',
+            detail: '',
+            goal: ''
         },
         validate,
-        onSubmit: (values) => {
-
+        onSubmit: values => {
             setLoading(true);
             let walletData = wallet.createWallet();
             if (walletData && walletData.cashAddress) {
                 setWalletInfo({
-                    wallet: walletData, formValue: values,
-
+                    wallet: walletData,
+                    formValue: values
                 });
 
                 setLoading(false);
-                setSecretKey(
-                    {
-                        secret: walletData.mnemonic,
-                        username: "none",
-                    });
-
-
+                setSecretKey({
+                    secret: walletData.mnemonic,
+                    username: 'none'
+                });
             }
         }
     });
 
-
     //Convert Blob to Data URI
-    const imageSelect = async (e) => {
-        let image = "";
+    const imageSelect = async e => {
+        let image = '';
         let name = e.target.name;
         let reader = new FileReader();
         reader.readAsDataURL(e.target.files[0]);
-        reader.onload = await function () {
+        reader.onload = await function() {
             image = reader.result;
             setImages(name, image);
         };
@@ -147,23 +136,22 @@ const newProjectForm = () => {
     const setImages = (name, image) => {
         setProjectImages({
             ...projectImages,
-            [name]: image,
+            [name]: image
         });
         setIsImageSet(!isImageSet);
     };
 
-    const handleDateChange = (date) => {
+    const handleDateChange = date => {
         setDate(date);
     };
 
-
     function resetAllData(value) {
-        setSecretKey(null)
+        setSecretKey(null);
     }
 
-
     if (secretKey && secretKey.username) {
-        return (<ProjectSucess
+        return (
+            <ProjectSucess
                 secret={secretKey}
                 walletInfo={walletInfo}
                 images={projectImages}
@@ -171,15 +159,12 @@ const newProjectForm = () => {
                 date={date}
                 token={token}
             />
-        )
+        );
     }
-
 
     return (
         <div className="container max-w-screen-xl my-4 mx-auto">
             <div className="grid grid-cols-12 gap-8 px-4">
-
-
                 <div className=" col-span-12 lg:col-span-5 ">
                     <h6 className="mb-2 font-bold">Choose Project Images (Optional)</h6>
                     <div className=" rounded-2xl overflow-hidden shadow-md">
@@ -191,21 +176,21 @@ const newProjectForm = () => {
                             accept="image/*"
                             className="hidden"
                         />
-                        <label htmlFor="image1"
-                               className="flex h-full p-1 bg-gray-400 bg-opacity-75 cursor-pointer z-40 relative bottom-74">
+                        <label
+                            htmlFor="image1"
+                            className="flex h-full p-1 bg-gray-400 bg-opacity-75 cursor-pointer z-40 relative bottom-74">
                             <p className="w-full text-center relative top-40 text-white ">
-                                {projectImages.image1 ? "Change Image" : "Choose Image"}</p>
+                                {projectImages.image1 ? 'Change Image' : 'Choose Image'}
+                            </p>
                         </label>
                         {projectImages.image1 ? (
-                            <img src={projectImages.image1} className="w-full h-96 -mt-2"/>
+                            <img src={projectImages.image1} className="w-full h-96 -mt-2" />
                         ) : (
-                            ""
+                            ''
                         )}
                     </div>
                     <div className="grid grid-cols-2  md:grid-cols-4 gap-4 md:gap-2 my-4">
-
                         <div className="rounded-xl overflow-hidden  shadow-md w-full h-32  ">
-
                             <input
                                 onChange={imageSelect}
                                 type="file"
@@ -215,20 +200,27 @@ const newProjectForm = () => {
                                 className="hidden"
                             />
 
-                            <label htmlFor="image2"
-                                   className={"flex cursor-pointer  bg-gray-400 bg-opacity-75 z-40 "}
-                            >
-                                <p className={"w-full text-center   text-white z-50  " + (projectImages.image2 ? 'bg-gray-400 bg-opacity-75  mt-10 pt-2' : 'mt-0')}
-                                > {projectImages.image2 ? "Change  Image" : "Choose Image"}</p>
+                            <label
+                                htmlFor="image2"
+                                className={'flex cursor-pointer  bg-gray-400 bg-opacity-75 z-40 '}>
+                                <p
+                                    className={
+                                        'w-full text-center   text-white z-50  ' +
+                                        (projectImages.image2
+                                            ? 'bg-gray-400 bg-opacity-75  mt-10 pt-2'
+                                            : 'mt-0')
+                                    }>
+                                    {' '}
+                                    {projectImages.image2 ? 'Change  Image' : 'Choose Image'}
+                                </p>
                             </label>
                             {projectImages.image2 ? (
-                                <img src={projectImages.image2} className="w-full h-full -mt-20"/>
+                                <img src={projectImages.image2} className="w-full h-full -mt-20" />
                             ) : (
-                                ""
+                                ''
                             )}
                         </div>
                         <div className="rounded-xl  overflow-hidden  shadow-md w-full h-32">
-
                             <input
                                 onChange={imageSelect}
                                 type="file"
@@ -237,18 +229,27 @@ const newProjectForm = () => {
                                 accept="image/*"
                                 className="hidden"
                             />
-                            <label htmlFor="image3" className="flex cursor-pointer  bg-gray-400 bg-opacity-75 z-40 ">
-                                <p className={"w-full text-center   text-white z-50  " + (projectImages.image3 ? 'bg-gray-400 bg-opacity-75  mt-10 pt-2' : 'mt-0')}
-                                > {projectImages.image3 ? "Change  Image" : "Choose Image"}</p>
+                            <label
+                                htmlFor="image3"
+                                className="flex cursor-pointer  bg-gray-400 bg-opacity-75 z-40 ">
+                                <p
+                                    className={
+                                        'w-full text-center   text-white z-50  ' +
+                                        (projectImages.image3
+                                            ? 'bg-gray-400 bg-opacity-75  mt-10 pt-2'
+                                            : 'mt-0')
+                                    }>
+                                    {' '}
+                                    {projectImages.image3 ? 'Change  Image' : 'Choose Image'}
+                                </p>
                             </label>
                             {projectImages.image3 ? (
-                                <img src={projectImages.image3} className="w-full h-full -mt-20"/>
+                                <img src={projectImages.image3} className="w-full h-full -mt-20" />
                             ) : (
-                                ""
+                                ''
                             )}
                         </div>
                         <div className="rounded-xl  overflow-hidden  shadow-md w-full h-32  ">
-
                             <input
                                 onChange={imageSelect}
                                 type="file"
@@ -257,19 +258,27 @@ const newProjectForm = () => {
                                 accept="image/*"
                                 className="hidden"
                             />
-                            <label htmlFor="image4"
-                                   className="flex cursor-pointer  bg-gray-400 bg-opacity-75 z-40 ">
-                                <p className={"w-full text-center   text-white z-50  " + (projectImages.image4 ? 'bg-gray-400 bg-opacity-75  mt-10 pt-2' : 'mt-0')}
-                                > {projectImages.image4 ? "Change  Image" : "Choose Image"}</p>
+                            <label
+                                htmlFor="image4"
+                                className="flex cursor-pointer  bg-gray-400 bg-opacity-75 z-40 ">
+                                <p
+                                    className={
+                                        'w-full text-center   text-white z-50  ' +
+                                        (projectImages.image4
+                                            ? 'bg-gray-400 bg-opacity-75  mt-10 pt-2'
+                                            : 'mt-0')
+                                    }>
+                                    {' '}
+                                    {projectImages.image4 ? 'Change  Image' : 'Choose Image'}
+                                </p>
                             </label>
                             {projectImages.image4 ? (
-                                <img src={projectImages.image4} className="w-full h-full -mt-20"/>
+                                <img src={projectImages.image4} className="w-full h-full -mt-20" />
                             ) : (
-                                ""
+                                ''
                             )}
                         </div>
                         <div className="rounded-xl  overflow-hidden  shadow-md w-full h-32  ">
-
                             <input
                                 onChange={imageSelect}
                                 type="file"
@@ -278,23 +287,34 @@ const newProjectForm = () => {
                                 accept="image/*"
                                 className="hidden"
                             />
-                            <label htmlFor="image5"
-                                   className="flex cursor-pointer  bg-gray-400 bg-opacity-75 z-40 ">
-                                <p className={"w-full text-center   text-white z-50  " + (projectImages.image5 ? 'bg-gray-400 bg-opacity-75  mt-10 pt-2' : 'mt-0')}
-                                > {projectImages.image5 ? "Change  Image" : "Choose Image"}</p>
+                            <label
+                                htmlFor="image5"
+                                className="flex cursor-pointer  bg-gray-400 bg-opacity-75 z-40 ">
+                                <p
+                                    className={
+                                        'w-full text-center   text-white z-50  ' +
+                                        (projectImages.image5
+                                            ? 'bg-gray-400 bg-opacity-75  mt-10 pt-2'
+                                            : 'mt-0')
+                                    }>
+                                    {' '}
+                                    {projectImages.image5 ? 'Change  Image' : 'Choose Image'}
+                                </p>
                             </label>
                             {projectImages.image5 ? (
-                                <img src={projectImages.image5} className="w-full h-full -mt-20"/>
+                                <img src={projectImages.image5} className="w-full h-full -mt-20" />
                             ) : (
-                                ""
+                                ''
                             )}
                         </div>
                     </div>
                 </div>
                 <div className="relative col-span-12  lg:col-span-7">
-                    {loading && <div className="p-5 flex items-center justify-center object-center z-40">
-                        <DotLoader size={50} color={"#7d73c3"}/>
-                    </div>}
+                    {loading && (
+                        <div className="p-5 flex items-center justify-center object-center z-40">
+                            <DotLoader size={50} color={'#7d73c3'} />
+                        </div>
+                    )}
 
                     <form onSubmit={formik.handleSubmit}>
                         <div>
@@ -315,8 +335,7 @@ const newProjectForm = () => {
                                     border-1 focus:border-0  bg-transparent"
                                     />
                                     {formik.touched.title && formik.errors.title ? (
-                                        <Warning
-                                            message={formik.errors.title}/>
+                                        <Warning message={formik.errors.title} />
                                     ) : null}
                                 </div>
                             </div>
@@ -337,12 +356,10 @@ const newProjectForm = () => {
                                     border-1 focus:border-0  bg-transparent"
                                     />
                                     {formik.touched.goal && formik.errors.goal ? (
-                                        <Warning
-                                            message={formik.errors.goal}/>
+                                        <Warning message={formik.errors.goal} />
                                     ) : null}
                                 </div>
                             </div>
-
 
                             <select
                                 className="mb-3 w-full  h-10 pl-3 py-1 text-outline-color placeholder-placeholder
@@ -354,8 +371,7 @@ const newProjectForm = () => {
                                 name="select"
                                 onChange={formik.handleChange}
                                 onBlur={formik.handleBlur}
-                                value={formik.values.select}
-                            >
+                                value={formik.values.select}>
                                 <option selected hidden>
                                     Category
                                 </option>
@@ -396,69 +412,68 @@ const newProjectForm = () => {
                                 </option>
                             </select>
                             {formik.touched.select && formik.errors.select ? (
-                                <Warning
-                                    message={formik.errors.select}/>
+                                <Warning message={formik.errors.select} />
                             ) : null}
-
 
                             <div className="mt-3 mb-3 flex justify-between text-branding-color">
                                 <p className="text-center pt-1">Funding End Date:</p>
-                                <span className=" px-3 pt-1.5  h-10
+                                <span
+                                    className=" px-3 pt-1.5  h-10
                                    rounded-2xl border-outline-color outline-outline-color
                                     ring-border-color focus:ring-2 focus:ring-purple-300
                                    focus:border-purple-300  focus:outline-none
                                     border-1 focus:border-0  bg-transparent">
-                                         <DatePicker selected={date} onChange={handleDateChange} className=" "/>
-
-                                        </span>
+                                    <DatePicker
+                                        selected={date}
+                                        onChange={handleDateChange}
+                                        className=" "
+                                    />
+                                </span>
                             </div>
                             <div className="mb-3 w-full">
-                                 <textarea
-                                     name="description"
-                                     id="description"
-                                     placeholder="Campaign short description"
-                                     onChange={formik.handleChange}
-                                     onBlur={formik.handleBlur}
-                                     value={formik.values.description}
-                                     className="px-3 pt-1.5 w-full
+                                <textarea
+                                    name="description"
+                                    id="description"
+                                    placeholder="Campaign short description"
+                                    onChange={formik.handleChange}
+                                    onBlur={formik.handleBlur}
+                                    value={formik.values.description}
+                                    className="px-3 pt-1.5 w-full
                                    rounded-md border-outline-color outline-outline-color
                                     ring-border-color focus:ring-2 focus:ring-purple-300
                                    focus:border-purple-300  focus:outline-none
                                     border-1 focus:border-0  bg-transparent"
-                                 />
+                                />
                                 {formik.touched.description && formik.errors.description ? (
-                                    <Warning
-                                        message={formik.errors.description}/>
+                                    <Warning message={formik.errors.description} />
                                 ) : null}
                             </div>
                             <div className="mb-3 w-full">
-                                    <textarea
-                                        name="detail"
-                                        id="detail"
-                                        rows="6"
-                                        placeholder="Campaign full description"
-                                        onChange={formik.handleChange}
-                                        onBlur={formik.handleBlur}
-                                        value={formik.values.detail}
-                                        className="px-3 pt-1.5 w-full
+                                <textarea
+                                    name="detail"
+                                    id="detail"
+                                    rows="6"
+                                    placeholder="Campaign full description"
+                                    onChange={formik.handleChange}
+                                    onBlur={formik.handleBlur}
+                                    value={formik.values.detail}
+                                    className="px-3 pt-1.5 w-full
                                                    rounded-md border-outline-color outline-outline-color
                                                     ring-border-color focus:ring-2 focus:ring-purple-300
                                                    focus:border-purple-300  focus:outline-none
                                                     border-1 focus:border-0  bg-transparent"
-                                    />
+                                />
                                 {formik.touched.detail && formik.errors.detail ? (
-                                    <Warning
-                                        message={formik.errors.detail}/>
+                                    <Warning message={formik.errors.detail} />
                                 ) : null}
                             </div>
                         </div>
-                        <button type="submit"
-                                className="md:w-half w-full text-black rounded-xs h-10 uppercase bg-outline-color text-lg hover:shadow-xl shadow-md  mb-6 mt-6">
+                        <button
+                            type="submit"
+                            className="md:w-half w-full text-black rounded-xs h-10 uppercase bg-outline-color text-lg hover:shadow-xl shadow-md  mb-6 mt-6">
                             Create Project
                         </button>
                     </form>
-
-
                 </div>
             </div>
         </div>

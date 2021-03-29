@@ -1,17 +1,15 @@
-import React from "react";
-import Layout from "../components/Layout";
-import {withRedux} from "../lib/redux";
+import React from 'react';
+import Layout from '../components/Layout';
+import { withRedux } from '../lib/redux';
 
 const About = () => (
-  <div>
-    <Layout>
-        <div>
+    <div>
+        <Layout>
             <div>
-                A simple primary alert—check it out!
+                <div>A simple primary alert—check it out!</div>
             </div>
-        </div>
-    </Layout>
-  </div>
+        </Layout>
+    </div>
 );
 
 export default withRedux(About);
