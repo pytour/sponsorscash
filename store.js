@@ -1,4 +1,4 @@
-import { createStore, applyMiddleware, compose } from 'redux';
+import { createStore, compose } from 'redux';
 
 const initialState = {
     sideDrawerOpen: false,
@@ -10,13 +10,13 @@ const initialState = {
 
 const reducer = (state = initialState, action) => {
     switch (action.type) {
-        case 'UPDATE_PROJECTS':
+        case 'UPDATE_PROJECTS': {
             return {
                 ...state,
                 projects: action.payload
             };
-
-        case 'CANCEL_PROJECT':
+        }
+        case 'CANCEL_PROJECT': {
             const projIndex = state.projects.findIndex(project => project._id === action.payload);
             const projects = [...state.projects];
             if (projIndex) projects[projIndex].status = 'CANCELED';
@@ -24,14 +24,14 @@ const reducer = (state = initialState, action) => {
                 ...state,
                 projects: projects
             };
-
-        case 'TOGGLE_SIDEDRAWER':
+        }
+        case 'TOGGLE_SIDEDRAWER': {
             return {
                 ...state,
                 sideDrawerOpen: !state.sideDrawerOpen
             };
-
-        case 'AUTHENTICATE':
+        }
+        case 'AUTHENTICATE': {
             return {
                 ...state,
                 token: action.payload.token,
@@ -41,8 +41,8 @@ const reducer = (state = initialState, action) => {
                 image: action.payload.image,
                 isLoggedIn: true
             };
-
-        case 'DEAUTHENTICATE':
+        }
+        case 'DEAUTHENTICATE': {
             return {
                 ...state,
                 token: null,
@@ -52,20 +52,22 @@ const reducer = (state = initialState, action) => {
                 image: null,
                 isLoggedIn: false
             };
-
-        case 'SET_CASHID':
+        }
+        case 'SET_CASHID': {
             return {
                 ...state,
                 cashID: action.payload
             };
-
-        case 'CLEAR_CASHID':
+        }
+        case 'CLEAR_CASHID': {
             return {
                 ...state,
                 cashID: ''
             };
-        default:
+        }
+        default: {
             return state;
+        }
     }
 };
 

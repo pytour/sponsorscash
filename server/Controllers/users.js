@@ -3,14 +3,12 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const User = require('../Models/users');
 const Token = require('../Models/token');
-const crypto = require('crypto');
 const nodemailer = require('nodemailer');
 const sendgridTransport = require('nodemailer-sendgrid-transport');
 const CashID = require('../Classes/cashid');
 const fs = require('fs');
 const path = require('path');
 const WalletModel = require('../Models/wallet');
-const Wallet = require('../Classes/wallet');
 
 //Signup Function
 exports.user_signup = (req, res) => {
@@ -325,7 +323,6 @@ exports.cashidRequest = (req, res) => {
 
 exports.cashidParse = (req, res) => {
     let cashid = new CashID();
-    let request = cashid.validateRequest(req.body);
     let confirmation = cashid.confirmRequest(req.headers);
     return res.status(200).send({ confirmation: confirmation.status });
 };
@@ -374,7 +371,7 @@ exports.cashidAssociateCredentials = (req, res) => {
             });
 
         // Verify and save the user
-        bcrypt.compare(req.body.data.values.password, user.password, (err, hash) => {
+        bcrypt.compare(req.body.data.values.password, user.password, err => {
             if (err) {
                 return res.send({
                     statusCode: 401,
@@ -466,7 +463,7 @@ exports.getStats = (req, res) => {
             console.log('users stats');
             let sponsorees = 0;
             if (users) {
-                let sponsorees = users.filter(el => {
+                sponsorees = users.filter(el => {
                     if (el.projects && el.projects.length > 0) return el;
                 });
                 let registerDates = []; // [{date: countUsers}, {'2020-01-01': 2}, ...]

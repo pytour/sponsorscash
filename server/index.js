@@ -23,7 +23,6 @@ mongoose.connect(
         console.log('open done' + mongoose.connection.host + '\t' + mongoose.connection.port);
         if (error) {
             console.log('error' + error);
-        } else {
         }
     }
 );

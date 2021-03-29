@@ -2,14 +2,12 @@ const mongoose = require('mongoose');
 const User = require('../Models/users');
 const Project = require('../Models/project');
 const ReceivingAddress = require('../Models/receivingAddress');
-const DonationModel = require('../Models/donations');
 const WalletModel = require('../Models/wallet');
 const fs = require('fs');
 const path = require('path');
 const Wallet = require('../Classes/wallet');
 const bitboxSDK = require('bitbox-sdk').BITBOX;
 const BITBOX = new bitboxSDK();
-const BigNumber = require('bignumber.js');
 
 require('dotenv').config();
 
