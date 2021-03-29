@@ -32,7 +32,7 @@ module.exports = {
             borderWidth: {
                 '1': '1.1px'
             },
-            backgroundImage: theme => ({
+            backgroundImage: () => ({
                 'hero-md': "url('/images/cover.jpg')",
                 'footer-sm': "url('/slide/girl.png')"
             }),

@@ -34,7 +34,10 @@ const validate = values => {
         'edit',
         'editCampaign',
         'campaign',
-        'error'
+        'error',
+        'wallet',
+        'anonymous',
+        'admin'
     ];
     if (!values.username) {
         errors.username = 'Required';
