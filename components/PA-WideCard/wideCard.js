@@ -272,7 +272,7 @@ const wideCard = props => {
 
                                         <button
                                             type="button"
-                                            className="mr-1 mt-2 lg:mt-0 lg:mr-0 ml-1 lg:ml-0 lg:mt-3 lg:mx-8 w-32 sm:w-auto  justify-center
+                                            className="mr-1 mt-2 lg:mt-0 lg:mr-0 ml-1 lg:ml-0 lg:mx-8 w-32 sm:w-auto  justify-center
                                          border-1 border-branding-text-color hover:text-white text-branding-color rounded-full py-.5 px-4 hover:bg-branding-text-color uppercase"
                                             title="Close this project"
                                             onClick={editProject}>

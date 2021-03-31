@@ -14,5 +14,4 @@ router.get('/getUserProfile/:username', UserController.getUserProfileByID);
 router.post('/updateUserProfile', checkAuth, UserController.updateUserProfile);
 router.get('/getUserWallet', checkAuth, UserController.getUserWallet);
 
-
 module.exports = router;

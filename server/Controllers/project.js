@@ -150,7 +150,7 @@ exports.getCompletedProjects = (req, res) => {
 
 exports.getSingleProject = async (req, res) => {
     let { id } = req.params;
-    let project, user, bchAddress;
+    let project, user;
     // Get project
     try {
         project = await Project.findOne({ _id: id }).exec();
@@ -312,7 +312,6 @@ exports.getArrayOfProjects = (req, res) => {
 exports.payUsingCustomWallet = async (req, res) => {
     const data = req.body;
     let wallet = new Wallet();
-    let bchCompatibleAmount = data.amount.toFixed(8);
     console.log('payUsingCustomWallet amount: ', data.amount);
     console.log('payUsingCustomWallet data: ', data);
     let transaction = await wallet.sendBch(
@@ -391,10 +390,14 @@ exports.isBchAddress = (req, res) => {
     let isCashAddress, isMainnetAddress;
     try {
         isCashAddress = BITBOX.Address.isCashAddress(bchAddress);
-    } catch (error) {}
+    } catch (error) {
+        console.log(error);
+    }
     try {
         isMainnetAddress = BITBOX.Address.isMainnetAddress(bchAddress);
-    } catch (error) {}
+    } catch (error) {
+        console.log(error);
+    }
 
     if (isCashAddress && isMainnetAddress) {
         // Ok
@@ -503,6 +506,7 @@ exports.cancelProject = async (req, res) => {
     }
 };
 
+// TODO: Remove legacy code
 exports.withDrawFunds = async (req, res) => {
     const projectId = req.body.id;
     const userCashAddress = req.body.bchAddress;

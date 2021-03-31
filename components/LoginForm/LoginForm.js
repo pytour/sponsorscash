@@ -38,7 +38,7 @@ const loginform = () => {
             Router.push('/privateAccount', '/' + username);
         }
     }, []);
-    
+
     const formik = useFormik({
         initialValues: {
             email: '',
