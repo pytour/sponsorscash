@@ -4,7 +4,6 @@ const initialState = {
     sideDrawerOpen: false,
     token: '',
     isLoggedIn: false,
-    cashID: '',
     projects: []
 };
 
@@ -51,18 +50,6 @@ const reducer = (state = initialState, action) => {
                 name: null,
                 image: null,
                 isLoggedIn: false
-            };
-        }
-        case 'SET_CASHID': {
-            return {
-                ...state,
-                cashID: action.payload
-            };
-        }
-        case 'CLEAR_CASHID': {
-            return {
-                ...state,
-                cashID: ''
             };
         }
         default: {
