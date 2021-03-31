@@ -6,10 +6,10 @@
     "lint": "eslint --fix .",
     "format": "prettier --write './**/*.{js,jsx,ts,tsx,css,md,json}' --config ./.prettierrc",
     "dev": "APP_URL=http://localhost:3000/api node server/index.js",
-    "dev-server": "APP_URL=http://54.244.63.208/api node server/index.js",
+    "dev-server": "APP_URL=http://34.212.40.180/api node server/index.js",
     "build": "next build",
     "start": "APP_URL=http://45.35.60.233:3000/api NODE_ENV=production node server/index.js",
-    "start-dev": "APP_URL=http://54.244.63.208/api NODE_ENV=production node server/index.js",
+    "start-dev": "APP_URL=http://34.212.40.180/api NODE_ENV=production node server/index.js",
     "start-local": "APP_URL=http://localhost:3000/api NODE_ENV=production node server/index.js",
     "start-fundme": "APP_URL=https://fundme.cash/api NODE_ENV=production node server/index.js"
   },
