@@ -3,7 +3,7 @@ import styles from '../Card/card.module.css';
 import GeneralButton from '../Button/generalButton';
 import Router from 'next/router';
 
-export default function HeroContainer(props) {
+export default function HeroContainer() {
     return (
         <>
             <div
@@ -24,7 +24,8 @@ export default function HeroContainer(props) {
                         className="mt-3 pl-4 pr-4 text-center"
                         onClick={() => {
                             Router.push('/login');
-                        }}>
+                        }}
+                        onKeyDown={() => {}}>
                         <GeneralButton title={'Explore'} />
                     </div>
                 </div>

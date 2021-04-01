@@ -1,11 +1,9 @@
 import React from 'react';
 import Link from 'next/link';
 import GeneralButton from '../Button/generalButton';
-import Router, { useRouter } from 'next/router';
+import Router from 'next/router';
 
 const Footer = () => {
-    const router = useRouter();
-
     return (
         <div className="min-h-48 flex items-center justify-center bg-branding-color py-12 px-4 sm:px-6 lg:px-8">
             <div className="max-w-screen-xl w-full space-y-8">
@@ -62,7 +60,8 @@ const Footer = () => {
                                         Router.push(
                                             'https://fundme.cash/api/media/files/whitepaper.pdf'
                                         );
-                                    }}>
+                                    }}
+                                    onKeyDown={() => {}}>
                                     <GeneralButton title={'whitepaper'} />
                                 </div>
 

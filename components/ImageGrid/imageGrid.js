@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import Lightbox from 'react-awesome-lightbox';
 import getConfig from 'next/config';
 import Image from 'next/image';
+import PropTypes from 'prop-types';
 
 const { publicRuntimeConfig } = getConfig();
 
@@ -93,6 +94,10 @@ const imageGrid = props => {
                 ))}
         </>
     );
+};
+
+imageGrid.propTypes = {
+    images: PropTypes.array
 };
 
 export default imageGrid;

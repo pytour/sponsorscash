@@ -1,7 +1,8 @@
 import Image from 'next/image';
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 
-export default function CoverImage({ title, src, height, width }) {
+function CoverImage({ title, src, width }) {
     const [heights, setHeights] = useState(width && parseInt(width) < 700 ? 'small' : 'large');
 
     console.log('>..', heights);
@@ -16,3 +17,11 @@ export default function CoverImage({ title, src, height, width }) {
     );
     return <div className="">{image}</div>;
 }
+
+CoverImage.propTypes = {
+    title: PropTypes.string,
+    src: PropTypes.string,
+    width: PropTypes.string
+};
+
+export default CoverImage;

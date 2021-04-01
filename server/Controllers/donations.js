@@ -2,8 +2,6 @@ const mongoose = require('mongoose');
 const DonationModel = require('../Models/donations');
 const Project = require('../Models/project');
 require('dotenv').config();
-const { add, forEach } = require('lodash');
-const rentedAddress = require('../Models/rentedAddress');
 const RentedAddressModel = require('../Models/rentedAddress');
 
 exports.createDonation = (req, res) => {
@@ -64,7 +62,7 @@ exports.createDonation = (req, res) => {
         }
     )
         .exec()
-        .then(res1 => {
+        .then(() => {
             return res.status(200).send('OK');
         })
         .catch(err => {
@@ -121,20 +119,14 @@ exports.getDonationAddress = async (req, res) => {
 };
 
 async function lendAddress(projectId, amount, name, comment, userId) {
-    // const session = await RentedAddressModel.startSession();
-    const session = null; // enable session if using replicaSet otherwise unsupported
-
-    // return session.withTransaction(async function () {
     // get project by id
     let project = await Project.findById(projectId);
-    // .setOptions({ session });
 
     let addresses = project.receivingAddresses || [];
 
     let alreadyRented = await RentedAddressModel.find({ projectId: projectId }).select({
         address: 1
     });
-    // .setOptions({ session });
 
     alreadyRented = alreadyRented.map(rented => rented.address);
 
@@ -158,11 +150,7 @@ async function lendAddress(projectId, amount, name, comment, userId) {
             amount: amount
         });
         console.log('rented address', rentedAddress);
-        return (
-            rentedAddress
-                // .setOptions({ session })
-                .save()
-        );
+        return rentedAddress.save();
     } else {
         return Promise.reject('All addresses are rented at the moment');
     }

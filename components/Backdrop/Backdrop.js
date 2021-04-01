@@ -1,7 +1,7 @@
 import React from 'react';
 
-const backdrop = props => (
-    <div className="backdrop" onClick={props.click}>
+const backdrop = () => (
+    <div className="backdrop">
         <style jsx>{`
             .backdrop {
                 position: fixed;

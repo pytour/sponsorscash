@@ -1,10 +1,7 @@
 import React, { useState } from 'react';
 import Router from 'next/router';
 import Image from 'next/image';
-
-const myLoader = ({ src, width, quality }) => {
-    return `https://example.com/${src}?w=${width}&q=${quality || 75}`;
-};
+import PropTypes from 'prop-types';
 
 const Card = props => {
     const [liked, setLike] = useState(false);
@@ -91,6 +88,18 @@ const Card = props => {
             </div>
         </div>
     );
+};
+
+Card.propTypes = {
+    nested: PropTypes.bool,
+    key: PropTypes.string,
+    linkSlug: PropTypes.string,
+    funded: PropTypes.number,
+    goal: PropTypes.number,
+    imageSrc: PropTypes.string,
+    tag: PropTypes.string,
+    description: PropTypes.string,
+    title: PropTypes.string
 };
 
 export default Card;

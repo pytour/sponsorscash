@@ -11,10 +11,11 @@ import '../styles/globals.css';
 import Head from 'next/head';
 import React from 'react';
 import getConfig from 'next/config';
+import PropTypes from 'prop-types';
 // This default export is required in a new `pages/_app.js` file.
 const { publicRuntimeConfig } = getConfig();
 
-export default function MyApp({ Component, pageProps }) {
+function MyApp({ Component, pageProps }) {
     //console.log("pageProps _app", pageProps);
     const metaDesc =
         pageProps.project && pageProps.project.description
@@ -61,3 +62,11 @@ export default function MyApp({ Component, pageProps }) {
         </React.Fragment>
     );
 }
+
+MyApp.propTypes = {
+    Component: PropTypes.elementType,
+    pageProps: PropTypes.object,
+    project: PropTypes.object
+};
+
+export default MyApp;

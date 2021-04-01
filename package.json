@@ -40,7 +40,7 @@
     "mongodb": "^3.5.9",
     "mongoose": "^5.9.24",
     "mongoose-update-if-current": "^1.4.0",
-    "next": "^10.1.2",
+    "next": "^10.0.6",
     "next-compose-plugins": "^2.2.0",
     "next-fonts": "^1.4.0",
     "next-images": "^1.4.0",
@@ -64,7 +64,6 @@
     "react-timeago": "^5.2.0",
     "redux": "^4.0.5",
     "redux-persist": "^6.0.0",
-    "slp-sdk": "^4.15.0",
     "sweetalert2": "^9.15.3",
     "tailwindcss": "^2.0.2"
   },

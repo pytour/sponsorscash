@@ -4,6 +4,7 @@ import Link from 'next/link';
 import TimeAgo from 'react-timeago';
 import engStrings from 'react-timeago/lib/language-strings/en';
 import buildFormatter from 'react-timeago/lib/formatters/buildFormatter';
+import PropTypes from 'prop-types';
 
 import getConfig from 'next/config';
 
@@ -40,6 +41,14 @@ const commentCard = props => {
             <div className="text-percentage text-base ml-2">{props.text}</div>
         </div>
     );
+};
+
+commentCard.propTypes = {
+    image: PropTypes.string,
+    username: PropTypes.string,
+    name: PropTypes.string,
+    date: PropTypes.string,
+    text: PropTypes.string
 };
 
 export default commentCard;
