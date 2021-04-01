@@ -22,10 +22,13 @@ const Home = () => {
             .catch(err => console.log(err));
 
         axios
-            .get(publicRuntimeConfig.APP_URL + '/project/getCompletedProjects')
+            .get(publicRuntimeConfig.APP_URL + '/project/getCompletedProjects', {
+                params: {
+                    campaignsLimit: 6
+                }
+            })
             .then(res => {
-                // console.log(res.data.projects);
-                setCompletedProjects(res.data.projects.sort((a, b) => b.funded - a.funded));
+                setCompletedProjects(res.data.projects);
             })
             .catch(err => console.log(err));
     }, []);
