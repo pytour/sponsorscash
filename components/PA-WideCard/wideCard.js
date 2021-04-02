@@ -141,10 +141,10 @@ const wideCard = props => {
         } else {
             // Show info message: How to withdraw with MNEMONIC PHRASE
             let msg =
-                "To withdraw your funds please use your campaigns MNEMONIC PHRASE (it's 12 words you got at campaign cretion), for more details see: /main ";
+                "To withdraw your funds please use your campaigns MNEMONIC PHRASE, for more details see: <a href='https://fundme.cash/howto/withdraw'> how to withdraw</a> ";
             Swal.fire({
                 title: 'How to withdraw',
-                text: msg
+                html: msg
             });
         }
     };
