@@ -1,5 +1,6 @@
 {
- "name": "App",
+ "name": "FundMe Cash",
+ "short_name": "FundMe",
  "icons": [
   {
    "src": "\/android-icon-36x36.png",
@@ -37,5 +38,14 @@
    "type": "image\/png",
    "density": "4.0"
   }
- ]
+ ],
+ "theme_color": "#7d73c3",
+ "background_color": "#FFFFFF",
+ "start_url": "/",
+ "display": "standalone",
+ "orientation": "portrait"
+
+}
+
+
 }
