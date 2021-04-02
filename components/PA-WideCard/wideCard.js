@@ -69,62 +69,84 @@ const wideCard = props => {
         });
     };
     const withDrawFunds = () => {
-        //TODO: Aks user to enter BCH address in input field
-        // Then check address (isBCHaddress)
-        // if Ok then make withdraw transaction
-        // else "Error it is looks like you enter wrong BCH address, check it again"
-        // Add new api route /isBchAddress
+        // If - project have property projectWalletID
+        // then use legacy method for withdraw funds
+        // else - return info message: How to withdraw with MNEMONIC PHRASE
 
-        Swal.fire({
-            title: 'Enter your Bitcoin Cash address',
-            input: 'text',
-            inputValue: '',
-            showCancelButton: true,
-            inputValidator: value => {
-                if (!value) {
-                    return 'You need to write BCH address! For example bitcoincash:qwerty123456qwerty123456';
+        if (props.projectWalletID) {
+            // LEGACY CODE
+            //Aks user to enter BCH address in input field
+            // Then check address (isBCHaddress)
+            // if Ok then make withdraw transaction
+            // else "Error it is looks like you enter wrong BCH address, check it again"
+            // Add new api route /isBchAddress
+            Swal.fire({
+                title: 'Enter your Bitcoin Cash address',
+                input: 'text',
+                inputValue: '',
+                showCancelButton: true,
+                inputValidator: value => {
+                    if (!value) {
+                        return 'You need to write BCH address! For example bitcoincash:qwerty123456qwerty123456';
+                    }
                 }
-            }
-        }).then(result => {
-            let bchAddress = result.value;
-            if (bchAddress) {
-                // 1 Check bchAddress
-                axios
-                    .post(publicRuntimeConfig.APP_URL + '/project/isBchAddress', {
-                        bchAddress: bchAddress
-                    })
-                    .then(isBchResult => {
-                        if (isBchResult.data.status === 200) {
-                            // Swal.fire(`Your BCH address:`, `${bchAddress}`, "success");
-                            // 2 Make withdraw transaction
-                            axios
-                                .post(
-                                    publicRuntimeConfig.APP_URL + '/project/withDrawFunds',
-                                    {
-                                        id: props.projectID,
-                                        bchAddress: bchAddress
-                                    },
-                                    { headers: { Authorization: 'Bearer ' + token } }
-                                )
-                                .then(withdrawResult => {
-                                    if (withdrawResult.data.status === 200) {
-                                        setTransactionCleared(true);
-                                        Swal.fire('Done', withdrawResult.data.message, 'success');
-                                    } else {
-                                        Swal.fire('Whoops', withdrawResult.data.message, 'error');
-                                    }
-                                });
-                        } else if (isBchResult.data.status === 400) {
-                            Swal.fire(
-                                `Error:${isBchResult.data.message}`,
-                                `Please check your address: ${bchAddress}`,
-                                'error'
-                            );
-                        }
-                    })
-                    .catch(err => console.log(err));
-            }
-        });
+            }).then(result => {
+                let bchAddress = result.value;
+                if (bchAddress) {
+                    // 1 Check bchAddress
+                    axios
+                        .post(publicRuntimeConfig.APP_URL + '/project/isBchAddress', {
+                            bchAddress: bchAddress
+                        })
+                        .then(isBchResult => {
+                            if (isBchResult.data.status === 200) {
+                                // Swal.fire(`Your BCH address:`, `${bchAddress}`, "success");
+                                // 2 Make withdraw transaction
+                                axios
+                                    .post(
+                                        publicRuntimeConfig.APP_URL + '/project/withDrawFunds',
+                                        {
+                                            id: props.projectID,
+                                            bchAddress: bchAddress
+                                        },
+                                        { headers: { Authorization: 'Bearer ' + token } }
+                                    )
+                                    .then(withdrawResult => {
+                                        if (withdrawResult.data.status === 200) {
+                                            setTransactionCleared(true);
+                                            Swal.fire(
+                                                'Done',
+                                                withdrawResult.data.message,
+                                                'success'
+                                            );
+                                        } else {
+                                            Swal.fire(
+                                                'Whoops',
+                                                withdrawResult.data.message,
+                                                'error'
+                                            );
+                                        }
+                                    });
+                            } else if (isBchResult.data.status === 400) {
+                                Swal.fire(
+                                    `Error:${isBchResult.data.message}`,
+                                    `Please check your address: ${bchAddress}`,
+                                    'error'
+                                );
+                            }
+                        })
+                        .catch(err => console.log(err));
+                }
+            });
+        } else {
+            // Show info message: How to withdraw with MNEMONIC PHRASE
+            let msg =
+                "To withdraw your funds please use your campaigns MNEMONIC PHRASE (it's 12 words you got at campaign cretion), for more details see: /main ";
+            Swal.fire({
+                title: 'How to withdraw',
+                text: msg
+            });
+        }
     };
     const cancelProject = () => {
         const swalWithBootstrapButtons = Swal.mixin({
@@ -266,19 +288,19 @@ const wideCard = props => {
                                          border-1 border-branding-text-color hover:text-white text-branding-color rounded-full py-.5 px-4 hover:bg-branding-text-color uppercase"
                                             title="Close this project"
                                             onClick={cancelProject}>
-                                            {/* <img style={{width:'2rem'}} src={props.lastBtn} alt="cancel"/> */}
                                             <a>CANCEL</a>
                                         </button>
 
-                                        <button
-                                            type="button"
-                                            className="mr-1 mt-2 lg:mt-0 lg:mr-0 ml-1 lg:ml-0 lg:mx-8 w-32 sm:w-auto  justify-center
+                                        {!props.hasEnded && (
+                                            <button
+                                                type="button"
+                                                className="mr-1 mt-2 lg:mt-1 lg:mr-0 ml-1 lg:ml-0 lg:mx-8 w-32 sm:w-auto  justify-center
                                          border-1 border-branding-text-color hover:text-white text-branding-color rounded-full py-.5 px-4 hover:bg-branding-text-color uppercase"
-                                            title="Close this project"
-                                            onClick={editProject}>
-                                            {/* <img style={{width:'2rem'}} src={props.lastBtn} alt="cancel"/> */}
-                                            <a>EDIT</a>
-                                        </button>
+                                                title="Close this project"
+                                                onClick={editProject}>
+                                                <a>EDIT</a>
+                                            </button>
+                                        )}
                                     </div>
                                 </div>
                             </div>

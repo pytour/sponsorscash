@@ -137,14 +137,14 @@ exports.getPopularProjects = (req, res) => {
 
 /**
  * Get Completed Projects
- * that sorted in descending order by funded value 
- * @param {Object} req request 
+ * that sorted in descending order by funded value
+ * @param {Object} req request
  * @param {Object} res result
  */
 exports.getCompletedProjects = (req, res) => {
     let { campaignsLimit } = req.query;
     Project.find({ hasEnded: true })
-        .sort( { funded: -1 })
+        .sort({ funded: -1 })
         .limit(parseInt(campaignsLimit))
         .then(projects => {
             res.send({

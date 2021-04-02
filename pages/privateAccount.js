@@ -67,6 +67,8 @@ const privateAccount = () => {
                             fundingEnds={project.endTime}
                             funded={project.funded}
                             projectID={project._id}
+                            hasEnded={project.hasEnded}
+                            projectWalletID={project.projectWalletID}
                         />
                     </div>
                 );
