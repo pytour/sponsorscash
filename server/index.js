@@ -13,9 +13,8 @@ const projectRoutes = require('./Routes/project');
 const mediaRoute = require('./Routes/media');
 require('dotenv').config();
 
-// const connectionString = process.env.MONGO_CONNECTION_STRING;
-const connectionString = `mongodb+srv://fundmecash:fundme123@cluster0.jobe7.mongodb.net/fundme?retryWrites=true&w=majority`;
-// env.MONGO_ATLAS_PW}@cluster0.jobe7.mongodb.net/fundme?retryWrites=true&w=majority`;
+const connectionString = process.env.MONGO_CONNECTION_STRING;
+
 mongoose.connect(
     connectionString,
     { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true },
