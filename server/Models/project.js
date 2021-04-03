@@ -15,7 +15,7 @@ const projectSchema = mongoose.Schema({
     details: { type: String },
     hasEnded: { type: Boolean, default: false },
     isTransactionCleared: { type: Boolean, default: false },
-    //projectWalletID:{type:mongoose.Schema.Types.ObjectId},
+    projectWalletID:{type:mongoose.Schema.Types.ObjectId}, // Legacy need to keep for backward compatibility
     status: { type: String },
     receivingAddresses: [{ type: String }]
     // addressList: [{ type: String }], need to think,which one

@@ -190,8 +190,9 @@ project.getInitialProps = async ({ query }) => {
     }
 
     if (res.data.status === 200) {
+        console.log('cashAddress ', res.data.cashAddress);
         project = res.data.project;
-        //cashAddress = res.data.cashAddress;
+        cashAddress = res.data.cashAddress;
         projectCreator = {
             creator: res.data.creator,
             avatar: res.data.avatar,

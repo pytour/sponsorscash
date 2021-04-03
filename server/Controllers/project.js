@@ -173,6 +173,20 @@ exports.getSingleProject = async (req, res) => {
 
     // Get campaign creator info
     if (project) {
+        let cashAddress;
+        if (project.projectWalletID) {
+            // Legacy - Backward compatibility for old campaigns
+            //We need to get cashAddress
+            try {
+                let wallet = await WalletModel.findOne({
+                    _id: project.projectWalletID
+                }).exec();
+                cashAddress = wallet.cashAddress;
+                console.log(' [x] Project Wallet Address: ', wallet.cashAddress);
+            } catch (error) {
+                console.log('Non-custodial campaign');
+            }
+        }
         try {
             user = await User.findOne({ projects: id }).exec();
         } catch (error) {
@@ -191,6 +205,7 @@ exports.getSingleProject = async (req, res) => {
             res.send({
                 status: 200,
                 project: project,
+                cashAddress: cashAddress,
                 creator: user.name || user.username,
                 avatar: user.image,
                 username: user.username
