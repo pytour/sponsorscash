@@ -66,7 +66,7 @@ const sponsors = props => {
                         <div className="grid grid-cols-12 gap-4">
                             <div className="col-start-1 col-end-5">
                                 <img
-                                    alt="mountain"
+                                    alt={props.name}
                                     className="md:w-40 w-24 rounded-md border-1 border-gray-100"
                                     src={
                                         props.avatar
@@ -103,53 +103,6 @@ const sponsors = props => {
                 </a>
             </Link>
 
-            {/*<div className="rounded-3xl overflow-hidden shadow">*/}
-            {/*<Image*/}
-            {/*layout="responsive"*/}
-            {/*width={100}*/}
-            {/*height={100}*/}
-            {/*src={*/}
-            {/*props.avatar*/}
-            {/*? publicRuntimeConfig.APP_URL + "/media/user/" + props.avatar*/}
-            {/*: publicRuntimeConfig.APP_URL + "/media/user/user-avatar.png"*/}
-            {/*}*/}
-            {/*className="w-full"*/}
-            {/*alt="avatar"*/}
-            {/*/>*/}
-            {/*</div>*/}
-            {/*<div className="">*/}
-            {/*<div className="flex flex-col">*/}
-            {/*{props.username ? (*/}
-            {/*<Link href={"/" + props.username}>*/}
-            {/*<a><p className="text-timer text-base mb-2 text-center">*/}
-            {/*{props.name}*/}
-            {/*</p>*/}
-            {/*</a>*/}
-            {/*</Link>*/}
-            {/*) : (*/}
-            {/*<p className="text-timer text-base mb-2 text-center">*/}
-            {/*{props.name}*/}
-            {/*</p>*/}
-            {/*)}*/}
-
-            {/*{props.name == "Anonymous" ? (*/}
-            {/*<Link href={"https://explorer.bitcoin.com/bch/tx/" + props.tx}>*/}
-            {/*<a>*/}
-            {/*<div className="text-timer text-base mb-2 text-center">*/}
-            {/*<p className="text-timer text-lg font-bold  text-center">*/}
-            {/*{props.donation && donationValue(props.donation)}*/}
-            {/*</p>*/}
-            {/*<TimeAgo date={new Date(props.date)} formatter={formatter}/>*/}
-            {/*</div>*/}
-            {/*</a>*/}
-            {/*</Link>*/}
-            {/*) : (*/}
-            {/*<p className="text-timer text-lg font-bold  text-center">*/}
-            {/*{props.donation && donationValue(props.donation)}*/}
-            {/*</p>*/}
-            {/*)}*/}
-            {/*</div>*/}
-            {/*</div>*/}
         </>
     );
 };

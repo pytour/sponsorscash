@@ -20,7 +20,7 @@ const commentCard = props => {
                     <div className="block">
                         <img
                             src={publicRuntimeConfig.APP_URL + '/media/user/' + props.image}
-                            alt="user-avatar"
+                            alt={props.username}
                             className={styles.userAvatar}
                         />
                     </div>

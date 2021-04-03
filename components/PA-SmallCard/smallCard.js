@@ -14,7 +14,7 @@ const smallCard = props => {
                             layout="fill"
                             objectFit="cover"
                             src={`${publicRuntimeConfig.APP_URL}/media/project/${props.imgSrc}`}
-                            alt="woman-wearing-animal-print"
+                            alt={props.tag}
                         />
                     </div>
                 </div>

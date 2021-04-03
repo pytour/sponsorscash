@@ -2,8 +2,12 @@ import React from 'react';
 import styles from '../Card/card.module.css';
 import GeneralButton from '../Button/generalButton';
 import Router from 'next/router';
+import { useSelector } from 'react-redux';
 
 export default function HeroContainer() {
+    const token = useSelector(state => state.token);
+    const username = useSelector(state => state.username);
+
     return (
         <>
             <div
@@ -23,7 +27,7 @@ export default function HeroContainer() {
                     <div
                         className="mt-3 pl-4 pr-4 text-center"
                         onClick={() => {
-                            Router.push('/login');
+                           token ?   Router.push('/privateAccount', '/' + username) : Router.push('/login');
                         }}
                         onKeyDown={() => {}}>
                         <GeneralButton title={'Explore'} />

@@ -118,6 +118,7 @@ const newProjectForm = () => {
                     username: 'none'
                 });
             }
+
         }
     });
 
@@ -162,8 +163,17 @@ const newProjectForm = () => {
         );
     }
 
+    if(loading){
+         return (
+             <div className="flex items-center justify-center h-screen z-50 bg-transparent ">
+                <DotLoader size={100} color={'#7d73c3'}  />
+                 <p className="mt-4 text-center text-blue-400 font-bold "> Creating Project</p>
+            </div>
+         )
+
+    }
     return (
-        <div className="container max-w-screen-xl my-4 mx-auto">
+        <div className="relative container max-w-screen-xl my-4 mx-auto">
             <div className="grid grid-cols-12 gap-8 px-4">
                 <div className=" col-span-12 lg:col-span-5 ">
                     <h6 className="mb-2 font-bold">Choose Project Images (Optional)</h6>
@@ -309,12 +319,8 @@ const newProjectForm = () => {
                         </div>
                     </div>
                 </div>
-                <div className="relative col-span-12  lg:col-span-7">
-                    {loading && (
-                        <div className="p-5 flex items-center justify-center object-center z-40">
-                            <DotLoader size={50} color={'#7d73c3'} />
-                        </div>
-                    )}
+                <div className="col-span-12  lg:col-span-7">
+
 
                     <form onSubmit={formik.handleSubmit}>
                         <div>
@@ -415,6 +421,12 @@ const newProjectForm = () => {
                                 <Warning message={formik.errors.select} />
                             ) : null}
 
+                            {
+                                loading && <div className="flex items-center justify-center z-50">
+                                    <DotLoader size={50} color={'#7d73c3'}  />
+                                </div>
+                            }
+
                             <div className="mt-3 mb-3 flex justify-between text-branding-color">
                                 <p className="text-center pt-1">Funding End Date:</p>
                                 <span
@@ -476,6 +488,7 @@ const newProjectForm = () => {
                     </form>
                 </div>
             </div>
+
         </div>
     );
 };

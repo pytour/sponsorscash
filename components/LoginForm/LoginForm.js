@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import Link from 'next/link';
 import getConfig from 'next/config';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import axios from 'axios';
-import Router, { useRouter } from 'next/router';
+import Router from 'next/router';
 import Swal from 'sweetalert2';
 import { useFormik } from 'formik';
 import Warning from '../../utils/warning';
@@ -30,14 +30,14 @@ const validate = values => {
 
 const loginform = () => {
     const dispatch = useDispatch();
-    const router = useRouter();
-    const token = useSelector(state => state.token);
-    const username = useSelector(state => state.username);
-    useEffect(() => {
-        if (token && '/login' === router.pathname) {
-            Router.push('/privateAccount', '/' + username);
-        }
-    }, []);
+    // const router = useRouter();
+    // const token = useSelector(state => state.token);
+    // const username = useSelector(state => state.username);
+    // useEffect(() => {
+    //     if (token && '/login' === router.pathname) {
+    //         Router.push('/privateAccount', '/' + username);
+    //     }
+    // }, []);
 
     const formik = useFormik({
         initialValues: {

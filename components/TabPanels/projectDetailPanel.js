@@ -41,7 +41,7 @@ const projectDetailPanel = props => {
                                                               publicRuntimeConfig.APP_URL
                                                           }/media/user/user-avatar.png`
                                                 }
-                                                alt="avatar"
+                                                alt="Fund me cash project avatar"
                                                 className="w-full h-full"
                                             />
                                         </div>

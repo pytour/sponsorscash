@@ -13,7 +13,7 @@ const profileCard = props => {
     const [imageEditor, setImageEditor] = useState();
     const token = useSelector(state => state.token);
 
-    console.log('....userData', userData);
+    // console.log('....userData', userData);
     //Called only if the props change.
     useEffect(() => {
         setUserData(props.userData);
@@ -147,7 +147,7 @@ const profileCard = props => {
                                           }/media/user/user-avatar.png`
                                 }
                                 className="w-48 h-48 overflow-hidden m-auto"
-                                alt="user"
+                                alt="user profile picture"
                             />
                         )}
                     </div>

@@ -27,7 +27,12 @@ const Card = props => {
     return (
         <div className="group rounded-custom overflow-hidden shadow-lg ">
             <div className="rounded-tl-custom rounded-tr-custom  relative w-full h-64 ">
-                <Image layout="fill" objectFit="cover" src={props.imageSrc} />
+                <Image
+                    layout="fill"
+                    alt={props.title}
+                    objectFit="cover"
+                    quality={75}
+                    src={props.imageSrc} />
             </div>
             <div className="pt-2 px-3 flex justify-between">
                 <div className=" text-sm p-1.5 bg-shadow-card bg-opacity-25 rounded-xl text-progress-bar text-center block">
