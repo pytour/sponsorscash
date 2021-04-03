@@ -70,6 +70,9 @@ const projectDescription = props => {
     }
 
     useEffect(() => {
+        if (props.projCashAddress) {
+            setReceivingAddress(props.projCashAddress)
+        }
         if (props.id) {
             axios
                 .post(publicRuntimeConfig.APP_URL + '/project/checkGoalStatus', {
