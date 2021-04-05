@@ -47,6 +47,7 @@ app.prepare().then(() => {
     const server = express();
     // const httpsServer = https.createServer(options,server);
 
+    server.use(express.static('public'));
     server.use(bodyParser.json({ limit: '50mb' }));
     //All Requests from app come here and are fwd to routes
     server.use('/api/users', usersRoutes);

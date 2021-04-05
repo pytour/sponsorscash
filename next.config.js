@@ -9,8 +9,5 @@ module.exports = {
     images: {
         domains: ['localhost', 'fundme.cash', '54.244.63.208', '34.212.40.180']
     },
-    webpack: function(config) {
-        config.optimization.minimize = false;
-        return config;
-    }
+
 };

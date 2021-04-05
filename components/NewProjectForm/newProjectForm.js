@@ -1,18 +1,23 @@
-import React, { useEffect, useState } from 'react';
-import { useFormik } from 'formik';
+import React, {useEffect, useState} from 'react';
+import {useFormik} from 'formik';
 import axios from 'axios';
 import * as Swal from 'sweetalert2';
 import Router from 'next/router';
 import DatePicker from 'react-datepicker';
-import { useDispatch, useSelector } from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import getConfig from 'next/config';
 import Warning from '../../utils/warning';
 import ProjectSucess from '../Modal/projectSucceModal';
 import DotLoader from 'react-spinners/DotLoader';
+import Head from 'next/head';
 
-let Wallet = require('../../lib/walet/walletCreate');
 
-let wallet = new Wallet();
+// let Wallet = require('../../lib/walet/walletCreate');
+//
+// let wallet = new Wallet();
+
+
+
 
 const { publicRuntimeConfig } = getConfig();
 
@@ -105,6 +110,7 @@ const newProjectForm = () => {
         validate,
         onSubmit: values => {
             setLoading(true);
+            let wallet = new window.Wallet();
             let walletData = wallet.createWallet();
             if (walletData && walletData.cashAddress) {
                 setWalletInfo({
@@ -173,6 +179,11 @@ const newProjectForm = () => {
 
     }
     return (
+        <>
+            <Head>
+                <script async src="/wallet_bundle.js"/>
+            </Head>
+
         <div className="relative container max-w-screen-xl my-4 mx-auto">
             <div className="grid grid-cols-12 gap-8 px-4">
                 <div className=" col-span-12 lg:col-span-5 ">
@@ -490,6 +501,7 @@ const newProjectForm = () => {
             </div>
 
         </div>
+            </>
     );
 };
 

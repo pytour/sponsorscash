@@ -69,6 +69,7 @@
   },
   "devDependencies": {
     "babel-eslint": "^9.0.0",
+    "browserify": "^17.0.0",
     "eslint": "^6.1.0",
     "eslint-config-airbnb": "^18.0.0",
     "eslint-config-prettier": "^4.1.0",
