@@ -7,6 +7,7 @@ import Router from 'next/router';
 import Swal from 'sweetalert2';
 import { useFormik } from 'formik';
 import Warning from '../../utils/warning';
+import { getCookie, deleteCookie } from '../../utils/cookie';
 
 const { publicRuntimeConfig } = getConfig();
 
@@ -56,6 +57,12 @@ const loginform = () => {
                     } else if (response.status == 200) {
                         dispatch({ type: 'AUTHENTICATE', payload: response.data });
                         localStorage.setItem('auth', response.data.token);
+                        document.cookie = `auth=${JSON.stringify(response.data.token)}; path=/`;
+                        const toBidsPageAfter = getCookie('toBidsPageAfter');
+                        if (toBidsPageAfter) {
+                            deleteCookie('toBidsPageAfter');
+                            window.location.href = process.env.BIDDING_APP_URL;
+                        }
                         if (response.data.accountType === 'Regular') {
                             Router.push('/privateAccount', '/' + response.data.username);
                         } else {

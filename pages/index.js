@@ -5,6 +5,7 @@ import axios from 'axios';
 import getConfig from 'next/config';
 import dynamic from 'next/dynamic';
 import DotLoader from 'react-spinners/DotLoader';
+import { getCookie } from '../utils/cookie';
 
 const DynamicComponentWithCustomLoading = dynamic(
     () => import('../components/Home/HomePage'),
@@ -21,6 +22,16 @@ const { publicRuntimeConfig } = getConfig();
 const Home = () => {
     const [popularProjects, setPopularProjects] = useState([]);
     const [completedProjects, setCompletedProjects] = useState([]);
+
+    useEffect(() => {
+        const authLS = localStorage.getItem('auth');
+        const authCookie = getCookie('auth');
+
+        if (!authCookie && authLS) {
+            document.cookie = `auth=${authLS}; path=/`;
+        }
+    }, []);
+
     useEffect(() => {
         axios
             .get(publicRuntimeConfig.APP_URL + '/project/getPopularProjects')
