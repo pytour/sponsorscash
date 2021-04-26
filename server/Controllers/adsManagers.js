@@ -5,6 +5,7 @@ const Transactions = require('../Models/transactions');
 const Wallet = require('../Classes/wallet');
 const WalletModel = require('../Models/wallet');
 const Users = require('../Models/users');
+const ReceivingAddress = require('../Models/receivingAddress');
 
 exports.createAdsManagers = async (req, res) => {
     try {
@@ -49,11 +50,19 @@ exports.createAdsManagers = async (req, res) => {
             name: req.decodedTokenData.name,
             username: req.decodedTokenData.username,
             createdAt: new Date(),
-            walletId: walletObj._id
+            walletId: walletObj.id
+        });
+
+        const receivingAddress = new ReceivingAddress({
+            _id: new mongoose.Types.ObjectId(),
+            adManagerId: adsManagers.id,
+            walletId: walletObj.id,
+            address: cashAddress
         });
 
         await adsManagers.save();
         await walletObj.save();
+        await receivingAddress.save();
 
         const token = jwt.sign(
             {

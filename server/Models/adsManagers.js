@@ -6,7 +6,7 @@ const adsManagerSchema = mongoose.Schema({
     username: { type: String, required: true },
     name: { type: String, required: false },
     walletId: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Wallet' }],
-    balance: { type: Number, required: false },
+    balance: { type: Number, required: true, default: 0.0 },
     deposits: { type: Array, required: false },
     bids: { type: Array, required: false },
     createdAt: { type: Date, required: true, default: Date.now }
