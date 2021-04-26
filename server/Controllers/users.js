@@ -63,6 +63,8 @@ exports.user_signup = (req, res) => {
                                 token: jwt.sign(
                                     {
                                         email: user.email,
+                                        name: user.name,
+                                        username: user.username,
                                         userId: user._id
                                     },
                                     process.env.JWT_SECRET,
@@ -86,9 +88,7 @@ exports.user_signup = (req, res) => {
                                         }
                                     })
                                 );
-                                let verifyURL = `https://${
-                                    req.headers.host
-                                }/api/users/confirmation/${token.token}`;
+                                let verifyURL = `https://${req.headers.host}/api/users/confirmation/${token.token}`;
                                 let mailOptions = {
                                     from: 'noreply@fundme.cash',
                                     to: user.email,
@@ -163,7 +163,9 @@ exports.user_login = (req, res) => {
                     const token = jwt.sign(
                         {
                             email: user[0].email,
-                            userId: user[0]._id
+                            userId: user[0]._id,
+                            name: user[0].name,
+                            username: user[0].username
                         },
                         process.env.JWT_SECRET,
                         {
