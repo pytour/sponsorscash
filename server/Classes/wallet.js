@@ -13,7 +13,7 @@ const bitbox =
 // TODO: Add send-all func
 // https://github.com/Bitcoin-com/bitbox-sdk/blob/master/examples/applications/wallet/send-all/send-all.js
 class Wallet {
-    createWallet() {
+    static async createWallet() {
         const lang = 'english'; // Set the language of the wallet.
 
         // These objects used for writing wallet information out to a file.
@@ -136,7 +136,6 @@ class Wallet {
             const hex = tx.toHex();
             console.log(`TX hex: ${hex}`);
             console.log();
-            let returnObject = {};
             // Broadcast transation to the network
             const txidStr = await bitbox.RawTransactions.sendRawTransaction([hex]);
             console.log(`Transaction ID: ${txidStr}`);
@@ -237,7 +236,6 @@ class Wallet {
     }
 
     // Get the balance in BCH of a BCH address.
-
     async getBCHBalance(addr, verbose) {
         try {
             const bchBalance = await bitbox.Address.details(addr);
@@ -253,7 +251,6 @@ class Wallet {
     }
 
     // Get address details
-
     async getAddressDetails(addr, verbose) {
         try {
             const details = await bitbox.Address.details(addr);
@@ -269,7 +266,7 @@ class Wallet {
     }
 
     // Get transaction data
-    async getTransaction(tx) {
+    static async getTransaction(tx) {
         try {
             let details = await bitbox.Transaction.details(tx);
             return details;

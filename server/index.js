@@ -11,6 +11,7 @@ const commentsRoutes = require('./Routes/comments');
 const donationsRoutes = require('./Routes/donations');
 const projectRoutes = require('./Routes/project');
 const mediaRoute = require('./Routes/media');
+const adsManagerRoutes = require('./Routes/adsManagers');
 require('dotenv').config();
 
 const connectionString = process.env.MONGO_CONNECTION_STRING;
@@ -51,6 +52,7 @@ app.prepare().then(() => {
     //All Requests from app come here and are fwd to routes
     server.use('/api/users', usersRoutes);
     server.use('/api/comments', commentsRoutes);
+    server.use('/api/adManagers', adsManagerRoutes);
     server.use('/api/donations', donationsRoutes);
     server.use('/api/project', projectRoutes);
     server.use('/api/media', mediaRoute);
