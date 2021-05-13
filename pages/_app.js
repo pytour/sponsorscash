@@ -12,6 +12,7 @@ import Head from 'next/head';
 import React from 'react';
 import getConfig from 'next/config';
 import PropTypes from 'prop-types';
+import "react-multi-carousel/lib/styles.css";
 // This default export is required in a new `pages/_app.js` file.
 const { publicRuntimeConfig } = getConfig();
 

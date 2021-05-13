@@ -32,39 +32,45 @@ const Card = props => {
                     alt={props.title}
                     objectFit="cover"
                     quality={75}
-                    src={props.imageSrc} />
+                    src={props.imageSrc}/>
             </div>
             <div className="pt-2 px-3 flex justify-between">
-                <div className=" text-sm p-1.5 bg-shadow-card bg-opacity-25 rounded-xl text-progress-bar text-center block">
+                <div
+                    className="text-sm py-1.5 px-1.5 bg-shadow-card bg-opacity-25 rounded-xl text-progress-bar text-center">
                     {props.tag}
                 </div>
+                {/*<div className="flex justify-between">*/}
+                {/*<div onClick={toggleLike}>*/}
+                {/*<p*/}
+                {/*className={*/}
+                {/*'w-8 h-8  rounded-half  cursor-pointer  text-center items-center mx-auto py-1 ' +*/}
+                {/*(liked*/}
+                {/*? 'bg-red-400 text-red-400 '*/}
+                {/*: 'bg-opacity-50 text-black bg-shadow-card ')*/}
+                {/*}>*/}
+                {/*<i className="mt-1 text-xl cursor-pointer fa fa-heart fill-current text-white " />*/}
+                {/*</p>*/}
+                {/*</div>*/}
+                {/*</div>*/}
+
+
+                {props.boosted &&
                 <div className="flex justify-between">
-                    <div onClick={toggleLike}>
-                        <p
-                            className={
-                                'w-8 h-8  rounded-half  cursor-pointer  text-center items-center mx-auto py-1 ' +
-                                (liked
-                                    ? 'bg-red-400 text-red-400 '
-                                    : 'bg-opacity-50 text-black bg-shadow-card ')
-                            }>
-                            <i className="mt-1 text-xl cursor-pointer fa fa-heart fill-current text-white " />
-                        </p>
+                    <div>
+                         <img src={'/images/boosterIcon.svg'} className="w-8 h-8"/>
                     </div>
-                </div>
+                </div>}
+
             </div>
 
             <div className="cursor-pointer px-3 pt-1 pb-3" onClick={handleProjectDetailsRoute}>
-                <div className="text-2xl text-grey-600">
-                    {props.title && props.title.length > 20
-                        ? props.title.substr(0, 21) + '...'
-                        : props.title}
+                <div className="text-xl text-one-line text-grey-600">
+                    {props.title && props.title}
                 </div>
-                <div className="text-goal text-sm py-1">
-                    {props.description && props.description.length > 65
-                        ? props.description.substr(0, 65) + '...'
-                        : props.description}
+                <div className="text-two-line text-goal text-sm py-1">
+                    {props.description && props.description}
                 </div>
-                <div className="border-b-1 mt-3" />
+                <div className="border-b-1 mt-3"/>
                 <div className=" bg-white mt-2 ">
                     <p className="select-none text-percentage text-center text-base mt-1 font-bold ">
                         {progress + ' %'}
@@ -79,7 +85,8 @@ const Card = props => {
                         </div>
                     </div>
 
-                    <div className="select-none grid grid-cols-2 gap-2 px-1 divide-x divide-black-400 text-center items-center">
+                    <div
+                        className="select-none grid grid-cols-2 gap-2 px-1 divide-x divide-black-400 text-center items-center">
                         <div className="text-center text-funded">
                             <p className="text-lg">{props.funded + ' BCH'}</p>
                             <p className="uppercase text-lg ">funded</p>

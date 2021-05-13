@@ -54,7 +54,7 @@ module.exports = {
             },
 
             height: {
-                'ex-large': '31rem',
+                'ex-large': '26rem',
                 card: '220px'
             },
             width: {

@@ -5,6 +5,7 @@ import Card from '../../components/Card/Card';
 import axios from 'axios';
 import getConfig from 'next/config';
 import HeroContainer from '../../components/BackgroundContainer/heroContainer';
+import AdsManagerCampaigns from '../AdsManager/AdsManagerCampaigns';
 
 
 const { publicRuntimeConfig } = getConfig();
@@ -35,9 +36,11 @@ const Home = () => {
 
     return (
         <>
-                <HeroContainer />
+                <HeroContainer  />
+
+            <AdsManagerCampaigns boostedProjects={completedProjects}/>
                 <div className="container max-w-screen-xl px-4 md:px-.5 lg:px-.5 xl:px.5 mb-8 mx-auto ">
-                    <h2 className="block md:text-3xl text-2xl text-branding-color p-2 mt-8 mb-4">
+                    <h2 className="block md:text-2xl text-xl text-branding-color p-2 mt-8 mb-4">
                         Completed Campaigns
                     </h2>
                     <div className="grid grid-cols-1 md:grid-cols-3 md:gap-x-20 md:gap-y-8 gap-x-16 gap-y-3 relative">
