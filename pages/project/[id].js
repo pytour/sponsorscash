@@ -7,12 +7,43 @@ import axios from 'axios';
 import { useSelector } from 'react-redux';
 import DotLoader from 'react-spinners/DotLoader';
 import getConfig from 'next/config';
+import AdsManagerCampaigns from '../../components/AdsManager/AdsManagerCampaigns';
 
 const { publicRuntimeConfig } = getConfig();
 
 const project = props => {
     const [project, setProject] = useState({});
     const [donations, setDonations] = useState();
+    const [popularProjects, setPopularProjects] = useState([]);
+    const [completedProjects, setCompletedProjects] = useState([]);
+    const [boostedProjects, setBoostedProjects] = useState([]);
+    useEffect(() => {
+
+        axios
+            .get(publicRuntimeConfig.APP_URL + '/project/getCompletedProjects', {
+                params: {
+                    campaignsLimit: 6
+                }
+            })
+            .then(res => {
+                setCompletedProjects(res.data.projects);
+            })
+            .catch(err => console.log(err));
+
+
+
+        axios
+            .get('http://34.212.40.180:3001'+ '/api/ads/getAds')
+            .then(res => {
+                console.log('check res',res);
+                const resProj = res.data.projects;
+                setBoostedProjects(resProj);
+            })
+            .catch(err => console.log(err));
+
+
+    }, []);
+
     // TODO:
     // Need to use setInterval to check for new deposits each 6 seconds
     // If new dep found update FUNDED value on API /checkGoalStatus
@@ -113,7 +144,7 @@ const project = props => {
 
     // Set initial data: project && donations
     useEffect(() => {
-        console.log('last donors tab projectId', props);
+
         let projectId = props.project._id;
 
         if (projectId) {
@@ -141,12 +172,17 @@ const project = props => {
                 <>
                     <ProjectBio project={project} projCashID={props.cashAddress} />
                     <div className="border-t-2 my-4">
-                        <div className=" max-w-screen-xl px-4 lg:px-4 xl:px-0 mx-auto ">
-                            <TabNavigation
+                        <div className=" max-w-screen-xl grid grid-cols-12 gap-2  px-4 lg:px-4 xl:px-4 mx-auto ">
+                           <div className="lg:col-span-8 col-span-12 lg:order-1 order-2">
+                               <TabNavigation
                                 projectCreator={props.projectCreator}
                                 project={props.project}
                                 donations={donations}
                             />
+                           </div>
+                            <div className="lg:col-span-4 col-span-12 lg:order-2 order-1 ">
+                            <AdsManagerCampaigns grid={false} boostedProjects={completedProjects.slice(0,3)}/>
+                            </div>
                         </div>
                     </div>
                 </>

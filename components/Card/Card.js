@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import Router from 'next/router';
 import Image from 'next/image';
 import PropTypes from 'prop-types';
+import axios from 'axios';
 
 const Card = props => {
     const [liked, setLike] = useState(false);
@@ -12,14 +13,40 @@ const Card = props => {
         setLike(true);
     };
     const handleProjectDetailsRoute = () => {
-        if (props.nested && props.nested === true) {
-            Router.push(`/project/${props.key}]`, props.linkSlug, {
-                shallow: true
-            });
-        } else {
-            Router.push(`/project/[id]`, props.linkSlug, {
-                shallow: true
-            });
+
+        if(props.boosted){
+            axios
+                .post('http://34.212.40.180:3001'+ '/api/ads/registerView', {
+                    projectId: props.key
+                })
+                .then(res => {
+                    if (res.data.status === 200) {
+                        console.log("ip counted");
+                    }
+                })
+                .catch(err => console.log(err));
+
+            if (props.nested && props.nested === true) {
+                Router.push(`/project/${props.key}]`, props.linkSlug, {
+                    shallow: true
+                });
+            } else {
+                Router.push(`/project/[id]`, props.linkSlug, {
+                    shallow: true
+                });
+            }
+        }
+        else {
+
+            if (props.nested && props.nested === true) {
+                Router.push(`/project/${props.key}]`, props.linkSlug, {
+                    shallow: true
+                });
+            } else {
+                Router.push(`/project/[id]`, props.linkSlug, {
+                    shallow: true
+                });
+            }
         }
     };
     const progress = Math.round((props.funded * 100) / props.goal);

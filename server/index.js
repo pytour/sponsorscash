@@ -14,7 +14,8 @@ const mediaRoute = require('./Routes/media');
 const adsManagerRoutes = require('./Routes/adsManagers');
 require('dotenv').config();
 
-const connectionString = process.env.MONGO_CONNECTION_STRING;
+// const connectionString = process.env.MONGO_CONNECTION_STRING;
+const connectionString = `mongodb+srv://fundmecash:fundme123@cluster0.jobe7.mongodb.net/fundme?retryWrites=true&w=majority`;
 
 mongoose.connect(
     connectionString,

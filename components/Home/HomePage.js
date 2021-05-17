@@ -13,6 +13,7 @@ const { publicRuntimeConfig } = getConfig();
 const Home = () => {
     const [popularProjects, setPopularProjects] = useState([]);
     const [completedProjects, setCompletedProjects] = useState([]);
+    const [boostedProjects, setBoostedProjects] = useState([]);
     useEffect(() => {
         axios
             .get(publicRuntimeConfig.APP_URL + '/project/getPopularProjects')
@@ -32,13 +33,26 @@ const Home = () => {
                 setCompletedProjects(res.data.projects);
             })
             .catch(err => console.log(err));
+
+
+
+        axios
+            .get('http://34.212.40.180:3001'+ '/api/ads/getAds')
+            .then(res => {
+                console.log('check res',res);
+                const resProj = res.data.projects;
+                setBoostedProjects(resProj);
+            })
+            .catch(err => console.log(err));
+
+
     }, []);
 
     return (
         <>
                 <HeroContainer  />
 
-            <AdsManagerCampaigns boostedProjects={completedProjects}/>
+            <AdsManagerCampaigns grid={true} boostedProjects={completedProjects.slice(0,3)}/>
                 <div className="container max-w-screen-xl px-4 md:px-.5 lg:px-.5 xl:px.5 mb-8 mx-auto ">
                     <h2 className="block md:text-2xl text-xl text-branding-color p-2 mt-8 mb-4">
                         Completed Campaigns
