@@ -37,7 +37,7 @@ const feedbackPanel = props => {
     const saveComment = event => {
         event.preventDefault();
         if (message.length > 0) {
-            console.log('Save comment:', message);
+            // console.log('Save comment:', message);
             axios
                 .post(
                     publicRuntimeConfig.APP_URL + '/comments/saveComment',

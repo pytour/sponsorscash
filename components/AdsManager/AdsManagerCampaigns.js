@@ -17,6 +17,7 @@ export default function AdsManagerIndex({boostedProjects,grid}) {
 
     },[boostedProjects])
 
+
     return (
         <>
             {loading &&   <div className="p-5 object-center">
@@ -25,32 +26,32 @@ export default function AdsManagerIndex({boostedProjects,grid}) {
             }
             {boostedProjects && boostedProjects[0] &&
             <div className="container max-w-screen-xl px-4 md:px-.5 lg:px-.5 xl:px.5 mb-8 mx-auto ">
-            <h2 className="block md:text-2xl text-xl text-branding-color p-2 mt-8 mb-4">
+            <h2 className="block md:text-xl text-md text-branding-color p-2 ">
                 Active Campaigns
             </h2>
                 {grid===true &&
                 <div
-                    className="md:visible invisible h-0 md:h-auto grid grid-cols-1 md:grid-cols-3 md:gap-x-20 md:gap-y-8 gap-x-16 gap-y-3 relative">
+                    className="md:visible invisible h-0 md:h-auto grid grid-cols-1 md:grid-cols-3 md:gap-x-20 md:gap-y-8 gap-x-16 gap-y-1 relative">
 
                     {boostedProjects.map(project => {
-                            let cardImage = project.images[0]
+                            let cardImage = project.projectId.images[0]
                                 ? publicRuntimeConfig.APP_URL +
                                 '/media/project/' +
-                                project.images[0]
+                                project.projectId.images[0]
                                 : publicRuntimeConfig.APP_URL + '/media/project/default.jpg';
-                            let linkSlug = `/project/${project._id}`;
+                            let linkSlug = `/project/${project.projectId._id}`;
 
-                            if (project.funded >= 0.01)
+                            if (project.projectId.funded >= 0.01)
                                 return (
-                                    <div key={project._id} className="mb-2">
+                                    <div key={project.projectId._id} className="mb-2">
                                         <div className="transform scale-100 hover:scale-105">
                                             <Card
-                                                key={project._id}
-                                                tag={project.category}
-                                                description={project.description}
-                                                title={project.title}
-                                                funded={project.funded}
-                                                goal={project.goal}
+                                                key={project.projectId._id}
+                                                tag={project.projectId.category}
+                                                description={project.projectId.description}
+                                                title={project.projectId.title}
+                                                funded={project.projectId.funded}
+                                                goal={project.projectId.goal}
                                                 imageSrc={cardImage}
                                                 linkSlug={linkSlug}
                                                 boosted={true}
@@ -69,27 +70,28 @@ export default function AdsManagerIndex({boostedProjects,grid}) {
                     className="md:visible invisible h-0 md:h-auto grid grid-cols-1  md:gap-y-8  gap-y-3 relative">
 
                     {boostedProjects.map(project => {
-                            let cardImage = project.images[0]
+                            let cardImage = project.projectId && project.projectId.images[0]
                                 ? publicRuntimeConfig.APP_URL +
                                 '/media/project/' +
-                                project.images[0]
+                                project.projectId.images[0]
                                 : publicRuntimeConfig.APP_URL + '/media/project/default.jpg';
-                            let linkSlug = `/project/${project._id}`;
+                            let linkSlug = `/project/${project.projectId._id}`;
 
-                            if (project.funded >= 0.01)
+                            if (project.projectId.funded >= 0.01)
                                 return (
-                                    <div key={project._id} className="mb-2">
-                                        <div className="transform scale-100 hover:scale-105">
+                                    <div key={project.projectId._id} className="mb-0">
+                                        <div className="hover:shadow">
                                             <Card
-                                                key={project._id}
-                                                tag={project.category}
-                                                description={project.description}
-                                                title={project.title}
-                                                funded={project.funded}
-                                                goal={project.goal}
+                                                key={project.projectId._id}
+                                                tag={project.projectId.category}
+                                                description={project.projectId.description}
+                                                title={project.projectId.title}
+                                                funded={project.projectId.funded}
+                                                goal={project.projectId.goal}
                                                 imageSrc={cardImage}
                                                 linkSlug={linkSlug}
                                                 boosted={true}
+                                                smallCard={true}
 
                                             />
                                         </div>
@@ -137,24 +139,24 @@ export default function AdsManagerIndex({boostedProjects,grid}) {
 
                     {boostedProjects && boostedProjects[0] &&
                         boostedProjects.map(project => {
-                            let cardImage = project.images[0]
+                            let cardImage = project.projectId.images[0]
                                 ? publicRuntimeConfig.APP_URL +
                                 '/media/project/' +
-                                project.images[0]
+                                project.projectId.images[0]
                                 : publicRuntimeConfig.APP_URL + '/media/project/default.jpg';
-                            let linkSlug = `/project/${project._id}`;
+                            let linkSlug = `/project/${project.projectId._id}`;
 
-                            if (project.funded >= 0.01)
+                            if (project.projectId.funded >= 0.01)
                                 return (
-                                    <div key={project._id} className="mb-2">
+                                    <div key={project.projectId._id} className="mb-2">
                                         <div className="transform scale-100 hover:scale-105">
                                             <Card
-                                                key={project._id}
-                                                tag={project.category}
-                                                description={project.description}
-                                                title={project.title}
-                                                funded={project.funded}
-                                                goal={project.goal}
+                                                key={project.projectId._id}
+                                                tag={project.projectId.category}
+                                                description={project.projectId.description}
+                                                title={project.projectId.title}
+                                                funded={project.projectId.funded}
+                                                goal={project.projectId.goal}
                                                 imageSrc={cardImage}
                                                 linkSlug={linkSlug}
                                                 boosted={true}
@@ -167,6 +169,8 @@ export default function AdsManagerIndex({boostedProjects,grid}) {
 
                 </Carousel> }
             </div>
+
+
         </div> }
             </>
     );

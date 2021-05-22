@@ -12,7 +12,7 @@ const sponsorPanel = props => {
     useEffect(() => {
         if (props.donations) {
             setDonations(props.donations);
-            console.log('last donors tab:', donations);
+            // console.log('last donors tab:', donations);
             props.onChangeDonationCount(donations.length);
         }
     }, [props.donations]);

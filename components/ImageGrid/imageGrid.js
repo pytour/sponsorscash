@@ -20,7 +20,7 @@ const imageGrid = props => {
         allImages = props.images.map(id => {
             return `${publicRuntimeConfig.APP_URL}/media/project/${id}`;
         });
-    console.log('....image1', allImages[0]);
+
 
     return (
         <>

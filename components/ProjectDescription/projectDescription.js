@@ -214,7 +214,7 @@ const projectDescription = props => {
     return (
         <div>
             <div className="flex  items-center justify-center  xl:justify-start">
-                <p className="text-center xl:text-left  text-funded text-xl md:text-2xl uppercase font-bold xl:mt-0 md:mt-4 lg:mt-0 sm:mt-4  ">
+                <p className="text-center xl:text-left  text-funded text-xl md:text-xl uppercase font-bold xl:mt-0 md:mt-4 lg:mt-0 sm:mt-4  ">
                     {props.title}
                 </p>
             </div>
@@ -227,7 +227,7 @@ const projectDescription = props => {
             <p className="text-center lg:text-left text-goal break-words">{props.description}</p>
 
             <div className="grid lg:grid-cols-5 gap-y-4 gap-x-8 mb-3 pt-3 pb-1">
-                <div className="lg:col-span-2  text-center bg-card bg-opacity-50 px-4 py-2 rounded-2xl">
+                <div className="lg:col-span-5  text-center bg-card bg-opacity-50 px-4 py-2 rounded-2xl">
                     {props.endTime && isNotCompleted ? (
                         <Countdown date={endTime} renderer={countdownTimer}/>
                     ) : (
@@ -238,7 +238,7 @@ const projectDescription = props => {
 
                     <p className="uppercase text-center mb-0 text-timer">funding ends</p>
                 </div>
-                <div className="lg:col-span-3 ">
+                <div className="lg:col-span-5 ">
                     <div
                         className="grid grid-cols-2 gap-2 py-3 px-1 divide-x divide-black-400 text-center items-center ">
                         <div className="text-center text-funded text-xl ">
@@ -265,7 +265,7 @@ const projectDescription = props => {
                     <button
                         type="button"
                         onClick={handleDonateNow}
-                        className="w-full mr-4 mb-2 sm:w-auto inline-flex justify-center text-branding-color focus:text-white  hover:text-white border-1 border-branding-color text-xl rounded-full py-1.5 px-12 hover:bg-branding-color uppercase">
+                        className="w-full mr-4 mb-2 sm:w-auto inline-flex justify-center text-branding-color focus:text-white  hover:text-white border-1 border-branding-color text-md rounded-full py-1.5 px-12 hover:bg-branding-color uppercase">
                         donate now
                     </button>
                 )}
@@ -274,7 +274,7 @@ const projectDescription = props => {
                     onClick={() => {
                         setModalShare(!modalShare);
                     }}
-                    className="w-full mb-2 sm:w-auto inline-flex justify-center text-branding-color focus:text-white  hover:text-white border-1 border-branding-color text-xl rounded-full py-1.5 px-12 hover:bg-branding-color uppercase">
+                    className="w-full mb-2 sm:w-auto inline-flex justify-center text-branding-color focus:text-white  hover:text-white border-1 border-branding-color text-md rounded-full py-1.5 px-12 hover:bg-branding-color uppercase">
                     share
                 </button>
             </div>

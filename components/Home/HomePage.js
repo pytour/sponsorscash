@@ -37,10 +37,9 @@ const Home = () => {
 
 
         axios
-            .get('http://34.212.40.180:3001'+ '/api/ads/getAds')
+            .get(publicRuntimeConfig.ADS_SERVER_URL+ '/api/ads/getAds')
             .then(res => {
-                console.log('check res',res);
-                const resProj = res.data.projects;
+                const resProj = res.data.ads;
                 setBoostedProjects(resProj);
             })
             .catch(err => console.log(err));
@@ -52,7 +51,7 @@ const Home = () => {
         <>
                 <HeroContainer  />
 
-            <AdsManagerCampaigns grid={true} boostedProjects={completedProjects.slice(0,3)}/>
+            <AdsManagerCampaigns grid={true} boostedProjects={boostedProjects.slice(0,3)}/>
                 <div className="container max-w-screen-xl px-4 md:px-.5 lg:px-.5 xl:px.5 mb-8 mx-auto ">
                     <h2 className="block md:text-2xl text-xl text-branding-color p-2 mt-8 mb-4">
                         Completed Campaigns

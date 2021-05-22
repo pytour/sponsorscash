@@ -4,7 +4,6 @@ import Layout from '../../components/Layout/Layout';
 import ProjectBio from '../../components/ProjectBio/projectBio';
 import TabNavigation from '../../components/TabNavigation/Tabs';
 import axios from 'axios';
-import { useSelector } from 'react-redux';
 import DotLoader from 'react-spinners/DotLoader';
 import getConfig from 'next/config';
 import AdsManagerCampaigns from '../../components/AdsManager/AdsManagerCampaigns';
@@ -33,10 +32,10 @@ const project = props => {
 
 
         axios
-            .get('http://34.212.40.180:3001'+ '/api/ads/getAds')
+            .get(publicRuntimeConfig.ADS_SERVER_URL+ '/api/ads/getAds')
             .then(res => {
-                console.log('check res',res);
-                const resProj = res.data.projects;
+
+                const resProj = res.data.ads;
                 setBoostedProjects(resProj);
             })
             .catch(err => console.log(err));
@@ -69,7 +68,7 @@ const project = props => {
                                 networkTxs.length > 0
                             ) {
                                 // Compare with saved
-                                console.log('Donations Saved', donations.length);
+                                // console.log('Donations Saved', donations.length);
                                 let savedDonationsTxs = donations.map(el => el.txId);
                                 for (const tx of networkTxs) {
                                     if (!savedDonationsTxs.includes(tx)) {
@@ -77,7 +76,7 @@ const project = props => {
                                     }
                                 }
                             } else if (networkTxs && networkTxs.length > 0) {
-                                console.log('First transactions');
+                                // console.log('First transactions');
                                 isThereNewTx = true;
                                 // First transactions
                                 // checkFunds
@@ -87,14 +86,14 @@ const project = props => {
                             if (isThereNewTx) {
                                 // IF there new txs:
                                 // checkFunds
-                                console.log('///// There is new transaction on network!!!');
+                                // console.log('///// There is new transaction on network!!!');
                                 axios
                                     .post(publicRuntimeConfig.APP_URL + '/project/checkFunds', {
                                         projectID: props.project._id
                                     })
                                     .then(funds => {
                                         if (funds.data.status === 200) {
-                                            console.log('checkFunds:', funds.data.funded);
+                                            // console.log('checkFunds:', funds.data.funded);
                                             let fundedVal =
                                                 funds.data.funded > props.project.funded
                                                     ? funds.data.funded
@@ -170,21 +169,30 @@ const project = props => {
         <Layout props={props}>
             {props.project && props.project._id ? (
                 <>
+                    <div className=" max-w-screen-xl grid grid-cols-12 gap-2  px-4 lg:px-4 xl:px-4 mx-auto ">
+                        <div className="lg:col-span-9 col-span-12 lg:order-1 order-2">
                     <ProjectBio project={project} projCashID={props.cashAddress} />
                     <div className="border-t-2 my-4">
                         <div className=" max-w-screen-xl grid grid-cols-12 gap-2  px-4 lg:px-4 xl:px-4 mx-auto ">
-                           <div className="lg:col-span-8 col-span-12 lg:order-1 order-2">
+                           <div className="lg:col-span-12 col-span-12 lg:order-1 order-2">
                                <TabNavigation
                                 projectCreator={props.projectCreator}
                                 project={props.project}
                                 donations={donations}
                             />
                            </div>
-                            <div className="lg:col-span-4 col-span-12 lg:order-2 order-1 ">
-                            <AdsManagerCampaigns grid={false} boostedProjects={completedProjects.slice(0,3)}/>
-                            </div>
+                            {/*<div className="lg:col-span-4 col-span-12 lg:order-2 order-1 ">*/}
+                            {/*<AdsManagerCampaigns grid={false} boostedProjects={completedProjects.slice(0,3)}/>*/}
+                            {/*</div>*/}
                         </div>
                     </div>
+                </div>
+                    <div className="lg:col-span-3 col-span-12 lg:order-2 order-1 ">
+                    <AdsManagerCampaigns grid={false} boostedProjects={boostedProjects}/>
+                    </div>
+                    </div>
+
+
                 </>
             ) : props.error ? (
                 <div className=" max-w-screen-xl p-12 lg:p-46 mx-auto ">
@@ -211,13 +219,13 @@ const project = props => {
     );
 };
 
-project.getInitialProps = async ({ query }) => {
-    const { id } = query;
+project.getInitialProps= async ({ query})=> {
+    const { id} = query;
 
     const { publicRuntimeConfig } = getConfig();
 
     let project, projectCreator, cashAddress;
-    // console.log("slug", id, query);
+
     let res;
     try {
         res = await axios.get(publicRuntimeConfig.APP_URL + '/project/getSingleProject/' + id);
@@ -226,7 +234,7 @@ project.getInitialProps = async ({ query }) => {
     }
 
     if (res.data.status === 200) {
-        console.log('cashAddress ', res.data.cashAddress);
+
         project = res.data.project;
         cashAddress = res.data.cashAddress;
         projectCreator = {

@@ -3,8 +3,11 @@ import Router from 'next/router';
 import Image from 'next/image';
 import PropTypes from 'prop-types';
 import axios from 'axios';
+import getConfig from 'next/dist/next-server/lib/runtime-config';
+const { publicRuntimeConfig } = getConfig();
 
 const Card = props => {
+
     const [liked, setLike] = useState(false);
     const toggleLike = () => {
         if (liked) {
@@ -15,26 +18,24 @@ const Card = props => {
     const handleProjectDetailsRoute = () => {
 
         if(props.boosted){
+            console.log(props.key)
             axios
-                .post('http://34.212.40.180:3001'+ '/api/ads/registerView', {
+                .post(publicRuntimeConfig.ADS_SERVER_URL+ '/api/ads/registerView', {
                     projectId: props.key
                 })
                 .then(res => {
-                    if (res.data.status === 200) {
+                    if (res.status === 200) {
                         console.log("ip counted");
                     }
                 })
                 .catch(err => console.log(err));
 
-            if (props.nested && props.nested === true) {
+
                 Router.push(`/project/${props.key}]`, props.linkSlug, {
-                    shallow: true
+                    shallow: false,
+
                 });
-            } else {
-                Router.push(`/project/[id]`, props.linkSlug, {
-                    shallow: true
-                });
-            }
+
         }
         else {
 
@@ -52,7 +53,8 @@ const Card = props => {
     const progress = Math.round((props.funded * 100) / props.goal);
 
     return (
-        <div className="group rounded-custom overflow-hidden shadow-lg ">
+        <>
+            {!props.smallCard &&  <div className="group rounded-custom overflow-hidden shadow-lg " >
             <div className="rounded-tl-custom rounded-tr-custom  relative w-full h-64 ">
                 <Image
                     layout="fill"
@@ -90,6 +92,7 @@ const Card = props => {
 
             </div>
 
+
             <div className="cursor-pointer px-3 pt-1 pb-3" onClick={handleProjectDetailsRoute}>
                 <div className="text-xl text-one-line text-grey-600">
                     {props.title && props.title}
@@ -125,7 +128,66 @@ const Card = props => {
                     </div>
                 </div>
             </div>
-        </div>
+
+            {props.smallCard &&
+
+            <div className=" cursor-pointer px-3 pt-1 pb-3" onClick={handleProjectDetailsRoute}>
+                <div className="text-xl text-one-line  text-center text-grey-600">
+                    {props.title && props.title}
+                </div>
+                <button className="focus:outline-none outline-none group-hover:underline my-2 flex items-center mx-auto border border-blue-300 text-sm py-1.5 px-3 bg-shadow-card bg-opacity-25 rounded-xl text-progress-bar">
+                   See details
+                </button>
+
+
+            </div> }
+
+
+        </div> }
+
+            {props.smallCard &&  <div className="group rounded-md overflow-hidden shadow-lg " >
+                <div className="rounded-tl-custom rounded-tr-custom  relative w-full h-32 ">
+                    <Image
+                        layout="fill"
+                        alt={props.title}
+                        objectFit="cover"
+                        quality={75}
+                        src={props.imageSrc}/>
+                </div>
+                <div className="pt-2 px-3 flex justify-between">
+                    <div
+                        className="text-sm py-1.5 px-1.5 bg-shadow-card bg-opacity-25 rounded-xl text-progress-bar text-center">
+                        {props.tag}
+                    </div>
+
+
+                    {props.boosted &&
+                    <div className="flex justify-between">
+                        <div>
+                            <img src={'/images/boosterIcon.svg'} className="w-8 h-8"/>
+                        </div>
+                    </div>}
+
+                </div>
+
+
+
+
+                <div className=" cursor-pointer px-3 pt-1 pb-3" onClick={handleProjectDetailsRoute}>
+                    <div className="text-sm text-two-line  text-center  my-1 text-grey-600">
+                        {props.title && props.title}
+                    </div>
+                    <button className="focus:outline-none outline-none group-hover:underline my-2 flex items-center mx-auto border border-blue-300 text-sm py-1.5 px-3 bg-shadow-card bg-opacity-25 rounded-xl text-progress-bar">
+                        See details
+                    </button>
+
+
+                </div>
+
+
+            </div> }
+
+            </>
     );
 };
 
