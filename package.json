@@ -25,7 +25,7 @@
     "@zeit/next-sass": "^1.0.1",
     "autoprefixer": "^10.2.4",
     "axios": "^0.19.2",
-    "bcrypt": "^3.0.8",
+    "bcrypt": "^5.0.1",
     "bignumber.js": "^9.0.1",
     "bitbox-sdk": "^8.11.2",
     "bitcoincom-link": "^0.1.10",
