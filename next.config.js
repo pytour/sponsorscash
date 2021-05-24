@@ -8,7 +8,7 @@ module.exports = {
         MINIMUM_AMOUNT: 0.0002
     },
     images: {
-        domains: ['localhost', 'fundme.cash', '54.244.63.208', '34.212.40.180']
+        domains: ['localhost', 'fundme.cash','gofundme.cash', '54.244.63.208', '34.212.40.180']
     },
     webpack: function(config) {
         config.optimization.minimize = false;
