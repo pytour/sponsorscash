@@ -40,7 +40,6 @@ const project = props => {
             })
             .catch(err => console.log(err));
 
-
     }, []);
 
     // TODO:
@@ -170,7 +169,7 @@ const project = props => {
             {props.project && props.project._id ? (
                 <>
                     <div className=" max-w-screen-xl grid grid-cols-12 gap-2  px-4 lg:px-4 xl:px-4 mx-auto ">
-                        <div className="lg:col-span-9 col-span-12 lg:order-1 order-2">
+                        <div className="lg:col-span-9 col-span-12 lg:order-1 order-1">
                     <ProjectBio project={project} projCashID={props.cashAddress} />
                     <div className="border-t-2 my-4">
                         <div className=" max-w-screen-xl grid grid-cols-12 gap-2  px-4 lg:px-4 xl:px-4 mx-auto ">
@@ -187,7 +186,7 @@ const project = props => {
                         </div>
                     </div>
                 </div>
-                    <div className="lg:col-span-3 col-span-12 lg:order-2 order-1 ">
+                    <div className="lg:col-span-3 col-span-12 lg:order-2 order-2 ">
                     <AdsManagerCampaigns grid={false} boostedProjects={boostedProjects}/>
                     </div>
                     </div>

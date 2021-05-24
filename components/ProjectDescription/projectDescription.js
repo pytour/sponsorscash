@@ -11,11 +11,10 @@ import {
     TwitterIcon,
     TwitterShareButton
 } from 'react-share';
-import Warning from '../../utils/warning';
 import { useFormik } from 'formik';
-import { CopyToClipboard } from 'react-copy-to-clipboard';
-import * as PropTypes from 'prop-types';
 import DonationModal from './DonationModal';
+import * as Swal from 'sweetalert2';
+import { useRouter } from 'next/router';
 
 const { publicRuntimeConfig } = getConfig();
 
@@ -53,8 +52,9 @@ const projectDescription = props => {
     const [copySuccess, setCopySuccess] = useState('');
     const textAreaRef = useRef(null);
     const [receivingAddress, setReceivingAddress] = useState(null);
-
+    const token = useSelector(state => state.token);
     const [copier, setCopier] = useState(false);
+    const Router = useRouter();
 
     function handleCopyFunc(value) {
         setCopier(true);
@@ -211,6 +211,34 @@ const projectDescription = props => {
         formik.resetForm();
         setReceivingAddress(null);
     }
+    function handleBoost() {
+        if(token) {
+            Swal.fire({
+                title: 'Awesome!You want to boost this campaign?',
+                showCancelButton: true,
+                confirmButtonText: `Confirm`,
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    let projectId=props.id;
+                    let adsServer=publicRuntimeConfig.ADS_SERVER_URL +'/home/'+token;
+                    window.location.href=(adsServer)
+                    // console.log(adsServer,'add')
+                }
+            })
+        }
+        else {
+            Swal.fire({
+                title: 'For boost this project you need to login first',
+                showCancelButton: true,
+                confirmButtonText: `Confirm`,
+            }).then((result) => {
+                if (result.isConfirmed) {
+                        Router.push('/login')
+                }
+            })
+        }
+
+    }
     return (
         <div>
             <div className="flex  items-center justify-center  xl:justify-start">
@@ -218,12 +246,22 @@ const projectDescription = props => {
                     {props.title}
                 </p>
             </div>
-            <div className="py-2 flex justify-center  xl:justify-start">
+
+            <div className="py-2 flex justify-between">
                 <div
                     className=" text-md py-1.5 px-2 bg-shadow-card bg-opacity-25 rounded-xl text-progress-bar  lg:block">
                     <p className="text-center lg:text-left "> {props.category} </p>
                 </div>
+
+            <button
+                type="button"
+                onClick={handleBoost}
+                className="focus:outline-none md:mr-12 hover:shadow-xl w-auto  focus:bg-branding-color hover:bg-branding-color inline-flex hover:font-bold
+                justify-center text-branding-color focus:text-white hover:text-white border-1 border-branding-color text-sm rounded-full py-1.5 px-4">
+                <img src={'/images/boosterIcon.svg'} className="w-5 h-5 mr-3"/>  Boost
+            </button>
             </div>
+
             <p className="text-center lg:text-left text-goal break-words">{props.description}</p>
 
             <div className="grid lg:grid-cols-5 gap-y-4 gap-x-8 mb-3 pt-3 pb-1">

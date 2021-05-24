@@ -4,6 +4,7 @@ import Image from 'next/image';
 import PropTypes from 'prop-types';
 import axios from 'axios';
 import getConfig from 'next/dist/next-server/lib/runtime-config';
+import { useSelector } from 'react-redux';
 const { publicRuntimeConfig } = getConfig();
 
 const Card = props => {
@@ -18,22 +19,22 @@ const Card = props => {
     const handleProjectDetailsRoute = () => {
 
         if(props.boosted){
-            console.log(props.key)
             axios
                 .post(publicRuntimeConfig.ADS_SERVER_URL+ '/api/ads/registerView', {
-                    projectId: props.key
-                })
+                    bidId: props.bidId
+                },{})
                 .then(res => {
-                    if (res.status === 200) {
-                        console.log("ip counted");
-                    }
+                    Router.push(`/project/${props.key}]`, props.linkSlug, {
+                        shallow: false,
+
+                    });
                 })
-                .catch(err => console.log(err));
+                .catch(err => {
+                    Router.push(`/project/${props.key}]`, props.linkSlug, {
+                        shallow: false,
 
-
-                Router.push(`/project/${props.key}]`, props.linkSlug, {
-                    shallow: false,
-
+                    });
+                    console.log(err)
                 });
 
         }
@@ -200,7 +201,9 @@ Card.propTypes = {
     imageSrc: PropTypes.string,
     tag: PropTypes.string,
     description: PropTypes.string,
-    title: PropTypes.string
+    title: PropTypes.string,
+    bidId:PropTypes.string,
+    boosted: PropTypes.bool,
 };
 
 export default Card;

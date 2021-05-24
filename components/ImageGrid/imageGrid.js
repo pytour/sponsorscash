@@ -22,28 +22,51 @@ const imageGrid = props => {
         });
 
 
+
+
     return (
         <>
             <div className="grid  grid-cols-7   gap-2">
-                <div className="col-span-4  relative rounded-2xl overflow-hidden shadow-sm h-64  md:h-96 w-full cursor-pointer">
-                    <Image
-                        layout="fill"
-                        objectFit="cover"
-                        // width={100}
-                        // height={114}
+                {allImages.length< 2 ?
+                    <div className="col-span-7  relative rounded-2xl overflow-hidden shadow-sm h-64  md:h-96 w-full cursor-pointer">
+                        <Image
+                            layout="fill"
+                            objectFit="cover"
+                            // width={100}
+                            // height={114}
 
-                        src={
-                            allImages[0]
-                                ? allImages[0]
-                                : publicRuntimeConfig.APP_URL + '/media/project/default.jpg'
-                        }
-                        alt="image 1"
-                        onClick={() => {
-                            setImgIndex(0);
-                            setIsOpen(true);
-                        }}
-                    />
-                </div>
+                            src={
+                                allImages[0]
+                                    ? allImages[0]
+                                    : publicRuntimeConfig.APP_URL + '/media/project/default.jpg'
+                            }
+                            alt="image 1"
+                            onClick={() => {
+                                setImgIndex(0);
+                                setIsOpen(true);
+                            }}
+                        />
+                    </div> :
+                    <div className="col-span-4 relative rounded-2xl overflow-hidden shadow-sm h-64  md:h-96 w-full cursor-pointer">
+                        <Image
+                            layout="fill"
+                            objectFit="cover"
+                            // width={100}
+                            // height={114}
+
+                            src={
+                                allImages[0]
+                                    ? allImages[0]
+                                    : publicRuntimeConfig.APP_URL + '/media/project/default.jpg'
+                            }
+                            alt="image 1"
+                            onClick={() => {
+                                setImgIndex(0);
+                                setIsOpen(true);
+                            }}
+                        />
+                    </div>
+                }
                 {allImages.length > 1 ? (
                     <div className=" col-span-3   ">
                         <div className="grid grid-cols-2 gap-x-2 gap-y-6 overflow-hidden  w-full h-full cursor-pointer">
@@ -77,21 +100,21 @@ const imageGrid = props => {
             </div>
 
             {isOpen &&
-                (allImages.length > 1 ? (
-                    <Lightbox
-                        images={allImages}
-                        showTitle="false"
-                        startIndex={imgIndex}
-                        onClose={() => setIsOpen(false)}
-                    />
-                ) : (
-                    <Lightbox
-                        image={allImages[0]}
-                        showTitle="false"
-                        startIndex={imgIndex}
-                        onClose={() => setIsOpen(false)}
-                    />
-                ))}
+            (allImages.length > 1 ? (
+                <Lightbox
+                    images={allImages}
+                    showTitle="false"
+                    startIndex={imgIndex}
+                    onClose={() => setIsOpen(false)}
+                />
+            ) : (
+                <Lightbox
+                    image={allImages[0]}
+                    showTitle="false"
+                    startIndex={imgIndex}
+                    onClose={() => setIsOpen(false)}
+                />
+            ))}
         </>
     );
 };

@@ -25,8 +25,8 @@ export default function AdsManagerIndex({boostedProjects,grid}) {
             </div>
             }
             {boostedProjects && boostedProjects[0] &&
-            <div className="container max-w-screen-xl px-4 md:px-.5 lg:px-.5 xl:px.5 mb-8 mx-auto ">
-            <h2 className="block md:text-xl text-md text-branding-color p-2 ">
+            <div className="container max-w-screen-xl px-4 md:px-.5 lg:px-.5 xl:px.5 mb-8 mt-4 mx-auto ">
+            <h2 className="block md:text-xl text-md text-branding-color p-2 mb-2">
                 Active Campaigns
             </h2>
                 {grid===true &&
@@ -55,6 +55,7 @@ export default function AdsManagerIndex({boostedProjects,grid}) {
                                                 imageSrc={cardImage}
                                                 linkSlug={linkSlug}
                                                 boosted={true}
+                                                bidId={project._id}
 
                                             />
                                         </div>
@@ -92,7 +93,7 @@ export default function AdsManagerIndex({boostedProjects,grid}) {
                                                 linkSlug={linkSlug}
                                                 boosted={true}
                                                 smallCard={true}
-
+                                                bidId={project._id}
                                             />
                                         </div>
                                     </div>
