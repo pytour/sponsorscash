@@ -5,7 +5,7 @@ module.exports = {
         APP_URL: process.env.APP_URL,
         ADS_SERVER_URL: process.env.ADS_SERVER_URL
             ? process.env.ADS_SERVER_URL
-            : 'http://34.212.40.180:3001'
+            : 'http://localhost:3001'
     },
     images: {
         domains: ['localhost', 'fundme.cash', 'gofundme.cash', '54.244.63.208', '34.212.40.180']
