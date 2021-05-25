@@ -7,22 +7,12 @@ import getConfig from 'next/config';
 import HeroContainer from '../../components/BackgroundContainer/heroContainer';
 import AdsManagerCampaigns from '../AdsManager/AdsManagerCampaigns';
 
-
 const { publicRuntimeConfig } = getConfig();
 
 const Home = () => {
-    const [popularProjects, setPopularProjects] = useState([]);
     const [completedProjects, setCompletedProjects] = useState([]);
     const [boostedProjects, setBoostedProjects] = useState([]);
     useEffect(() => {
-        axios
-            .get(publicRuntimeConfig.APP_URL + '/project/getPopularProjects')
-            .then(res => {
-                const resProj = res.data.projects;
-                setPopularProjects(resProj);
-            })
-            .catch(err => console.log(err));
-
         axios
             .get(publicRuntimeConfig.APP_URL + '/project/getCompletedProjects', {
                 params: {
@@ -34,8 +24,6 @@ const Home = () => {
             })
             .catch(err => console.log(err));
 
-
-
         axios
             .get(publicRuntimeConfig.ADS_SERVER_URL+ '/api/ads/getAds')
             .then(res => {
@@ -43,7 +31,6 @@ const Home = () => {
                 setBoostedProjects(resProj);
             })
             .catch(err => console.log(err));
-
 
     }, []);
 
@@ -91,7 +78,6 @@ const Home = () => {
                         )}
                     </div>
                 </div>
-
         </>
     );
 };
