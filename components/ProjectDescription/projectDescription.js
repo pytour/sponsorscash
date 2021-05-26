@@ -220,7 +220,7 @@ const projectDescription = props => {
             }).then((result) => {
                 if (result.isConfirmed) {
                     let projectId=props.id;
-                    let adsServer=publicRuntimeConfig.ADS_SERVER_URL +'/home/'+token;
+                    let adsServer=publicRuntimeConfig.ADS_SERVER_URL +'/home/'+token+'/'+projectId;
                     window.location.href=(adsServer)
                     // console.log(adsServer,'add')
                 }
