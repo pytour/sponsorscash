@@ -8,7 +8,14 @@ module.exports = {
             : 'http://localhost:3001'
     },
     images: {
-        domains: ['localhost', 'fundme.cash', 'gofundme.cash', '54.244.63.208', '34.212.40.180']
+        domains: [
+            'localhost',
+            'fundme.cash',
+            'devbitcoin.cash',
+            '54.244.63.208',
+            '34.212.40.180',
+            '142.93.2.130'
+        ]
     },
     webpack: function(config) {
         config.optimization.minimize = false;
