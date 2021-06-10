@@ -161,6 +161,7 @@ export default function AdsManagerIndex({boostedProjects,grid}) {
                                                 imageSrc={cardImage}
                                                 linkSlug={linkSlug}
                                                 boosted={true}
+                                                bidId={project._id}
                                             />
                                         </div>
                                     </div>
