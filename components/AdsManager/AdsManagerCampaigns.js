@@ -41,7 +41,7 @@ export default function AdsManagerIndex({boostedProjects,grid}) {
                                 : publicRuntimeConfig.APP_URL + '/media/project/default.jpg';
                             let linkSlug = `/project/${project.projectId._id}`;
 
-                            if (project.projectId.funded >= 0.01)
+
                                 return (
                                     <div key={project.projectId._id} className="mb-2">
                                         <div className="transform scale-100 hover:scale-105">
@@ -78,7 +78,6 @@ export default function AdsManagerIndex({boostedProjects,grid}) {
                                 : publicRuntimeConfig.APP_URL + '/media/project/default.jpg';
                             let linkSlug = `/project/${project.projectId._id}`;
 
-                            if (project.projectId.funded >= 0.01)
                                 return (
                                     <div key={project.projectId._id} className="mb-0">
                                         <div className="hover:shadow">
@@ -147,7 +146,6 @@ export default function AdsManagerIndex({boostedProjects,grid}) {
                                 : publicRuntimeConfig.APP_URL + '/media/project/default.jpg';
                             let linkSlug = `/project/${project.projectId._id}`;
 
-                            if (project.projectId.funded >= 0.01)
                                 return (
                                     <div key={project.projectId._id} className="mb-2">
                                         <div className="transform scale-100 hover:scale-105">
