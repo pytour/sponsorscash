@@ -52,6 +52,7 @@ const projectDescription = props => {
     const [copySuccess, setCopySuccess] = useState('');
     const textAreaRef = useRef(null);
     const [receivingAddress, setReceivingAddress] = useState(null);
+    const [amount, setAmount] = useState(null)
     const token = useSelector(state => state.token);
     const [copier, setCopier] = useState(false);
     const Router = useRouter();
@@ -166,6 +167,7 @@ const projectDescription = props => {
         validate,
         onSubmit: (values, { resetForm }) => {
 
+            setAmount(values.amount)
             if (props.projCashAddress) {
                 setReceivingAddress(props.projCashAddress)
             }
@@ -317,7 +319,7 @@ const projectDescription = props => {
                 </button>
             </div>
             {/* TODO: to support legacy code, check if project have property projCashAddress then return wallet */}
-            <DonationModal modal={modal} receivingAddress={receivingAddress} onClick={handleModlaClose} formik={formik}
+            <DonationModal modal={modal} receivingAddress={receivingAddress} amount={amount} onClick={handleModlaClose} formik={formik}
                            onClick1={handleModalCloseWithReset} props={props} onCopy={() => console.log('copied')}
                            onClick2={handleCopyFunc} copier={copier}/>
 
