@@ -70,10 +70,10 @@ const sponsors = props => {
                                     className="md:w-40 w-24 rounded-md border-1 border-gray-100"
                                     src={
                                         props.avatar
-                                            ? publicRuntimeConfig.APP_URL +
+                                            ? publicRuntimeConfig.API_URL +
                                               '/media/user/' +
                                               props.avatar
-                                            : publicRuntimeConfig.APP_URL +
+                                            : publicRuntimeConfig.API_URL +
                                               '/media/user/user-avatar.png'
                                     }
                                 />

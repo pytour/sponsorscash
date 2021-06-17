@@ -19,7 +19,7 @@ const project = props => {
     useEffect(() => {
 
         axios
-            .get(publicRuntimeConfig.APP_URL + '/project/getCompletedProjects', {
+            .get(publicRuntimeConfig.API_URL + '/project/getCompletedProjects', {
                 params: {
                     campaignsLimit: 6
                 }
@@ -87,7 +87,7 @@ const project = props => {
                                 // checkFunds
                                 // console.log('///// There is new transaction on network!!!');
                                 axios
-                                    .post(publicRuntimeConfig.APP_URL + '/project/checkFunds', {
+                                    .post(publicRuntimeConfig.API_URL + '/project/checkFunds', {
                                         projectID: props.project._id
                                     })
                                     .then(funds => {
@@ -111,7 +111,7 @@ const project = props => {
                                         // Update UI, Get donations
                                         axios
                                             .post(
-                                                publicRuntimeConfig.APP_URL +
+                                                publicRuntimeConfig.API_URL +
                                                     '/donations/getProjectDonations',
                                                 {
                                                     projectId: props.project._id
@@ -148,7 +148,7 @@ const project = props => {
         if (projectId) {
             setProject(props.project);
             axios
-                .post(publicRuntimeConfig.APP_URL + '/donations/getProjectDonations', {
+                .post(publicRuntimeConfig.API_URL + '/donations/getProjectDonations', {
                     projectId: projectId
                 })
                 .then(res => {
@@ -227,7 +227,7 @@ project.getInitialProps= async ({ query})=> {
 
     let res;
     try {
-        res = await axios.get(publicRuntimeConfig.APP_URL + '/project/getSingleProject/' + id);
+        res = await axios.get(publicRuntimeConfig.API_URL + '/project/getSingleProject/' + id);
     } catch (error) {
         return { error: 404 };
     }

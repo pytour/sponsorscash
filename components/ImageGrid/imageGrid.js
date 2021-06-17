@@ -13,12 +13,12 @@ const imageGrid = props => {
 
     // useEffect(() => {
     //   if (props.images && props.images[0]) allImages = props.images.map((id) => {
-    //     return `${publicRuntimeConfig.APP_URL}/media/project/${id}`;
+    //     return `${publicRuntimeConfig.API_URL}/media/project/${id}`;
     //   });
     // }, [props]);
     if (props.images && props.images[0])
         allImages = props.images.map(id => {
-            return `${publicRuntimeConfig.APP_URL}/media/project/${id}`;
+            return `${publicRuntimeConfig.API_URL}/media/project/${id}`;
         });
 
 
@@ -38,7 +38,7 @@ const imageGrid = props => {
                             src={
                                 allImages[0]
                                     ? allImages[0]
-                                    : publicRuntimeConfig.APP_URL + '/media/project/default.jpg'
+                                    : publicRuntimeConfig.API_URL + '/media/project/default.jpg'
                             }
                             alt="image 1"
                             onClick={() => {
@@ -57,7 +57,7 @@ const imageGrid = props => {
                             src={
                                 allImages[0]
                                     ? allImages[0]
-                                    : publicRuntimeConfig.APP_URL + '/media/project/default.jpg'
+                                    : publicRuntimeConfig.API_URL + '/media/project/default.jpg'
                             }
                             alt="image 1"
                             onClick={() => {

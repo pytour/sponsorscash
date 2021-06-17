@@ -25,7 +25,7 @@ const stats = () => {
     const [campaignsChart, setCampaignsChart] = useState();
     useEffect(() => {
         axios
-            .get(publicRuntimeConfig.APP_URL + '/project/getAllProjects')
+            .get(publicRuntimeConfig.API_URL + '/project/getAllProjects')
             .then(res => {
                 let arr = res.data.projects;
                 console.log('Campaigns', arr);
@@ -62,7 +62,7 @@ const stats = () => {
             })
             .catch(err => err);
         axios
-            .get(publicRuntimeConfig.APP_URL + '/users/stats')
+            .get(publicRuntimeConfig.API_URL + '/users/stats')
             .then(res => {
                 setUserStats({
                     count: res.data.count,

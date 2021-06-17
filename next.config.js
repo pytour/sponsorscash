@@ -2,7 +2,7 @@ module.exports = {
     publicRuntimeConfig: {
         // Will be available on both server and client
         // https://sponsor-cash.herokuapp.com/
-        APP_URL: process.env.APP_URL,
+        API_URL: process.env.API_URL,
         ADS_SERVER_URL: process.env.ADS_SERVER_URL
             ? process.env.ADS_SERVER_URL
             : 'http://localhost:3001'

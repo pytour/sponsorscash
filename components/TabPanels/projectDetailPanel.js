@@ -7,10 +7,10 @@ const { publicRuntimeConfig } = getConfig();
 const projectDetailPanel = props => {
     //if (props.projectCreator) console.log(props.projectCreator);
     let avatarImg = props.projectCreator.avatar
-        ? `background: url(${publicRuntimeConfig.APP_URL}/media/user/${
+        ? `background: url(${publicRuntimeConfig.API_URL}/media/user/${
               props.projectCreator.avatar
           })`
-        : `background: url(${publicRuntimeConfig.APP_URL}/media/user/user-avatar.png)`;
+        : `background: url(${publicRuntimeConfig.API_URL}/media/user/user-avatar.png)`;
     return (
         <>
             <div>
@@ -33,12 +33,12 @@ const projectDetailPanel = props => {
                                                 src={
                                                     props.projectCreator.avatar
                                                         ? `${
-                                                              publicRuntimeConfig.APP_URL
+                                                              publicRuntimeConfig.API_URL
                                                           }/media/user/${
                                                               props.projectCreator.avatar
                                                           }`
                                                         : `${
-                                                              publicRuntimeConfig.APP_URL
+                                                              publicRuntimeConfig.API_URL
                                                           }/media/user/user-avatar.png`
                                                 }
                                                 alt="Fund me cash project avatar"

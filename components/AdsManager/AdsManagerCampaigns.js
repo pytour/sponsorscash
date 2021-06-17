@@ -35,10 +35,10 @@ export default function AdsManagerIndex({boostedProjects,grid}) {
 
                     {boostedProjects.map(project => {
                             let cardImage = project.projectId.images[0]
-                                ? publicRuntimeConfig.APP_URL +
+                                ? publicRuntimeConfig.API_URL +
                                 '/media/project/' +
                                 project.projectId.images[0]
-                                : publicRuntimeConfig.APP_URL + '/media/project/default.jpg';
+                                : publicRuntimeConfig.API_URL + '/media/project/default.jpg';
                             let linkSlug = `/project/${project.projectId._id}`;
 
 
@@ -72,10 +72,10 @@ export default function AdsManagerIndex({boostedProjects,grid}) {
 
                     {boostedProjects.map(project => {
                             let cardImage = project.projectId && project.projectId.images[0]
-                                ? publicRuntimeConfig.APP_URL +
+                                ? publicRuntimeConfig.API_URL +
                                 '/media/project/' +
                                 project.projectId.images[0]
-                                : publicRuntimeConfig.APP_URL + '/media/project/default.jpg';
+                                : publicRuntimeConfig.API_URL + '/media/project/default.jpg';
                             let linkSlug = `/project/${project.projectId._id}`;
 
                                 return (
@@ -140,10 +140,10 @@ export default function AdsManagerIndex({boostedProjects,grid}) {
                     {boostedProjects && boostedProjects[0] &&
                         boostedProjects.map(project => {
                             let cardImage = project.projectId.images[0]
-                                ? publicRuntimeConfig.APP_URL +
+                                ? publicRuntimeConfig.API_URL +
                                 '/media/project/' +
                                 project.projectId.images[0]
-                                : publicRuntimeConfig.APP_URL + '/media/project/default.jpg';
+                                : publicRuntimeConfig.API_URL + '/media/project/default.jpg';
                             let linkSlug = `/project/${project.projectId._id}`;
 
                                 return (

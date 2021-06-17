@@ -14,7 +14,7 @@ const Home = () => {
     const [boostedProjects, setBoostedProjects] = useState([]);
     useEffect(() => {
         axios
-            .get(publicRuntimeConfig.APP_URL + '/project/getCompletedProjects', {
+            .get(publicRuntimeConfig.API_URL + '/project/getCompletedProjects', {
                 params: {
                     campaignsLimit: 6
                 }
@@ -47,10 +47,10 @@ const Home = () => {
                         {completedProjects[0] ? (
                             completedProjects.map(project => {
                                 let cardImage = project.images[0]
-                                    ? publicRuntimeConfig.APP_URL +
+                                    ? publicRuntimeConfig.API_URL +
                                     '/media/project/' +
                                     project.images[0]
-                                    : publicRuntimeConfig.APP_URL + '/media/project/default.jpg';
+                                    : publicRuntimeConfig.API_URL + '/media/project/default.jpg';
                                 let linkSlug = `/project/${project._id}`;
 
                                 if (project.funded >= 0.01)

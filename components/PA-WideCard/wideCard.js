@@ -16,7 +16,7 @@ const wideCard = props => {
     const [transactionCleared, setTransactionCleared] = useState(false);
     useEffect(() => {
         axios
-            .post(publicRuntimeConfig.APP_URL + '/project/checkGoalStatus', {
+            .post(publicRuntimeConfig.API_URL + '/project/checkGoalStatus', {
                 id: props.projectID
             })
             .then(res => {
@@ -100,7 +100,7 @@ const wideCard = props => {
                 if (result.isConfirmed) {
                     axios
                         .post(
-                            publicRuntimeConfig.APP_URL + '/project/cancelProject',
+                            publicRuntimeConfig.API_URL + '/project/cancelProject',
                             {
                                 projectId: props.projectID
                             },
@@ -149,7 +149,7 @@ const wideCard = props => {
                                         <Image
                                             layout="fill"
                                             objectFit="cover"
-                                            src={`${publicRuntimeConfig.APP_URL}/media/project/${
+                                            src={`${publicRuntimeConfig.API_URL}/media/project/${
                                                 props.imgSrc
                                             }`}
                                             alt={props.title ? props.title : 'content image'}

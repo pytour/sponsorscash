@@ -35,7 +35,7 @@ const resetPasswordForm = () => {
         validate,
         onSubmit: values => {
             axios
-                .post(publicRuntimeConfig.APP_URL + '/users/resetPassword', {
+                .post(publicRuntimeConfig.API_URL + '/users/resetPassword', {
                     data: {
                         values: values,
                         token: router.query.token

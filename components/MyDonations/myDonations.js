@@ -15,7 +15,7 @@ const myDonations = props => {
     useEffect(() => {
         if (props.userData.id)
             axios
-                .post(publicRuntimeConfig.APP_URL + '/donations/getUserDonations', {
+                .post(publicRuntimeConfig.API_URL + '/donations/getUserDonations', {
                     userId: props.userData.id
                 })
                 .then(res => {

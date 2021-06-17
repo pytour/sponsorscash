@@ -76,7 +76,7 @@ const projectDescription = props => {
         }
         if (props.id) {
             axios
-                .post(publicRuntimeConfig.APP_URL + '/project/checkGoalStatus', {
+                .post(publicRuntimeConfig.API_URL + '/project/checkGoalStatus', {
                     id: props.id
                 })
                 .then(res => {
@@ -87,7 +87,7 @@ const projectDescription = props => {
                     }
 
                     axios
-                        .post(publicRuntimeConfig.APP_URL + '/project/checkFunds', {
+                        .post(publicRuntimeConfig.API_URL + '/project/checkFunds', {
                             projectID: props.id
                         })
                         .then(funds => {
@@ -127,7 +127,7 @@ const projectDescription = props => {
         if (completed) {
             setIsNotCompleted(false);
             axios
-                .post(publicRuntimeConfig.APP_URL + '/project/setCompletion', {
+                .post(publicRuntimeConfig.API_URL + '/project/setCompletion', {
                     projectID: props.id,
                     ended: true
                 })
@@ -173,7 +173,7 @@ const projectDescription = props => {
             }
             else {
                 axios
-                    .get(publicRuntimeConfig.APP_URL + '/donations/getDonationAddress', {
+                    .get(publicRuntimeConfig.API_URL + '/donations/getDonationAddress', {
                         params: {
                             projectId: props.id,
                             name: values.name,

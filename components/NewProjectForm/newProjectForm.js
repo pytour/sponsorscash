@@ -79,7 +79,7 @@ const newProjectForm = () => {
             // if expire run DEAUTHENTICATE ask to login again
             // Route to login_page
             axios
-                .get(publicRuntimeConfig.APP_URL + '/users/getUserProfile', {
+                .get(publicRuntimeConfig.API_URL + '/users/getUserProfile', {
                     headers: { Authorization: 'Bearer ' + token }
                 })
                 .then(res => {
