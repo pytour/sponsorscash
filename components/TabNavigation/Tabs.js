@@ -60,7 +60,7 @@ export default function TabNavigation(props) {
                                 <p>
                                     Last Donors{' '}
                                     {props.donations && props.donations.length > 0 && (
-                                        <span className="ml-2 p-1 text-sm rounded shadow-sm  text-white bg-block">
+                                        <span className="ml-2 p-1 text-xs rounded shadow-sm  text-white bg-block">
                                             {donationsCount}
                                         </span>
                                     )}
@@ -85,7 +85,7 @@ export default function TabNavigation(props) {
                                 <p>
                                     Feedback{' '}
                                     {commentsCount > 0 && (
-                                        <span className="ml-2 p-1 text-sm rounded shadow-sm text-white bg-block">
+                                        <span className="ml-2 p-1 text-xs rounded shadow-sm text-white bg-block">
                                             {commentsCount}
                                         </span>
                                     )}

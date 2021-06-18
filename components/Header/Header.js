@@ -18,7 +18,7 @@ const Header = ({ isPrivatePage }) => {
 
     const checkAdBlock = () => {
 
-        if(typeof window === 'undefined') {
+        if(typeof window != 'undefined') {
             detectAnyAdblocker().then(detected => {
                 if (detected) {
                     // an adblocker is detected
@@ -26,7 +26,7 @@ const Header = ({ isPrivatePage }) => {
                     Swal.fire({ title: 'Please turn off AdBlock', icon: 'warning' });
                 }
             }).catch(err => {
-                console.log(err);
+                console.log(err.message);
             });
         }
     };
