@@ -13,7 +13,7 @@ const smallCard = props => {
                         <Image
                             layout="fill"
                             objectFit="cover"
-                            src={`${publicRuntimeConfig.APP_URL}/media/project/${props.imgSrc}`}
+                            src={`${publicRuntimeConfig.API_URL}/media/project/${props.imgSrc}`}
                             alt={props.tag}
                         />
                     </div>

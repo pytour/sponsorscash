@@ -28,7 +28,7 @@ const publicAccount = () => {
             setLoading(true);
             axios
                 .get(
-                    publicRuntimeConfig.APP_URL +
+                    publicRuntimeConfig.API_URL +
                         '/users/getUserProfile/' +
                         router.query.userpublicpage
                 )
@@ -50,7 +50,7 @@ const publicAccount = () => {
 
         if (userData && userData.projects)
             axios
-                .post(publicRuntimeConfig.APP_URL + '/project/getArrayOfProjects/', {
+                .post(publicRuntimeConfig.API_URL + '/project/getArrayOfProjects/', {
                     projects: userData.projects
                 })
                 .then(res => {
@@ -89,10 +89,10 @@ const publicAccount = () => {
                         {userProjects
                             ? userProjects.map(project => {
                                   let projImage = project.images[0]
-                                      ? publicRuntimeConfig.APP_URL +
+                                      ? publicRuntimeConfig.API_URL +
                                         '/media/project/' +
                                         project.images[0]
-                                      : publicRuntimeConfig.APP_URL + '/media/project/default.jpg';
+                                      : publicRuntimeConfig.API_URL + '/media/project/default.jpg';
                                   let linkSlug = `/project/${project._id}`;
 
                                   return (

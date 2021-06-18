@@ -23,7 +23,7 @@ const feedbackPanel = props => {
 
     const getComments = () => {
         axios
-            .post(publicRuntimeConfig.APP_URL + '/comments/getProjectComments', {
+            .post(publicRuntimeConfig.API_URL + '/comments/getProjectComments', {
                 projectId: props.projectId
             })
             .then(res => {
@@ -37,10 +37,10 @@ const feedbackPanel = props => {
     const saveComment = event => {
         event.preventDefault();
         if (message.length > 0) {
-            console.log('Save comment:', message);
+            // console.log('Save comment:', message);
             axios
                 .post(
-                    publicRuntimeConfig.APP_URL + '/comments/saveComment',
+                    publicRuntimeConfig.API_URL + '/comments/saveComment',
                     {
                         projectId: props.projectId,
                         userId: userId,

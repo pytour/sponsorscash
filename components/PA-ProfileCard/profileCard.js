@@ -79,7 +79,7 @@ const profileCard = props => {
     const submitChanges = async () => {
         // console.log("REQUEST", userData);
         axios
-            .post(publicRuntimeConfig.APP_URL + '/users/updateUserProfile', userData, {
+            .post(publicRuntimeConfig.API_URL + '/users/updateUserProfile', userData, {
                 headers: { Authorization: 'Bearer ' + token }
             })
             .then(res => {
@@ -139,11 +139,11 @@ const profileCard = props => {
                             <img
                                 src={
                                     userData.image
-                                        ? `${publicRuntimeConfig.APP_URL}/media/user/${
+                                        ? `${publicRuntimeConfig.API_URL}/media/user/${
                                               userData.image
                                           }`
                                         : `${
-                                              publicRuntimeConfig.APP_URL
+                                              publicRuntimeConfig.API_URL
                                           }/media/user/user-avatar.png`
                                 }
                                 className="w-48 h-48 overflow-hidden m-auto"

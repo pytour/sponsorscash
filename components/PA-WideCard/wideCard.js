@@ -16,7 +16,7 @@ const wideCard = props => {
     const [transactionCleared, setTransactionCleared] = useState(false);
     useEffect(() => {
         axios
-            .post(publicRuntimeConfig.APP_URL + '/project/checkGoalStatus', {
+            .post(publicRuntimeConfig.API_URL + '/project/checkGoalStatus', {
                 id: props.projectID
             })
             .then(res => {
@@ -69,84 +69,13 @@ const wideCard = props => {
         });
     };
     const withDrawFunds = () => {
-        // If - project have property projectWalletID
-        // then use legacy method for withdraw funds
-        // else - return info message: How to withdraw with MNEMONIC PHRASE
-
-        if (props.projectWalletID) {
-            // LEGACY CODE
-            //Aks user to enter BCH address in input field
-            // Then check address (isBCHaddress)
-            // if Ok then make withdraw transaction
-            // else "Error it is looks like you enter wrong BCH address, check it again"
-            // Add new api route /isBchAddress
-            Swal.fire({
-                title: 'Enter your Bitcoin Cash address',
-                input: 'text',
-                inputValue: '',
-                showCancelButton: true,
-                inputValidator: value => {
-                    if (!value) {
-                        return 'You need to write BCH address! For example bitcoincash:qwerty123456qwerty123456';
-                    }
-                }
-            }).then(result => {
-                let bchAddress = result.value;
-                if (bchAddress) {
-                    // 1 Check bchAddress
-                    axios
-                        .post(publicRuntimeConfig.APP_URL + '/project/isBchAddress', {
-                            bchAddress: bchAddress
-                        })
-                        .then(isBchResult => {
-                            if (isBchResult.data.status === 200) {
-                                // Swal.fire(`Your BCH address:`, `${bchAddress}`, "success");
-                                // 2 Make withdraw transaction
-                                axios
-                                    .post(
-                                        publicRuntimeConfig.APP_URL + '/project/withDrawFunds',
-                                        {
-                                            id: props.projectID,
-                                            bchAddress: bchAddress
-                                        },
-                                        { headers: { Authorization: 'Bearer ' + token } }
-                                    )
-                                    .then(withdrawResult => {
-                                        if (withdrawResult.data.status === 200) {
-                                            setTransactionCleared(true);
-                                            Swal.fire(
-                                                'Done',
-                                                withdrawResult.data.message,
-                                                'success'
-                                            );
-                                        } else {
-                                            Swal.fire(
-                                                'Whoops',
-                                                withdrawResult.data.message,
-                                                'error'
-                                            );
-                                        }
-                                    });
-                            } else if (isBchResult.data.status === 400) {
-                                Swal.fire(
-                                    `Error:${isBchResult.data.message}`,
-                                    `Please check your address: ${bchAddress}`,
-                                    'error'
-                                );
-                            }
-                        })
-                        .catch(err => console.log(err));
-                }
-            });
-        } else {
-            // Show info message: How to withdraw with MNEMONIC PHRASE
-            let msg =
-                "To withdraw your funds please use your campaigns MNEMONIC PHRASE, for more details see: <a href='https://fundme.cash/howto/withdraw'> how to withdraw</a> ";
-            Swal.fire({
-                title: 'How to withdraw',
-                html: msg
-            });
-        }
+        // Show info message: How to withdraw with MNEMONIC PHRASE
+        let msg =
+        "To withdraw your funds please use your campaigns MNEMONIC PHRASE, for more details see: <a href='https://fundme.cash/howto/withdraw'> how to withdraw</a> ";
+        Swal.fire({
+            title: 'How to withdraw',
+            html: msg
+        });
     };
     const cancelProject = () => {
         const swalWithBootstrapButtons = Swal.mixin({
@@ -171,7 +100,7 @@ const wideCard = props => {
                 if (result.isConfirmed) {
                     axios
                         .post(
-                            publicRuntimeConfig.APP_URL + '/project/cancelProject',
+                            publicRuntimeConfig.API_URL + '/project/cancelProject',
                             {
                                 projectId: props.projectID
                             },
@@ -220,7 +149,7 @@ const wideCard = props => {
                                         <Image
                                             layout="fill"
                                             objectFit="cover"
-                                            src={`${publicRuntimeConfig.APP_URL}/media/project/${
+                                            src={`${publicRuntimeConfig.API_URL}/media/project/${
                                                 props.imgSrc
                                             }`}
                                             alt={props.title ? props.title : 'content image'}

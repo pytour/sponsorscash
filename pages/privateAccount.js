@@ -27,7 +27,7 @@ const privateAccount = () => {
             Router.push('/login');
         } else {
             axios
-                .get(publicRuntimeConfig.APP_URL + '/users/getUserProfile', {
+                .get(publicRuntimeConfig.API_URL + '/users/getUserProfile', {
                     headers: { Authorization: 'Bearer ' + token }
                 })
                 .then(res => {
@@ -40,7 +40,7 @@ const privateAccount = () => {
 
     useEffect(() => {
         axios
-            .get(publicRuntimeConfig.APP_URL + '/project/getProjects', {
+            .get(publicRuntimeConfig.API_URL + '/project/getProjects', {
                 headers: { Authorization: 'Bearer ' + token }
             })
             .then(res => {

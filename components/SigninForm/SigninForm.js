@@ -80,7 +80,7 @@ const signinForm = () => {
         validate,
         onSubmit: values => {
             axios
-                .post(publicRuntimeConfig.APP_URL + '/users/signup', values)
+                .post(publicRuntimeConfig.API_URL + '/users/signup', values)
                 .then(response => {
                     if (response.status == 201 || response.status == 200) {
                         Swal.fire(

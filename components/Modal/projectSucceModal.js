@@ -16,7 +16,7 @@ export default function ProjectSucess({ resetAllData, walletInfo, images, secret
         setLoading(true);
         axios
             .post(
-                publicRuntimeConfig.APP_URL + '/project/createProject',
+                publicRuntimeConfig.API_URL + '/project/createProject',
                 {
                     values: walletInfo.formValue,
                     images: images,

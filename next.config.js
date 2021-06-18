@@ -2,12 +2,20 @@ module.exports = {
     publicRuntimeConfig: {
         // Will be available on both server and client
         // https://sponsor-cash.herokuapp.com/
-        APP_URL: process.env.APP_URL,
-        FEE_AMOUNT: process.env.FEE_AMOUNT,
-        MINIMUM_AMOUNT: 0.0002
+        API_URL: process.env.API_URL,
+        ADS_SERVER_URL: process.env.ADS_SERVER_URL
+            ? process.env.ADS_SERVER_URL
+            : 'http://localhost:3001'
     },
     images: {
-        domains: ['localhost', 'fundme.cash', '54.244.63.208', '34.212.40.180']
+        domains: [
+            'localhost',
+            'fundme.cash',
+            'devbitcoin.cash',
+            '54.244.63.208',
+            '34.212.40.180',
+            '142.93.2.130'
+        ]
     },
     webpack: function(config) {
         config.optimization.minimize = false;

@@ -48,7 +48,7 @@ const loginform = () => {
         validate,
         onSubmit: values => {
             axios
-                .post(publicRuntimeConfig.APP_URL + '/users/login', values)
+                .post(publicRuntimeConfig.API_URL + '/users/login', values)
                 .then(response => {
                     if (response.data.statusCode == 402) {
                         Swal.fire('Not Verified', response.data.status, 'error');
@@ -61,7 +61,7 @@ const loginform = () => {
                         const toBidsPageAfter = getCookie('toBidsPageAfter');
                         if (toBidsPageAfter) {
                             deleteCookie('toBidsPageAfter');
-                            window.location.href = process.env.BIDDING_APP_URL;
+                            window.location.href = process.env.BIDDING_API_URL;
                         }
                         if (response.data.accountType === 'Regular') {
                             Router.push('/privateAccount', '/' + response.data.username);

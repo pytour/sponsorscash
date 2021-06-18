@@ -5,24 +5,16 @@ import Card from '../../components/Card/Card';
 import axios from 'axios';
 import getConfig from 'next/config';
 import HeroContainer from '../../components/BackgroundContainer/heroContainer';
-
+import AdsManagerCampaigns from '../AdsManager/AdsManagerCampaigns';
 
 const { publicRuntimeConfig } = getConfig();
 
 const Home = () => {
-    const [popularProjects, setPopularProjects] = useState([]);
     const [completedProjects, setCompletedProjects] = useState([]);
+    const [boostedProjects, setBoostedProjects] = useState([]);
     useEffect(() => {
         axios
-            .get(publicRuntimeConfig.APP_URL + '/project/getPopularProjects')
-            .then(res => {
-                const resProj = res.data.projects;
-                setPopularProjects(resProj);
-            })
-            .catch(err => console.log(err));
-
-        axios
-            .get(publicRuntimeConfig.APP_URL + '/project/getCompletedProjects', {
+            .get(publicRuntimeConfig.API_URL + '/project/getCompletedProjects', {
                 params: {
                     campaignsLimit: 6
                 }
@@ -31,23 +23,34 @@ const Home = () => {
                 setCompletedProjects(res.data.projects);
             })
             .catch(err => console.log(err));
+
+        axios
+            .get(publicRuntimeConfig.ADS_SERVER_URL+ '/api/ads/getAds')
+            .then(res => {
+                const resProj = res.data.ads;
+                setBoostedProjects(resProj);
+            })
+            .catch(err => console.log(err));
+
     }, []);
 
     return (
         <>
-                <HeroContainer />
+                <HeroContainer  />
+
+            <AdsManagerCampaigns grid={true} boostedProjects={boostedProjects}/>
                 <div className="container max-w-screen-xl px-4 md:px-.5 lg:px-.5 xl:px.5 mb-8 mx-auto ">
-                    <h2 className="block md:text-3xl text-2xl text-branding-color p-2 mt-8 mb-4">
+                    <h2 className="block md:text-xl text-xl text-branding-color p-2 mt-8 mb-4">
                         Completed Campaigns
                     </h2>
                     <div className="grid grid-cols-1 md:grid-cols-3 md:gap-x-20 md:gap-y-8 gap-x-16 gap-y-3 relative">
                         {completedProjects[0] ? (
                             completedProjects.map(project => {
                                 let cardImage = project.images[0]
-                                    ? publicRuntimeConfig.APP_URL +
+                                    ? publicRuntimeConfig.API_URL +
                                     '/media/project/' +
                                     project.images[0]
-                                    : publicRuntimeConfig.APP_URL + '/media/project/default.jpg';
+                                    : publicRuntimeConfig.API_URL + '/media/project/default.jpg';
                                 let linkSlug = `/project/${project._id}`;
 
                                 if (project.funded >= 0.01)
@@ -75,7 +78,6 @@ const Home = () => {
                         )}
                     </div>
                 </div>
-
         </>
     );
 };

@@ -12,6 +12,7 @@ import Head from 'next/head';
 import React from 'react';
 import getConfig from 'next/config';
 import PropTypes from 'prop-types';
+import "react-multi-carousel/lib/styles.css";
 // This default export is required in a new `pages/_app.js` file.
 const { publicRuntimeConfig } = getConfig();
 
@@ -26,7 +27,7 @@ function MyApp({ Component, pageProps }) {
 
     const metaImg =
         pageProps.project && pageProps.project.images && pageProps.project.images[0]
-            ? `${publicRuntimeConfig.APP_URL}/media/project/${pageProps.project.images[0]}`
+            ? `${publicRuntimeConfig.API_URL}/media/project/${pageProps.project.images[0]}`
             : 'https://fundme.cash/images/logo.png';
 
     // TODO: [BAC-2] seo meta tags

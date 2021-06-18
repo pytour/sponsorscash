@@ -11,11 +11,10 @@ import {
     TwitterIcon,
     TwitterShareButton
 } from 'react-share';
-import Warning from '../../utils/warning';
 import { useFormik } from 'formik';
-import { CopyToClipboard } from 'react-copy-to-clipboard';
-import * as PropTypes from 'prop-types';
 import DonationModal from './DonationModal';
+import * as Swal from 'sweetalert2';
+import { useRouter } from 'next/router';
 
 const { publicRuntimeConfig } = getConfig();
 
@@ -53,8 +52,10 @@ const projectDescription = props => {
     const [copySuccess, setCopySuccess] = useState('');
     const textAreaRef = useRef(null);
     const [receivingAddress, setReceivingAddress] = useState(null);
-
+    const [amount, setAmount] = useState(null)
+    const token = useSelector(state => state.token);
     const [copier, setCopier] = useState(false);
+    const Router = useRouter();
 
     function handleCopyFunc(value) {
         setCopier(true);
@@ -75,7 +76,7 @@ const projectDescription = props => {
         }
         if (props.id) {
             axios
-                .post(publicRuntimeConfig.APP_URL + '/project/checkGoalStatus', {
+                .post(publicRuntimeConfig.API_URL + '/project/checkGoalStatus', {
                     id: props.id
                 })
                 .then(res => {
@@ -86,7 +87,7 @@ const projectDescription = props => {
                     }
 
                     axios
-                        .post(publicRuntimeConfig.APP_URL + '/project/checkFunds', {
+                        .post(publicRuntimeConfig.API_URL + '/project/checkFunds', {
                             projectID: props.id
                         })
                         .then(funds => {
@@ -126,7 +127,7 @@ const projectDescription = props => {
         if (completed) {
             setIsNotCompleted(false);
             axios
-                .post(publicRuntimeConfig.APP_URL + '/project/setCompletion', {
+                .post(publicRuntimeConfig.API_URL + '/project/setCompletion', {
                     projectID: props.id,
                     ended: true
                 })
@@ -166,12 +167,13 @@ const projectDescription = props => {
         validate,
         onSubmit: (values, { resetForm }) => {
 
+            setAmount(values.amount)
             if (props.projCashAddress) {
                 setReceivingAddress(props.projCashAddress)
             }
             else {
                 axios
-                    .get(publicRuntimeConfig.APP_URL + '/donations/getDonationAddress', {
+                    .get(publicRuntimeConfig.API_URL + '/donations/getDonationAddress', {
                         params: {
                             projectId: props.id,
                             name: values.name,
@@ -211,23 +213,61 @@ const projectDescription = props => {
         formik.resetForm();
         setReceivingAddress(null);
     }
+    function handleBoost() {
+        if(token) {
+            Swal.fire({
+                title: 'Awesome!You want to boost this campaign?',
+                showCancelButton: true,
+                confirmButtonText: `Confirm`,
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    let projectId=props.id;
+                    let adsServer=publicRuntimeConfig.ADS_SERVER_URL +'/home/'+token+'/'+projectId;
+                    window.location.href=(adsServer)
+                    // console.log(adsServer,'add')
+                }
+            })
+        }
+        else {
+            Swal.fire({
+                title: 'For boost this project you need to login first',
+                showCancelButton: true,
+                confirmButtonText: `Confirm`,
+            }).then((result) => {
+                if (result.isConfirmed) {
+                        Router.push('/login')
+                }
+            })
+        }
+
+    }
     return (
         <div>
             <div className="flex  items-center justify-center  xl:justify-start">
-                <p className="text-center xl:text-left  text-funded text-xl md:text-2xl uppercase font-bold xl:mt-0 md:mt-4 lg:mt-0 sm:mt-4  ">
+                <p className="text-center xl:text-left  text-funded text-xl md:text-xl uppercase font-bold xl:mt-0 md:mt-4 lg:mt-0 sm:mt-4  ">
                     {props.title}
                 </p>
             </div>
-            <div className="py-2 flex justify-center  xl:justify-start">
+
+            <div className="py-2 flex justify-between">
                 <div
                     className=" text-md py-1.5 px-2 bg-shadow-card bg-opacity-25 rounded-xl text-progress-bar  lg:block">
                     <p className="text-center lg:text-left "> {props.category} </p>
                 </div>
+
+            <button
+                type="button"
+                onClick={handleBoost}
+                className="focus:outline-none md:mr-12 hover:shadow-xl w-auto  focus:bg-branding-color hover:bg-branding-color inline-flex hover:font-bold
+                justify-center text-branding-color focus:text-white hover:text-white border-1 border-branding-color text-sm rounded-full py-1.5 px-4">
+                <img src={'/images/boosterIcon.svg'} className="w-5 h-5 mr-3"/>  Boost
+            </button>
             </div>
+
             <p className="text-center lg:text-left text-goal break-words">{props.description}</p>
 
             <div className="grid lg:grid-cols-5 gap-y-4 gap-x-8 mb-3 pt-3 pb-1">
-                <div className="lg:col-span-2  text-center bg-card bg-opacity-50 px-4 py-2 rounded-2xl">
+                <div className="lg:col-span-5  text-center bg-card bg-opacity-50 px-4 py-2 rounded-2xl">
                     {props.endTime && isNotCompleted ? (
                         <Countdown date={endTime} renderer={countdownTimer}/>
                     ) : (
@@ -238,7 +278,7 @@ const projectDescription = props => {
 
                     <p className="uppercase text-center mb-0 text-timer">funding ends</p>
                 </div>
-                <div className="lg:col-span-3 ">
+                <div className="lg:col-span-5 ">
                     <div
                         className="grid grid-cols-2 gap-2 py-3 px-1 divide-x divide-black-400 text-center items-center ">
                         <div className="text-center text-funded text-xl ">
@@ -265,7 +305,7 @@ const projectDescription = props => {
                     <button
                         type="button"
                         onClick={handleDonateNow}
-                        className="w-full mr-4 mb-2 sm:w-auto inline-flex justify-center text-branding-color focus:text-white  hover:text-white border-1 border-branding-color text-xl rounded-full py-1.5 px-12 hover:bg-branding-color uppercase">
+                        className="w-full mr-4 mb-2 sm:w-auto inline-flex justify-center text-branding-color focus:text-white  hover:text-white border-1 border-branding-color text-md rounded-full py-1.5 px-12 hover:bg-branding-color uppercase">
                         donate now
                     </button>
                 )}
@@ -274,12 +314,12 @@ const projectDescription = props => {
                     onClick={() => {
                         setModalShare(!modalShare);
                     }}
-                    className="w-full mb-2 sm:w-auto inline-flex justify-center text-branding-color focus:text-white  hover:text-white border-1 border-branding-color text-xl rounded-full py-1.5 px-12 hover:bg-branding-color uppercase">
+                    className="w-full mb-2 sm:w-auto inline-flex justify-center text-branding-color focus:text-white  hover:text-white border-1 border-branding-color text-md rounded-full py-1.5 px-12 hover:bg-branding-color uppercase">
                     share
                 </button>
             </div>
             {/* TODO: to support legacy code, check if project have property projCashAddress then return wallet */}
-            <DonationModal modal={modal} receivingAddress={receivingAddress} onClick={handleModlaClose} formik={formik}
+            <DonationModal modal={modal} receivingAddress={receivingAddress} amount={amount} onClick={handleModlaClose} formik={formik}
                            onClick1={handleModalCloseWithReset} props={props} onCopy={() => console.log('copied')}
                            onClick2={handleCopyFunc} copier={copier}/>
 

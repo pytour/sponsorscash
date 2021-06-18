@@ -2,8 +2,13 @@ import React, { useState } from 'react';
 import Router from 'next/router';
 import Image from 'next/image';
 import PropTypes from 'prop-types';
+import axios from 'axios';
+import getConfig from 'next/dist/next-server/lib/runtime-config';
+import { useSelector } from 'react-redux';
+const { publicRuntimeConfig } = getConfig();
 
 const Card = props => {
+
     const [liked, setLike] = useState(false);
     const toggleLike = () => {
         if (liked) {
@@ -12,59 +17,91 @@ const Card = props => {
         setLike(true);
     };
     const handleProjectDetailsRoute = () => {
-        if (props.nested && props.nested === true) {
-            Router.push(`/project/${props.key}]`, props.linkSlug, {
-                shallow: true
-            });
-        } else {
-            Router.push(`/project/[id]`, props.linkSlug, {
-                shallow: true
-            });
+
+        if(props.boosted){
+            axios
+                .post(publicRuntimeConfig.ADS_SERVER_URL+ '/api/ads/registerView', {
+                    bidId: props.bidId
+                },{})
+                .then(res => {
+                    Router.push(`/project/${props.key}]`, props.linkSlug, {
+                        shallow: false,
+
+                    });
+                })
+                .catch(err => {
+                    Router.push(`/project/${props.key}]`, props.linkSlug, {
+                        shallow: false,
+
+                    });
+                    console.log(err)
+                });
+
+        }
+        else {
+
+            if (props.nested && props.nested === true) {
+                Router.push(`/project/${props.key}]`, props.linkSlug, {
+                    shallow: true
+                });
+            } else {
+                Router.push(`/project/[id]`, props.linkSlug, {
+                    shallow: true
+                });
+            }
         }
     };
     const progress = Math.round((props.funded * 100) / props.goal);
 
     return (
-        <div className="group rounded-custom overflow-hidden shadow-lg ">
+        <>
+            {!props.smallCard &&  <div className="group rounded-custom overflow-hidden shadow-lg " >
             <div className="rounded-tl-custom rounded-tr-custom  relative w-full h-64 ">
                 <Image
                     layout="fill"
                     alt={props.title}
                     objectFit="cover"
                     quality={75}
-                    src={props.imageSrc} />
+                    src={props.imageSrc}/>
             </div>
             <div className="pt-2 px-3 flex justify-between">
-                <div className=" text-sm p-1.5 bg-shadow-card bg-opacity-25 rounded-xl text-progress-bar text-center block">
+                <div
+                    className="text-sm py-1.5 px-1.5 bg-shadow-card bg-opacity-25 rounded-xl text-progress-bar text-center">
                     {props.tag}
                 </div>
+                {/*<div className="flex justify-between">*/}
+                {/*<div onClick={toggleLike}>*/}
+                {/*<p*/}
+                {/*className={*/}
+                {/*'w-8 h-8  rounded-half  cursor-pointer  text-center items-center mx-auto py-1 ' +*/}
+                {/*(liked*/}
+                {/*? 'bg-red-400 text-red-400 '*/}
+                {/*: 'bg-opacity-50 text-black bg-shadow-card ')*/}
+                {/*}>*/}
+                {/*<i className="mt-1 text-xl cursor-pointer fa fa-heart fill-current text-white " />*/}
+                {/*</p>*/}
+                {/*</div>*/}
+                {/*</div>*/}
+
+
+                {props.boosted &&
                 <div className="flex justify-between">
-                    <div onClick={toggleLike}>
-                        <p
-                            className={
-                                'w-8 h-8  rounded-half  cursor-pointer  text-center items-center mx-auto py-1 ' +
-                                (liked
-                                    ? 'bg-red-400 text-red-400 '
-                                    : 'bg-opacity-50 text-black bg-shadow-card ')
-                            }>
-                            <i className="mt-1 text-xl cursor-pointer fa fa-heart fill-current text-white " />
-                        </p>
+                    <div>
+                         <img src={'/images/boosterIcon.svg'} className="w-8 h-8"/>
                     </div>
-                </div>
+                </div>}
+
             </div>
 
+
             <div className="cursor-pointer px-3 pt-1 pb-3" onClick={handleProjectDetailsRoute}>
-                <div className="text-2xl text-grey-600">
-                    {props.title && props.title.length > 20
-                        ? props.title.substr(0, 21) + '...'
-                        : props.title}
+                <div className="text-xl text-one-line text-grey-600">
+                    {props.title && props.title}
                 </div>
-                <div className="text-goal text-sm py-1">
-                    {props.description && props.description.length > 65
-                        ? props.description.substr(0, 65) + '...'
-                        : props.description}
+                <div className="text-two-line text-goal text-sm py-1">
+                    {props.description && props.description}
                 </div>
-                <div className="border-b-1 mt-3" />
+                <div className="border-b-1 mt-3"/>
                 <div className=" bg-white mt-2 ">
                     <p className="select-none text-percentage text-center text-base mt-1 font-bold ">
                         {progress + ' %'}
@@ -79,7 +116,8 @@ const Card = props => {
                         </div>
                     </div>
 
-                    <div className="select-none grid grid-cols-2 gap-2 px-1 divide-x divide-black-400 text-center items-center">
+                    <div
+                        className="select-none grid grid-cols-2 gap-2 px-1 divide-x divide-black-400 text-center items-center">
                         <div className="text-center text-funded">
                             <p className="text-lg">{props.funded + ' BCH'}</p>
                             <p className="uppercase text-lg ">funded</p>
@@ -91,7 +129,66 @@ const Card = props => {
                     </div>
                 </div>
             </div>
-        </div>
+
+            {props.smallCard &&
+
+            <div className=" cursor-pointer px-3 pt-1 pb-3" onClick={handleProjectDetailsRoute}>
+                <div className="text-xl text-one-line  text-center text-grey-600">
+                    {props.title && props.title}
+                </div>
+                <button className="focus:outline-none outline-none group-hover:underline my-2 flex items-center mx-auto border border-blue-300 text-sm py-1.5 px-3 bg-shadow-card bg-opacity-25 rounded-xl text-progress-bar">
+                   See details
+                </button>
+
+
+            </div> }
+
+
+        </div> }
+
+            {props.smallCard &&  <div className="group rounded-md overflow-hidden shadow-lg " >
+                <div className="rounded-tl-custom rounded-tr-custom  relative w-full h-32 ">
+                    <Image
+                        layout="fill"
+                        alt={props.title}
+                        objectFit="cover"
+                        quality={75}
+                        src={props.imageSrc}/>
+                </div>
+                <div className="pt-2 px-3 flex justify-between">
+                    <div
+                        className="text-sm py-1.5 px-1.5 bg-shadow-card bg-opacity-25 rounded-xl text-progress-bar text-center">
+                        {props.tag}
+                    </div>
+
+
+                    {props.boosted &&
+                    <div className="flex justify-between">
+                        <div>
+                            <img src={'/images/boosterIcon.svg'} className="w-8 h-8"/>
+                        </div>
+                    </div>}
+
+                </div>
+
+
+
+
+                <div className=" cursor-pointer px-3 pt-1 pb-3" onClick={handleProjectDetailsRoute}>
+                    <div className="text-sm text-two-line  text-center  my-1 text-grey-600">
+                        {props.title && props.title}
+                    </div>
+                    <button className="focus:outline-none outline-none group-hover:underline my-2 flex items-center mx-auto border border-blue-300 text-sm py-1.5 px-3 bg-shadow-card bg-opacity-25 rounded-xl text-progress-bar">
+                        See details
+                    </button>
+
+
+                </div>
+
+
+            </div> }
+
+            </>
     );
 };
 
@@ -104,7 +201,9 @@ Card.propTypes = {
     imageSrc: PropTypes.string,
     tag: PropTypes.string,
     description: PropTypes.string,
-    title: PropTypes.string
+    title: PropTypes.string,
+    bidId:PropTypes.string,
+    boosted: PropTypes.bool,
 };
 
 export default Card;

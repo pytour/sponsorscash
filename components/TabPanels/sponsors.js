@@ -12,7 +12,7 @@ const { publicRuntimeConfig } = getConfig();
 
 const sponsors = props => {
     let link = props && props.tx && 'https://explorer.bitcoin.com/bch/tx/' + props.tx;
-    console.log(props);
+
 
     function formatDate(date) {
         let diff = new Date() - date; // the difference in milliseconds
@@ -70,10 +70,10 @@ const sponsors = props => {
                                     className="md:w-40 w-24 rounded-md border-1 border-gray-100"
                                     src={
                                         props.avatar
-                                            ? publicRuntimeConfig.APP_URL +
+                                            ? publicRuntimeConfig.API_URL +
                                               '/media/user/' +
                                               props.avatar
-                                            : publicRuntimeConfig.APP_URL +
+                                            : publicRuntimeConfig.API_URL +
                                               '/media/user/user-avatar.png'
                                     }
                                 />

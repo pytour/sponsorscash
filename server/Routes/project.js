@@ -10,7 +10,6 @@ router.get('/getPopularProjects', projectController.getPopularProjects);
 router.get('/getCompletedProjects', projectController.getCompletedProjects);
 router.get('/getSingleProject/:id', projectController.getSingleProject);
 router.post('/editProject', checkAuth, projectController.editProject);
-// router.post('/:id/set-addresses', projectController.setProjectAddresses);
 
 router.get('/getProjectCashAddress/:id', projectController.getProjectCashAddress);
 router.post('/donateToProject', projectController.payUsingCustomWallet);
@@ -19,7 +18,6 @@ router.post('/checkFunds', projectController.checkFunds);
 router.post('/isBchAddress', projectController.isBchAddress);
 router.post('/setCompletion', projectController.setCompletion);
 router.post('/checkGoalStatus', projectController.checkGoalStatus);
-router.post('/withDrawFunds', checkAuth, projectController.withDrawFunds);
 router.post('/cancelProject', checkAuth, projectController.cancelProject);
 router.post('/getArrayOfProjects', projectController.getArrayOfProjects);
 

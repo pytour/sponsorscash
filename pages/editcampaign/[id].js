@@ -70,7 +70,7 @@ const project = props => {
             Router.push('/login');
         } else {
             axios
-                .get(publicRuntimeConfig.APP_URL + '/users/getUserProfile', {
+                .get(publicRuntimeConfig.API_URL + '/users/getUserProfile', {
                     headers: { Authorization: 'Bearer ' + token }
                 })
                 .then(res => {
@@ -107,7 +107,7 @@ const project = props => {
         onSubmit: values => {
             axios
                 .post(
-                    publicRuntimeConfig.APP_URL + '/project/editProject',
+                    publicRuntimeConfig.API_URL + '/project/editProject',
                     {
                         values: values,
                         endTime: date,
@@ -627,12 +627,12 @@ project.getInitialProps = async ({ query }) => {
     // console.log("slug", id, query);
     let res;
     try {
-        res = await axios.get(publicRuntimeConfig.APP_URL + '/project/getSingleProject/' + id);
+        res = await axios.get(publicRuntimeConfig.API_URL + '/project/getSingleProject/' + id);
     } catch (error) {
         return { error: 404 };
     }
 
-    let rawPath = publicRuntimeConfig.APP_URL + '/media/project/';
+    let rawPath = publicRuntimeConfig.API_URL + '/media/project/';
 
     if (res.data.status === 200) {
         project = res.data.project;

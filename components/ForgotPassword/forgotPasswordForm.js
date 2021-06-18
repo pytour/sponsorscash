@@ -32,7 +32,7 @@ const forgotPasswordForm = () => {
         validate,
         onSubmit: values => {
             axios
-                .post(publicRuntimeConfig.APP_URL + '/users/forgotPassword', values)
+                .post(publicRuntimeConfig.API_URL + '/users/forgotPassword', values)
                 .then(response => {
                     if (response.data.statusCode == 402) {
                         Swal.fire('Not Verified', response.data.status, 'error');
