@@ -131,11 +131,11 @@ export default function DonationModal(props) {
                                             <div className=" md:my-8 items-center justify-items-center">
                                                 <p className=" text-lg font-gray-600 px-4 pt-2 pb-6 text-site-theme">
                                                     {' '}
-                                                    Please sent {props.amount} BCH to this address:{' '}
+                                                    Please send {props.amount} BCH to this address:{' '}
                                                 </p>
                                                 <div>
-                                                    <div className="border border-gray-200 rounded-lg mx-2">
-                                                        <p className="text-xl text-gray-800 p-2 break-words font-mono font-semibold">
+                                                    <div className="border border-gray-400 rounded-lg mx-2 bg-indigo-50">
+                                                        <p className="select-all text-xl text-gray-800 p-2 break-words font-mono font-semibold">
                                                             {props.receivingAddress}
                                                         </p>
                                                     </div>
@@ -163,8 +163,8 @@ export default function DonationModal(props) {
                                                 </div>
 
                                                 {!props.props.projCashAddress && (
-                                                    <p className="py-2 mx-2 text-base text-gray-500">
-                                                        Note: This address is valid for 5 minutes,
+                                                    <p className="py-2 mx-8 text-sm text-gray-500">
+                                                        Note: This address is reserved for you on 5 minutes,
                                                         try to send amount within this time or it
                                                         will be saved as anonymous donation
                                                     </p>
@@ -181,7 +181,7 @@ export default function DonationModal(props) {
                                                     type="button"
                                                     style={{ transition: 'all .15s ease' }}
                                                     onClick={props.onClick2}>
-                                                    {props.copier ? 'Copier' : 'Click to Copy'}
+                                                    {props.copier ? 'Copied to clipboard' : 'Click to Copy'}
                                                 </button>
                                             </CopyToClipboard>
                                         </div>
