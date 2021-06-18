@@ -1,4 +1,17 @@
-# fundmecash
+<h1 align="center">FundmeCash</h1>
+
+<div align="center">
+<a href="https://github.com/pytour/fundmecash">
+    <img src="public/images/logo.png" alt="Logo" width="80" height="80">
+</a>
+
+Fundraising with bitcoin cash
+
+[![Website](https://img.shields.io/badge/Platform-FundmeCash-00aced.svg?style=flat-square)](https://fundme.cash)
+[![Community](https://img.shields.io/badge/Chat-Telegram%20Group-blue.svg?style=flat-square&logo=telegram)](https://telegram.me/fundmecash)
+
+</div>
+
 ## Install
 
 
