@@ -148,7 +148,7 @@ const loginform = () => {
                         <p className="mb-0 ">
                             New to{' '}
                             <span className="uppercase font-bold text-branding-text-color">
-                                fundme
+                                sponsors
                             </span>
                             <span className="text-black uppercase font-bold ">.cash </span>
                             <Link href="/signup">

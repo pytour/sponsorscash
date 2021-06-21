@@ -22,16 +22,13 @@ const Footer = () => {
                             </div>
 
                             <p className="mx-auto mt-6 text-center text-2xl font-bold text-branding-text-color">
-                                FUNDME<span className="text-white">.CASH</span>
+                                SPONSORS<span className="text-white">.CASH</span>
                             </p>
                         </a>
                     </Link>
                     <div className="mt-4 text-center">
                         <p className="text-base text-white">
-                            Thanks to everyone who support our{' '}
-                            <Link href="https://flipstarter.fundme.cash/">
-                                <a className="text-white"> flipstarter campaign.</a>
-                            </Link>
+                            Thanks to everyone who support our flipstarter campaign.
                         </p>
                         <p className="mt-4 text-base text-white">
                             For non-custodial fundraising use:{' '}
@@ -61,7 +58,7 @@ const Footer = () => {
                                     className="m-3 w-full  sm:w-auto"
                                     onClick={() => {
                                         Router.push(
-                                            'https://fundme.cash/api/media/files/whitepaper.pdf'
+                                            'https://sponsors.cash/api/media/files/whitepaper.pdf'
                                         );
                                     }}
                                     onKeyDown={() => {}}>
@@ -76,7 +73,7 @@ const Footer = () => {
                                     </Link>
                                 </div>
                                 <div className="m-2 w-full  sm:w-auto">
-                                    <Link href="https://t.me/fundmecash">
+                                    <Link href="https://t.me/sponsorschat">
                                         <a className="text-white">
                                             <GeneralButton title={'contact us'} />
                                         </a>
