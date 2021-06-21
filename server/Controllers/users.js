@@ -90,14 +90,14 @@ exports.user_signup = (req, res) => {
                                 );
                                 let verifyURL = `https://${req.headers.host}/api/users/confirmation/${token.token}`;
                                 let mailOptions = {
-                                    from: 'noreply@fundme.cash',
+                                    from: 'noreply@sponsors.cash',
                                     to: user.email,
                                     subject: 'Account Verification Token',
                                     text:
                                         'Hello,\n\n' +
-                                        'Please verify your Fundme.cash account by clicking the link:\n' +
+                                        'Please verify your Sponsors.cash account by clicking the link:\n' +
                                         verifyURL,
-                                    html: `<b>Hello<br>Please verify your Fundme.cash account by clicking the link:</b>
+                                    html: `<b>Hello<br>Please verify your Sponsors.cash account by clicking the link:</b>
                   <table width="100%" cellspacing="0" cellpadding="0">
                   <tr>
                       <td>

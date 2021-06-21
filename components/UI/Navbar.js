@@ -57,7 +57,7 @@ const NavbarPage = props => {
             icon: 'warning',
             title: 'Warning',
             html: `This site is in BETA, bugs may be present. Report bugs to
-     <a href="https://t.me/fundmecash"> our telegram chat </a>`
+     <a href="https://t.me/sponsorschat"> our telegram chat </a>`
         });
     };
 

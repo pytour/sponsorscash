@@ -348,19 +348,19 @@ const projectDescription = props => {
                                 <div className="relative p-6 flex-auto">
                                     <div className="text-center">
                                         <TelegramShareButton
-                                            url={`https://fundme.cash/project/${props.id}`}
+                                            url={`https://sponsors.cash/project/${props.id}`}
                                             quote={props.title}
                                             className="py-1.5 px-4 hover:bg-branding-text-color hover:text-white">
                                             <TelegramIcon size={32} round/>
                                         </TelegramShareButton>
                                         <FacebookShareButton
-                                            url={`https://fundme.cash/project/${props.id}`}
+                                            url={`https://sponsors.cash/project/${props.id}`}
                                             quote={props.title}
                                             className="py-1.5 px-4 hover:bg-branding-text-color hover:text-white">
                                             <FacebookIcon size={32} round/>
                                         </FacebookShareButton>
                                         <TwitterShareButton
-                                            url={`https://fundme.cash/project/${props.id}`}
+                                            url={`https://sponsors.cash/project/${props.id}`}
                                             quote={props.title}
                                             className="py-1.5 px-4 hover:bg-branding-text-color hover:text-white">
                                             <TwitterIcon size={32} round/>
@@ -383,7 +383,7 @@ const projectDescription = props => {
                                                 <textarea
                                                     ref={textAreaRef}
                                                     className="border ring-1 w-70 mx-auto "
-                                                    value={`https://fundme.cash/project/${
+                                                    value={`https://sponsors.cash/project/${
                                                         props.id
                                                         }`}
                                                 />

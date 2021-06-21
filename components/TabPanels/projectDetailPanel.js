@@ -58,7 +58,7 @@ const projectDetailPanel = props => {
                                         <p />
                                         <i className="fas fa-user-check m-2" size="12">
                                             {' '}
-                                            Campaign approved by FUNDME.CASH team
+                                            Campaign approved by SPONSORS.CASH team
                                         </i>
                                     </div>
                                 </div>
