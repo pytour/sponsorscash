@@ -10,7 +10,8 @@ module.exports = {
         domains: [
             'localhost',
             'fundme.cash',
-            'devbitcoin.cash'
+            'devbitcoin.cash',
+            'sponsors.cash',
         ]
     },
     webpack: function(config) {
