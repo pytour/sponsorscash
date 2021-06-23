@@ -1,4 +1,4 @@
-<h1 align="center">FundmeCash</h1>
+<h1 align="center">SponsorsCash</h1>
 
 <div align="center">
 <a href="https://github.com/pytour/fundmecash">
@@ -7,8 +7,8 @@
 
 Fundraising with bitcoin cash
 
-[![Website](https://img.shields.io/badge/Platform-FundmeCash-00aced.svg?style=flat-square)](https://fundme.cash)
-[![Community](https://img.shields.io/badge/Chat-Telegram%20Group-blue.svg?style=flat-square&logo=telegram)](https://telegram.me/fundmecash)
+[![Website](https://img.shields.io/badge/Platform-SponsorsCash-00aced.svg?style=flat-square)](https://sponsors.cash)
+[![Community](https://img.shields.io/badge/Chat-Telegram%20Group-blue.svg?style=flat-square&logo=telegram)](https://telegram.me/sponsorschat)
 
 </div>
 

@@ -94,7 +94,7 @@ const NavbarPage = props => {
                     <div className="w-full relative flex justify-between lg:w-auto lg:static lg:block lg:justify-start">
                         <Link href="/">
                             <a className="">
-                                <div className=" bg-gray-100 p-1 m-1.5 rounded-lg">
+                                <div className="p-1 m-1.5 rounded-lg">
                                     <img
                                         width="60" height="40"
                                         className="h-10 w-auto"

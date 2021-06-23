@@ -15,8 +15,8 @@ const Footer = () => {
                                  alt="logo"
                             /> */}
 
-                            <div className="mx-auto h-26 w-24 bg-gray-100 p-1 m-1.5 rounded-xl">
-                                <img  alt="fund me cash logo"
+                            <div className="mx-auto h-26 w-24 p-1 m-1.5 rounded-xl">
+                                <img  alt="sponsors.cash logo"
                                       width="96" height="88"
                                       className="h-22" src="/images/logo.png"  />
                             </div>
