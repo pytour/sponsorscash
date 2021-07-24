@@ -22,7 +22,7 @@ export default function HeroContainer() {
                         Fundraising with bitcoin cash
                     </p>
                     <p className="pl-4 pr-4 z-60 font-md text-center md:text-xl text-lg  mt-3 ">
-                        Fundme.Cash rebranding to Sponsors.Cash, website UI will be updated soon.
+                        Make the world a better place
                     </p>
                     <div
                         className="mt-3 pl-4 pr-4 text-center"

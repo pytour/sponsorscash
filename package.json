@@ -5,7 +5,7 @@
   "scripts": {
     "lint": "eslint --fix .",
     "format": "prettier --write './**/*.{js,jsx,ts,tsx,css,md,json}' --config ./.prettierrc",
-    "dev": "API_URL=http://localhost:3000/api node server/index.js",
+    "dev": "node server/index.js",
     "dev-server": "API_URL=http://34.212.40.180/api node server/index.js",
     "build": "next build",
     "start": "API_URL=http://45.35.60.233:3000/api NODE_ENV=production node server/index.js",
