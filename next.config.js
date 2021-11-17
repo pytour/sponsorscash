@@ -9,7 +9,6 @@ module.exports = {
     images: {
         domains: [
             'localhost',
-            'fundme.cash',
             'devbitcoin.cash',
             'sponsors.cash',
         ]

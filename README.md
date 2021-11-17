@@ -36,11 +36,11 @@ Bcrypt error
 
 ## NGINX setup (optional)
 
-We need to setup domains for `fundme.cash` and sub domain `ads.fundme.cash`
+We need to setup domains for `sponsors.cash` and sub domain `ads.sponsors.cash`
 
 ```
-/etc/nginx/sites-available/fundme.cash
-/etc/nginx/sites-available/ads.fundme.cash
+/etc/nginx/sites-available/sponsors.cash
+/etc/nginx/sites-available/ads.sponsors.cash
 ```
 
 Edit proxy_params
@@ -91,7 +91,7 @@ to
 
 ### Main website will be running on port 3000
 
-`/etc/nginx/sites-available/fundme.cash`
+`/etc/nginx/sites-available/sponsors.cash`
 
 ```
 server {
@@ -102,7 +102,7 @@ server {
 
         index index.html index.htm index.nginx-debian.html;
 
-        server_name fundme.cash www.fundme.cash;
+        server_name sponsors.cash www.sponsors.cash;
 
         location / {
                 proxy_pass http://localhost:3000;
@@ -111,7 +111,7 @@ server {
 }
 ```
 
-`/etc/nginx/sites-available/ads.fundme.cash`
+`/etc/nginx/sites-available/ads.sponsors.cash`
 
 ```
 server {
@@ -122,7 +122,7 @@ server {
 
         index index.html index.htm index.nginx-debian.html;
 
-        server_name ads.fundme.cash www.ads.fundme.cash;
+        server_name ads.sponsors.cash www.ads.sponsors.cash;
 
         location / {
                 proxy_pass http://localhost:3001;
