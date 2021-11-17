@@ -7,11 +7,7 @@ module.exports = {
             : 'http://localhost:3001'
     },
     images: {
-        domains: [
-            'localhost',
-            'devbitcoin.cash',
-            'sponsors.cash',
-        ]
+        domains: ['localhost', 'devbitcoin.cash', 'sponsors.cash']
     },
     webpack: function(config) {
         config.optimization.minimize = false;

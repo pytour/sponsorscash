@@ -153,7 +153,8 @@ export default function DonationModal(props) {
                                                                 props.amount
                                                             }
                                                             imageSettings={{
-                                                                src: '/images/bitcoin-cash-circle.png',
+                                                                src:
+                                                                    '/images/bitcoin-cash-circle.png',
                                                                 height: 24,
                                                                 width: 24,
                                                                 excavate: true
@@ -164,9 +165,9 @@ export default function DonationModal(props) {
 
                                                 {!props.props.projCashAddress && (
                                                     <p className="py-2 mx-8 text-sm text-gray-500">
-                                                        Note: This address is reserved for you on 5 minutes,
-                                                        try to send amount within this time or it
-                                                        will be saved as anonymous donation
+                                                        Note: This address is reserved for you on 5
+                                                        minutes, try to send amount within this time
+                                                        or it will be saved as anonymous donation
                                                     </p>
                                                 )}
                                             </div>
@@ -181,7 +182,9 @@ export default function DonationModal(props) {
                                                     type="button"
                                                     style={{ transition: 'all .15s ease' }}
                                                     onClick={props.onClick2}>
-                                                    {props.copier ? 'Copied to clipboard' : 'Click to Copy'}
+                                                    {props.copier
+                                                        ? 'Copied to clipboard'
+                                                        : 'Click to Copy'}
                                                 </button>
                                             </CopyToClipboard>
                                         </div>

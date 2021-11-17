@@ -96,7 +96,8 @@ const NavbarPage = props => {
                             <a className="">
                                 <div className="p-1 m-1.5 rounded-lg">
                                     <img
-                                        width="60" height="40"
+                                        width="60"
+                                        height="40"
                                         className="h-10 w-auto"
                                         src="/images/logo.png"
                                         alt="fund me cash logo"

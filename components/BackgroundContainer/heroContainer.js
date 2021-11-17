@@ -27,7 +27,9 @@ export default function HeroContainer() {
                     <div
                         className="mt-3 pl-4 pr-4 text-center"
                         onClick={() => {
-                           token ?   Router.push('/privateAccount', '/' + username) : Router.push('/login');
+                            token
+                                ? Router.push('/privateAccount', '/' + username)
+                                : Router.push('/login');
                         }}
                         onKeyDown={() => {}}>
                         <GeneralButton title={'Explore'} />

@@ -17,7 +17,6 @@ const project = props => {
     const [completedProjects, setCompletedProjects] = useState([]);
     const [boostedProjects, setBoostedProjects] = useState([]);
     useEffect(() => {
-
         axios
             .get(publicRuntimeConfig.API_URL + '/project/getCompletedProjects', {
                 params: {
@@ -29,17 +28,13 @@ const project = props => {
             })
             .catch(err => console.log(err));
 
-
-
         axios
-            .get(publicRuntimeConfig.ADS_SERVER_URL+ '/api/ads/getAds')
+            .get(publicRuntimeConfig.ADS_SERVER_URL + '/api/ads/getAds')
             .then(res => {
-
                 const resProj = res.data.ads;
                 setBoostedProjects(resProj);
             })
             .catch(err => console.log(err));
-
     }, []);
 
     // TODO:
@@ -142,7 +137,6 @@ const project = props => {
 
     // Set initial data: project && donations
     useEffect(() => {
-
         let projectId = props.project._id;
 
         if (projectId) {
@@ -170,28 +164,26 @@ const project = props => {
                 <>
                     <div className=" max-w-screen-xl grid grid-cols-12 gap-2  px-4 lg:px-4 xl:px-4 mx-auto ">
                         <div className="lg:col-span-9 col-span-12 lg:order-1 order-1">
-                    <ProjectBio project={project} projCashID={props.cashAddress} />
-                    <div className="border-t-2 my-4">
-                        <div className=" max-w-screen-xl grid grid-cols-12 gap-2  px-4 lg:px-4 xl:px-4 mx-auto ">
-                           <div className="lg:col-span-12 col-span-12 lg:order-1 order-2">
-                               <TabNavigation
-                                projectCreator={props.projectCreator}
-                                project={props.project}
-                                donations={donations}
-                            />
-                           </div>
-                            {/*<div className="lg:col-span-4 col-span-12 lg:order-2 order-1 ">*/}
-                            {/*<AdsManagerCampaigns grid={false} boostedProjects={completedProjects.slice(0,3)}/>*/}
-                            {/*</div>*/}
+                            <ProjectBio project={project} projCashID={props.cashAddress} />
+                            <div className="border-t-2 my-4">
+                                <div className=" max-w-screen-xl grid grid-cols-12 gap-2  px-4 lg:px-4 xl:px-4 mx-auto ">
+                                    <div className="lg:col-span-12 col-span-12 lg:order-1 order-2">
+                                        <TabNavigation
+                                            projectCreator={props.projectCreator}
+                                            project={props.project}
+                                            donations={donations}
+                                        />
+                                    </div>
+                                    {/*<div className="lg:col-span-4 col-span-12 lg:order-2 order-1 ">*/}
+                                    {/*<AdsManagerCampaigns grid={false} boostedProjects={completedProjects.slice(0,3)}/>*/}
+                                    {/*</div>*/}
+                                </div>
+                            </div>
+                        </div>
+                        <div className="lg:col-span-3 col-span-12 lg:order-2 order-2 ">
+                            <AdsManagerCampaigns grid={false} boostedProjects={boostedProjects} />
                         </div>
                     </div>
-                </div>
-                    <div className="lg:col-span-3 col-span-12 lg:order-2 order-2 ">
-                    <AdsManagerCampaigns grid={false} boostedProjects={boostedProjects}/>
-                    </div>
-                    </div>
-
-
                 </>
             ) : props.error ? (
                 <div className=" max-w-screen-xl p-12 lg:p-46 mx-auto ">
@@ -218,8 +210,8 @@ const project = props => {
     );
 };
 
-project.getInitialProps= async ({ query})=> {
-    const { id} = query;
+project.getInitialProps = async ({ query }) => {
+    const { id } = query;
 
     const { publicRuntimeConfig } = getConfig();
 
@@ -233,7 +225,6 @@ project.getInitialProps= async ({ query})=> {
     }
 
     if (res.data.status === 200) {
-
         project = res.data.project;
         cashAddress = res.data.cashAddress;
         projectCreator = {

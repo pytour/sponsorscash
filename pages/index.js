@@ -4,12 +4,13 @@ import { withRedux } from '../lib/redux';
 import dynamic from 'next/dynamic';
 import DotLoader from 'react-spinners/DotLoader';
 
-const DynamicComponentWithCustomLoading = dynamic(
-    () => import('../components/Home/HomePage'),
-    { loading: () =>  <div className="p-5 object-center">
+const DynamicComponentWithCustomLoading = dynamic(() => import('../components/Home/HomePage'), {
+    loading: () => (
+        <div className="p-5 object-center">
             <DotLoader size={50} color={'#7d73c3'} />
-        </div> }
+        </div>
     )
+});
 
 const Home = () => {
     return (

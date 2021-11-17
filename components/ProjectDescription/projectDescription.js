@@ -52,7 +52,7 @@ const projectDescription = props => {
     const [copySuccess, setCopySuccess] = useState('');
     const textAreaRef = useRef(null);
     const [receivingAddress, setReceivingAddress] = useState(null);
-    const [amount, setAmount] = useState(null)
+    const [amount, setAmount] = useState(null);
     const token = useSelector(state => state.token);
     const [copier, setCopier] = useState(false);
     const Router = useRouter();
@@ -72,7 +72,7 @@ const projectDescription = props => {
 
     useEffect(() => {
         if (props.projCashAddress) {
-            setReceivingAddress(props.projCashAddress)
+            setReceivingAddress(props.projCashAddress);
         }
         if (props.id) {
             axios
@@ -166,12 +166,10 @@ const projectDescription = props => {
         },
         validate,
         onSubmit: (values, { resetForm }) => {
-
-            setAmount(values.amount)
+            setAmount(values.amount);
             if (props.projCashAddress) {
-                setReceivingAddress(props.projCashAddress)
-            }
-            else {
+                setReceivingAddress(props.projCashAddress);
+            } else {
                 axios
                     .get(publicRuntimeConfig.API_URL + '/donations/getDonationAddress', {
                         params: {
@@ -214,32 +212,31 @@ const projectDescription = props => {
         setReceivingAddress(null);
     }
     function handleBoost() {
-        if(token) {
+        if (token) {
             Swal.fire({
                 title: 'Awesome!You want to boost this campaign?',
                 showCancelButton: true,
-                confirmButtonText: `Confirm`,
-            }).then((result) => {
+                confirmButtonText: `Confirm`
+            }).then(result => {
                 if (result.isConfirmed) {
-                    let projectId=props.id;
-                    let adsServer=publicRuntimeConfig.ADS_SERVER_URL +'/home/'+token+'/'+projectId;
-                    window.location.href=(adsServer)
+                    let projectId = props.id;
+                    let adsServer =
+                        publicRuntimeConfig.ADS_SERVER_URL + '/home/' + token + '/' + projectId;
+                    window.location.href = adsServer;
                     // console.log(adsServer,'add')
                 }
-            })
-        }
-        else {
+            });
+        } else {
             Swal.fire({
                 title: 'For boost this project you need to login first',
                 showCancelButton: true,
-                confirmButtonText: `Confirm`,
-            }).then((result) => {
+                confirmButtonText: `Confirm`
+            }).then(result => {
                 if (result.isConfirmed) {
-                        Router.push('/login')
+                    Router.push('/login');
                 }
-            })
+            });
         }
-
     }
     return (
         <div>
@@ -250,18 +247,17 @@ const projectDescription = props => {
             </div>
 
             <div className="py-2 flex justify-between">
-                <div
-                    className=" text-md py-1.5 px-2 bg-shadow-card bg-opacity-25 rounded-xl text-progress-bar  lg:block">
+                <div className=" text-md py-1.5 px-2 bg-shadow-card bg-opacity-25 rounded-xl text-progress-bar  lg:block">
                     <p className="text-center lg:text-left "> {props.category} </p>
                 </div>
 
-            <button
-                type="button"
-                onClick={handleBoost}
-                className="focus:outline-none md:mr-12 hover:shadow-xl w-auto  focus:bg-branding-color hover:bg-branding-color inline-flex hover:font-bold
+                <button
+                    type="button"
+                    onClick={handleBoost}
+                    className="focus:outline-none md:mr-12 hover:shadow-xl w-auto  focus:bg-branding-color hover:bg-branding-color inline-flex hover:font-bold
                 justify-center text-branding-color focus:text-white hover:text-white border-1 border-branding-color text-sm rounded-full py-1.5 px-4">
-                <img src={'/images/boosterIcon.svg'} className="w-5 h-5 mr-3"/>  Boost
-            </button>
+                    <img src={'/images/boosterIcon.svg'} className="w-5 h-5 mr-3" /> Boost
+                </button>
             </div>
 
             <p className="text-center lg:text-left text-goal break-words">{props.description}</p>
@@ -269,7 +265,7 @@ const projectDescription = props => {
             <div className="grid lg:grid-cols-5 gap-y-4 gap-x-8 mb-3 pt-3 pb-1">
                 <div className="lg:col-span-5  text-center bg-card bg-opacity-50 px-4 py-2 rounded-2xl">
                     {props.endTime && isNotCompleted ? (
-                        <Countdown date={endTime} renderer={countdownTimer}/>
+                        <Countdown date={endTime} renderer={countdownTimer} />
                     ) : (
                         <div className="text-xl  text-center font-medium mb-1">
                             This campaign has ended
@@ -279,8 +275,7 @@ const projectDescription = props => {
                     <p className="uppercase text-center mb-0 text-timer">funding ends</p>
                 </div>
                 <div className="lg:col-span-5 ">
-                    <div
-                        className="grid grid-cols-2 gap-2 py-3 px-1 divide-x divide-black-400 text-center items-center ">
+                    <div className="grid grid-cols-2 gap-2 py-3 px-1 divide-x divide-black-400 text-center items-center ">
                         <div className="text-center text-funded text-xl ">
                             <p className="text-xl font-black">
                                 {funded ? +parseFloat(funded).toFixed(8) : 0} BCH
@@ -299,9 +294,7 @@ const projectDescription = props => {
                 {props.status === 'CANCELED' && (
                     <p className="uppercase py-2 px-1 text-timer text-md ">Campaign cancelled</p>
                 )}
-                {props.status !== 'CANCELED' &&
-                isNotCompleted &&
-                (
+                {props.status !== 'CANCELED' && isNotCompleted && (
                     <button
                         type="button"
                         onClick={handleDonateNow}
@@ -319,27 +312,32 @@ const projectDescription = props => {
                 </button>
             </div>
             {/* TODO: to support legacy code, check if project have property projCashAddress then return wallet */}
-            <DonationModal modal={modal} receivingAddress={receivingAddress} amount={amount} onClick={handleModlaClose} formik={formik}
-                           onClick1={handleModalCloseWithReset} props={props} onCopy={() => console.log('copied')}
-                           onClick2={handleCopyFunc} copier={copier}/>
+            <DonationModal
+                modal={modal}
+                receivingAddress={receivingAddress}
+                amount={amount}
+                onClick={handleModlaClose}
+                formik={formik}
+                onClick1={handleModalCloseWithReset}
+                props={props}
+                onCopy={() => console.log('copied')}
+                onClick2={handleCopyFunc}
+                copier={copier}
+            />
 
             {modalShare ? (
                 <>
-                    <div
-                        className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
+                    <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
                         <div className="relative w-full  my-4 mx-auto max-w-3xl">
                             {/*content*/}
-                            <div
-                                className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
+                            <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
                                 {/*header*/}
-                                <div
-                                    className="flex items-start justify-between p-3 border-b border-solid border-gray-300 rounded-t">
+                                <div className="flex items-start justify-between p-3 border-b border-solid border-gray-300 rounded-t">
                                     <h4 className="text-3xl uppercase font-semibold">Share</h4>
                                     <button
                                         onClick={() => setModalShare(false)}
                                         className="p-1 ml-auto bg-transparent border-0 text-red  float-right text-3xl leading-none font-semibold outline-none focus:outline-none">
-                                        <span
-                                            className="bg-transparent text-black font-black  h-6 w-6 text-2xl block outline-none focus:outline-none">
+                                        <span className="bg-transparent text-black font-black  h-6 w-6 text-2xl block outline-none focus:outline-none">
                                             ×
                                         </span>
                                     </button>
@@ -351,49 +349,48 @@ const projectDescription = props => {
                                             url={`https://sponsors.cash/project/${props.id}`}
                                             quote={props.title}
                                             className="py-1.5 px-4 hover:bg-branding-text-color hover:text-white">
-                                            <TelegramIcon size={32} round/>
+                                            <TelegramIcon size={32} round />
                                         </TelegramShareButton>
                                         <FacebookShareButton
                                             url={`https://sponsors.cash/project/${props.id}`}
                                             quote={props.title}
                                             className="py-1.5 px-4 hover:bg-branding-text-color hover:text-white">
-                                            <FacebookIcon size={32} round/>
+                                            <FacebookIcon size={32} round />
                                         </FacebookShareButton>
                                         <TwitterShareButton
                                             url={`https://sponsors.cash/project/${props.id}`}
                                             quote={props.title}
                                             className="py-1.5 px-4 hover:bg-branding-text-color hover:text-white">
-                                            <TwitterIcon size={32} round/>
+                                            <TwitterIcon size={32} round />
                                         </TwitterShareButton>
                                         <div>
                                             {/* Logical shortcut for only displaying the
                                           button if the copy command exists */
-                                                document.queryCommandSupported('copy') && (
-                                                    <div className="p-2">
-                                                        <button
-                                                            color="primary"
-                                                            onClick={copyToClipboard}
-                                                            className="py-2 px-4 border-2 ring-1 text-black bg-white  h-10 mr-4 mb-4 ">
-                                                            Copy URL
-                                                        </button>
-                                                        {copySuccess}
-                                                    </div>
-                                                )}
+                                            document.queryCommandSupported('copy') && (
+                                                <div className="p-2">
+                                                    <button
+                                                        color="primary"
+                                                        onClick={copyToClipboard}
+                                                        className="py-2 px-4 border-2 ring-1 text-black bg-white  h-10 mr-4 mb-4 ">
+                                                        Copy URL
+                                                    </button>
+                                                    {copySuccess}
+                                                </div>
+                                            )}
                                             <form>
                                                 <textarea
                                                     ref={textAreaRef}
                                                     className="border ring-1 w-70 mx-auto "
                                                     value={`https://sponsors.cash/project/${
                                                         props.id
-                                                        }`}
+                                                    }`}
                                                 />
                                             </form>
                                         </div>
                                     </div>
                                 </div>
                                 {/*footer*/}
-                                <div
-                                    className="flex items-center justify-end p-6 border-t border-solid border-gray-300 rounded-b">
+                                <div className="flex items-center justify-end p-6 border-t border-solid border-gray-300 rounded-b">
                                     <button
                                         className="text-white bg-red-400  font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1"
                                         type="button"
@@ -405,7 +402,7 @@ const projectDescription = props => {
                             </div>
                         </div>
                     </div>
-                    <div className="opacity-25 fixed inset-0 z-40 bg-black"/>
+                    <div className="opacity-25 fixed inset-0 z-40 bg-black" />
                 </>
             ) : null}
         </div>

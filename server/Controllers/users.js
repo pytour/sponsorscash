@@ -88,7 +88,9 @@ exports.user_signup = (req, res) => {
                                         }
                                     })
                                 );
-                                let verifyURL = `https://${req.headers.host}/api/users/confirmation/${token.token}`;
+                                let verifyURL = `https://${
+                                    req.headers.host
+                                }/api/users/confirmation/${token.token}`;
                                 let mailOptions = {
                                     from: 'noreply@sponsors.cash',
                                     to: user.email,

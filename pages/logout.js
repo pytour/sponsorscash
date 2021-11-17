@@ -5,26 +5,19 @@ import Router from 'next/router';
 import { useDispatch } from 'react-redux';
 import { withRedux } from '../lib/redux';
 
-;
-
 const LogOut = () => {
     const dispatch = useDispatch();
 
     useEffect(() => {
-
         dispatch({ type: 'DEAUTHENTICATE' });
         Router.push('/login');
-
     }, []);
-
 
     return (
         <Layout>
             <DotLoader size={50} color={'#7d73c3'} />
         </Layout>
     );
-
-
 };
 
 export default withRedux(LogOut);

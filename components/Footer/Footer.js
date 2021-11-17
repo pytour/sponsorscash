@@ -16,9 +16,13 @@ const Footer = () => {
                             /> */}
 
                             <div className="mx-auto h-26 w-24 p-1 m-1.5 rounded-xl">
-                                <img  alt="sponsors.cash logo"
-                                      width="96" height="88"
-                                      className="h-22" src="/images/logo.png"  />
+                                <img
+                                    alt="sponsors.cash logo"
+                                    width="96"
+                                    height="88"
+                                    className="h-22"
+                                    src="/images/logo.png"
+                                />
                             </div>
 
                             <p className="mx-auto mt-6 text-center text-2xl font-bold text-branding-text-color">
@@ -38,7 +42,8 @@ const Footer = () => {
                                 <a>
                                     {' '}
                                     <img
-                                        width="40" height="56"
+                                        width="40"
+                                        height="56"
                                         src="https://flipstarter.cash/static/img/logo-alt.svg"
                                         alt="flipstarter"
                                         className="m-3.5 w-10 h-14 mx-auto"
